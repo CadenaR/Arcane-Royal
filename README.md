@@ -18,6 +18,7 @@ Alejandro Rodríguez Muñoz \
 Correo: a.rodriguezmu.2017@alumnos.urjc.es \
 Github: Rodron
 
+[Proyecto en Trello](https://trello.com/invite/b/PfOO09JO/b86f813eaef5f1efb47f4e8dc26e1f74/juegos-en-red)
 
 ## Documento de diseño
 
