@@ -39,6 +39,10 @@ Controles simplificados, aspecto agradable, partidas rápidas e intensas, multij
 El jugador toma el control de su avatar (El mago). Una vez todos los magos estén reunidos, participaran en distintas fases del torneo de hechizos. El jugador experimentará una experiencia de juego frenética y divertida, en la que las partidas sean breves e intensas, lo que hará que quiera seguir jugando “una ronda más”. Además, al jugar con amigos es mucho más entretenido ya que podrán interactuar de forma competitiva.
 
 #### Estilo artístico: 
+<img src="Images/IMG_20191007_134016.jpg" width="500">
+<img src="Images/IMG_20191007_134031.jpg" width="500">
+<img src="Images/IMG_20191007_134039.jpg" width="500">
+<img src="Images/IMG_20191007_134044.jpg" width="500">
 
 
 #### Mundo de ficción:
