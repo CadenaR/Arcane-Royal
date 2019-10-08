@@ -2,7 +2,7 @@
 
 # Integrantes:
 
-Rodrigo Cadena Rodríguez 
+Rodrigo Cadena Rodríguez\ 
 Correo: r.cadenar.2019@alumnos.urjc.es
 Github: CadenaR
 
