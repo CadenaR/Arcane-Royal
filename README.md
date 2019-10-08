@@ -1,8 +1,8 @@
 # Arcane-Royal
 
-### Integrantes:
+#### Integrantes:
 
-Rodrigo Cadena Rodríguez \ 
+Rodrigo Cadena Rodríguez \
 Correo: r.cadenar.2019@alumnos.urjc.es \
 Github: CadenaR
 
@@ -19,7 +19,7 @@ Correo: a.rodriguezmu.2017@alumnos.urjc.es \
 Github: Rodron
 
 
-### Documento de diseño
+## Documento de diseño
 
 #### Concepto general:
 Juego multijugador en el que cuatro magos luchan hasta que solo queda uno.
