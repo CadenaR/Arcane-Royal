@@ -1,5 +1,7 @@
 # Arcane-Royal
 
+[Enlace a Trello](https://trello.com/invite/b/PfOO09JO/b86f813eaef5f1efb47f4e8dc26e1f74/juegos-en-red)
+
 #### Integrantes:
 
 Rodrigo Cadena Rodríguez \
@@ -18,7 +20,6 @@ Alejandro Rodríguez Muñoz \
 Correo: a.rodriguezmu.2017@alumnos.urjc.es \
 Github: Rodron
 
-[Proyecto en Trello](https://trello.com/invite/b/PfOO09JO/b86f813eaef5f1efb47f4e8dc26e1f74/juegos-en-red)
 
 ## Documento de diseño
 
@@ -37,7 +38,8 @@ Controles simplificados, aspecto agradable, partidas rápidas e intensas, multij
 #### Experiencia de juego:
 El jugador toma el control de su avatar (El mago). Una vez todos los magos estén reunidos, participaran en distintas fases del torneo de hechizos. El jugador experimentará una experiencia de juego frenética y divertida, en la que las partidas sean breves e intensas, lo que hará que quiera seguir jugando “una ronda más”. Además, al jugar con amigos es mucho más entretenido ya que podrán interactuar de forma competitiva.
 
-#### Estilo artístico: (bocetos etc)
+#### Estilo artístico: 
+
 
 #### Mundo de ficción:
 El jugador se encuentra en un torneo de hechizos, en el cual tendrá que superar a sus rivales en una gran batalla para determinar quién será el gran mago del mundo mágico.
