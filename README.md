@@ -10,11 +10,11 @@ Github: CadenaR
 
 Nestor Hernandez Benito \
 Correo: n.hernandezb.2017@alumnos.urjc.es \
-Github:nesherbens
+Github: nesherbens
 
 Álvaro Gonzalez Alcazar \
 Correo: a.gonzaleza.2017@alumnos.urjc.es \
-Github:AlvaroGA99
+Github: AlvaroGA99
 
 Alejandro Rodríguez Muñoz \
 Correo: a.rodriguezmu.2017@alumnos.urjc.es \
@@ -24,7 +24,7 @@ Github: Rodron
 ## Documento de diseño
 
 #### Concepto general:
-Juego multijugador en el que cuatro magos luchan hasta que solo queda uno.
+Juego multijugador en el que hasta cuatro magos luchan hasta que solo queda uno.
 
 #### Género:
 Multijugador, Battle Royale, Rol, Shooter en vista cenital.
