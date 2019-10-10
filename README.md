@@ -2,25 +2,6 @@
 
 [Enlace a Trello](https://trello.com/invite/b/PfOO09JO/b86f813eaef5f1efb47f4e8dc26e1f74/juegos-en-red)
 
-#### Integrantes:
-
-Rodrigo Cadena Rodríguez \
-Correo: r.cadenar.2019@alumnos.urjc.es \
-Github: CadenaR
-
-Nestor Hernandez Benito \
-Correo: n.hernandezb.2017@alumnos.urjc.es \
-Github: nesherbens
-
-Álvaro Gonzalez Alcazar \
-Correo: a.gonzaleza.2017@alumnos.urjc.es \
-Github: AlvaroGA99
-
-Alejandro Rodríguez Muñoz \
-Correo: a.rodriguezmu.2017@alumnos.urjc.es \
-Github: Rodron
-
-
 ## Documento de diseño
 
 #### Concepto general:
@@ -104,3 +85,22 @@ Hacer un segundo mapa que permita que jueguen más jugadores en la partida: Inic
 
 Modo gran torneo: Se podrían agregar torneos al juego basándose en el modo por equipos. En este modo, múltiples equipos se van enfrentando entre ellos a lo largo de varias rondas hasta que sólo queda un vencedor.
  
+
+#### Integrantes:
+
+Rodrigo Cadena Rodríguez \
+Correo: r.cadenar.2019@alumnos.urjc.es \
+Github: CadenaR
+
+Nestor Hernandez Benito \
+Correo: n.hernandezb.2017@alumnos.urjc.es \
+Github: nesherbens
+
+Álvaro Gonzalez Alcazar \
+Correo: a.gonzaleza.2017@alumnos.urjc.es \
+Github: AlvaroGA99
+
+Alejandro Rodríguez Muñoz \
+Correo: a.rodriguezmu.2017@alumnos.urjc.es \
+Github: Rodron
+
