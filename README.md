@@ -20,22 +20,22 @@ Controles simplificados, aspecto agradable, partidas rápidas e intensas, multij
 El jugador toma el control de su avatar (El mago). Una vez todos los magos estén reunidos, participaran en distintas fases del torneo de hechizos. El jugador experimentará una experiencia de juego frenética y divertida, en la que las partidas sean breves e intensas, lo que hará que quiera seguir jugando “una ronda más”. Además, al jugar con amigos es mucho más entretenido ya que podrán interactuar de forma competitiva.
 
 #### Estilo artístico: 
-<img src="Images/IMG_20191007_134016.jpg" width="400"> 
+<img src="resources/Images/IMG_20191007_134016.jpg" width="400"> 
 
 En esta primera pantalla encontraremos el logotipo del juego junto al cuadro de texto para introducir nuestro usuario. También podremos encontrar un botón de ayuda y un botón para iniciar la sesión.
 
 
-<img src="Images/IMG_20191007_134031.jpg" width="400">
+<img src="resources/Images/IMG_20191007_134031.jpg" width="400">
 
 La segunda pantalla representa lo que el jugador encontrará al iniciar la sesión. Esperará en una sala junto a otros jugadores. En la sala tendrá un botón para decir que está listo para jugar, a lo que una vez estén todos listos comenzará la partida tras una cuenta atrás. También puede encontrar un selector de estadísticas para personalizar su personaje.
 
 
-<img src="Images/IMG_20191007_134039.jpg" width="400">
+<img src="resources/Images/IMG_20191007_134039.jpg" width="400">
 
 Tras la pantalla de sala de espera se desarrollará la partida, en la que interactuamos con el mapa usando el ratón y podremos ver las distintas habilidades en la interfaz de usuario
 
 
-<img src="Images/IMG_20191007_134044.jpg" width="400">
+<img src="resources/Images/IMG_20191007_134044.jpg" width="400">
 
 Por último, al acabar las rondas correspondientes, se hará recuento de puntos y se pasará a la pantalla de puntuaciones mostrando un ranking de jugadores.
 
