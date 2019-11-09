@@ -1,4 +1,5 @@
 var config = {
+
     //type: Phaser.WEBGL,
     width: 1280,
     height: 720,
@@ -22,8 +23,14 @@ function preload ()
 {
     this.load.image('img_background', 'D://Desktop/programación/Redes ARCANE ROYAL/resources/Images/sky2.jpg');
     //this.load.image('image1', 'assets/sprites/mushroom2.png');
+ var preloading ={
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    backgroundColor: '#000000',
+    scene: [LoadScene, MenuScene]
+ }
 }
-
 function create () // esto es una prueba
 {
     img_background = this.add.tileSprite(1280/2, 720/2, 1200, 720, 'img_background');
