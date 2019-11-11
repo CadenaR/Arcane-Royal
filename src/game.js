@@ -1,8 +1,18 @@
 var config = {
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     backgroundColor: 0x000000,
-    scene: []
+   // scale : {
+    //    mode : Phaser.Scale.RESIZE,
+     //   autoCenter : Phaser.Scale.CENTER_BOTH
+   //_ },
+    physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: false
+        }
+    },
+    scene: [LoadScene,GameScene,MenuScene]
 }
 
 

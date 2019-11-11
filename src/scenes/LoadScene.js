@@ -1,10 +1,12 @@
-class GameScene extends Phaser.Scene {
+class LoadScene extends Phaser.Scene {
     constructor() {
-        super("GameScene");
+        super("loadScene");
     }
 
+    
+
     create() {
-
-
+        this.add.text(20, 20, "Loading game...");
+        this.scene.start("gameScene");
     }
 }
