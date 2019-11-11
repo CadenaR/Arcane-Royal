@@ -75,38 +75,43 @@ function searchTile (x, y){
 
 function checkFull(){
     full=true;
+    var n = 0;
     for (const t of tiles){
-        if (t.getOccup()==false){
-            full=false;
+        if (t.getOccup()==true){
+            n++;
         }
+    }
+    if(n < 67){
+        full=false;
     }
 }
 
 /*
-Los items van a ser estos:
-healthPotion = item (0, 20, -1, '');
-damagePotion = item (1, 10, 5, '');
-manaPotion = item (2, 15, -1, '');
-speedPotion = item (3, 10, 5, '');
-armorPotion = item (4, 10, 10, '');
 
 El primer numero es para identificar cada item (en el array de más abajo coincide con la posición del array en el 
 que se almacenan), los otros son atributos. El segundo numero es el numero de puntos que suben cierta estadística 
-(por ejemplo la healthPotion sube 20 de vida y la manaPotion 15 de mana, notese que para saber que estadística se
-sube, se tomaría el primer número que es la posición del array). El tercer número es la duración del efecto,
-si esta es -1, la duración es permanente, así las pociones de mana y vida son permanentes pero las de daño,
-armadura y velocidad tienen una duración y cuando esta se termine se pasan los efectos. El último atributo
-referencia la imagen asociada a cada poción. Todos estos datos están en el array items más abajo en el mismo
+El tercer número es la duración del efecto,
+si esta es -1, la duración es permanente. El último atributo referencia la imagen asociada a cada poción.
+Todos estos datos están en el array items más abajo en el mismo
 orden que aquí.*/
-items[0] = new Item (20, -1, 'potion1');
-items[1]  = new Item (10, 5, '');
-items[2]  = new Item (15, -1, '');
-items[3]  = new Item (10, 5, '');
-items[4]  = new Item (10, 10, '');
+
+items[0] = new Item (20, -1, 'orbe1'); //vida
+items[1]  = new Item (10, 5, 'orbe2'); //escudo
+items[2]  = new Item (15, -1, 'orbe3'); //daño
 
 //tileStr contiene los strings que referencian la imagen para cada tile, para usarla posteriormente
 tileStr[0]='ground';
 tileStr[1]='wall';
+tileStr[2]='baseroja';
+tileStr[3]='baseazul';
+
+var wall = 'https://i.ibb.co/v18VJCm/barril2.png';
+var ground ='https://i.ibb.co/cJF4nnc/tile2.png';
+var baseazul = 'https://i.ibb.co/px6mdsF/baseazul.png';
+var baseroja = 'https://i.ibb.co/Srq3Vqc/baseroja.png';
+var orbe1 = 'https://i.ibb.co/4mHFYFJ/orbe1.png';
+var orbe2 = 'https://i.ibb.co/RDLvB5P/orbe2.png';
+var orbe3 = 'https://i.ibb.co/WPQKMjJ/orbe3.png';
 
 var config = {
     type: Phaser.AUTO,
@@ -123,9 +128,13 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('wall', 'https://i.ibb.co/Cwq4B4N/tile1.png');
-    this.load.image('ground', 'https://i.ibb.co/KrjwZLn/tile2.png');
-    this.load.image('potion1', 'https://i.ibb.co/MyvT7QC/Bag-Potion-Sprite.png');
+    this.load.image('wall',wall);
+    this.load.image('ground', ground);
+    this.load.image('orbe1', orbe1);
+    this.load.image('orbe2', orbe2);
+    this.load.image('orbe3', orbe3);
+    this.load.image('baseroja', baseroja);
+    this.load.image('baseazul', baseazul);
 }
 
 function create ()
@@ -143,8 +152,15 @@ function create ()
         tiles[219-coord]=new Tile(1);
         tiles[oppX(coord)]=new Tile(1);
         tiles[219-oppX(coord)]=new Tile(1);
-    }   
-
+    }
+    
+    for(i=80;i<121;i+=20){
+        
+        tiles[i]=new Tile(2);
+        tiles[i+1]=new Tile(2);
+        tiles[219-i]=new Tile(3);
+        tiles[218-i]=new Tile(3);
+    }
     //Procedemos a asignar a cada tile su posición y a dibujarlos
     for (i=0;i<20*11;i++){
         tiles[i].setPos(i%20*64,8+Math.floor(i/20)*64)
@@ -157,11 +173,11 @@ function update ()
     //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
     //cambiamos la probabilidad de que se dibuje un item, si es 1000 hay una milesima de posibilidades cada vez que se ejecuta update
     //el rango 200 - 300 creo que está bien, más arriba de eso parece que no sale nunca y más abajo sale demasiado
-    var check = Math.random()*5*230;
+    var check = Math.random()*3*280;
 
     //Si la variable check cumple la condición y el escenario no está lleno, pasamos a dibujar el item en una localización aleatoria
     //sin ocupar casillas que ya están ocupadas o que no son transitables
-    if (check<5&&!full){
+    if (check<3&&!full){
         cond = true;
 
         do{
