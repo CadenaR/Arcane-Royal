@@ -114,30 +114,23 @@ tileStr[1]='wall';
 tileStr[2]='baseroja';
 tileStr[3]='baseazul';
 
-var wall = 'https://i.ibb.co/v18VJCm/barril2.png';
-var ground ='https://i.ibb.co/cJF4nnc/tile2.png';
-var baseazul = 'https://i.ibb.co/px6mdsF/baseazul.png';
-var baseroja = 'https://i.ibb.co/Srq3Vqc/baseroja.png';
-var orbe1 = 'https://i.ibb.co/4mHFYFJ/orbe1.png';
-var orbe2 = 'https://i.ibb.co/RDLvB5P/orbe2.png';
-var orbe3 = 'https://i.ibb.co/WPQKMjJ/orbe3.png';
-
 class GameScene extends Phaser.Scene {
     constructor() {
         super("gameScene");
     }
     preload() {
-        this.load.image('wall',wall);
-        this.load.image('ground', ground);
-        this.load.image('orbe1', orbe1);
-        this.load.image('orbe2', orbe2);
-        this.load.image('orbe3', orbe3);
-        this.load.image('baseroja', baseroja);
-        this.load.image('baseazul', baseazul);
+        this.load.image('wall',"resources/Images/barril2.png");
+        this.load.image('ground', "resources/Images/tile2.png");
+        this.load.image('orbe1', "resources/Images/orbe1.png");
+        this.load.image('orbe2', "resources/Images/orbe2.png");
+        this.load.image('orbe3', "resources/Images/orbe3.png");
+        this.load.image('baseroja', "resources/Images/baseroja.png");
+        this.load.image('baseazul', "resources/Images/baseazul.png");
         this.load.image("player1","resources/Images/player1.png");
         this.load.image("player2","resources/Images/player2.png");
+        
         this.load.spritesheet("azul", "resources/Images/mago-azul.png",{
-            frameWidth: 60, frameHeight : 82
+            frameWidth: 60, frameHeight : 80
         });
         this.load.spritesheet("rojo", "resources/Images/mago-rojo.png",{
             frameWidth: 60, frameHeight : 80
@@ -170,33 +163,42 @@ class GameScene extends Phaser.Scene {
             tiles[218-i]=new Tile(3);
         }
         //Procedemos a asignar a cada tile su posición y a dibujarlos
-        for (var i=0;i<20*11;i++){
-            tiles[i].setPos(i%20*64,8+Math.floor(i/20)*64)
-            this.add.image(tiles[i].getX(),tiles[i].getY(),tileStr[tiles[i].getType()]).setOrigin(0, 0);       
-        }
-       player1 = this.add.sprite(64, 360, "player1");
-       
-       player2 = this.add.sprite(1216, 360, "player2");
-
-      //this.physics.arcade.enable(player1);
-       //this.physics.arcade.enable(player2); 
-
-
-       // player1.body.collideWorldBounds = true;
-       // player2.body.collideWorldBounds = true;
+        //var  group = this.add.group();
+       // group.enableBody = true;
+      
         var framer = 12;
+        var array = [];
+        var wall = this.physics.add.staticGroup();
 
-        this.anims.create({
-            key: "static_red",
-            frames: this.anims.generateFrameNames("rojo", {
-                start: 4, end: 4
-            }),
-            frameRate: framer,
-            repeat: 0
-        });
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
+        for (var i=0;i<20*11;i++) {
+            tiles[i].setPos(i%20*64+32,8+Math.floor(i/20)*64+32);
+            
+               //
+            if(tiles[i].getType()===1){ 
+                wall.create(tiles[i].getX(),tiles[i].getY(),tileStr[tiles[i].getType()]);
+            }
+                //array[i].body.inmovable = true;
 
-        player1.anims.play('static_red', true);
+            else {
+                this.physics.add.sprite(tiles[i].getX(),tiles[i].getY(),tileStr[tiles[i].getType()]);       
+           }
+           tiles[i].setPos(i%20*64,8+Math.floor(i/20)*64)
+       
+        }
+         
+        player1 = this.physics.add.sprite(64, 360, "player1");
+        player2 = this.physics.add.sprite(1216, 360, "player2");
+        
+        this.physics.add.collider(player1, wall);
+        this.physics.add.collider(player2, wall);
 
+        player1.physicsBodyType = Phaser.Physics.ARCADE;
+        player1.body.setCollideWorldBounds (true);
+
+        player2.physicsBodyType = Phaser.Physics.ARCADE;
+        player2.body.setCollideWorldBounds (true);
+        
         this.anims.create({
             key: "right_red",
             frames: this.anims.generateFrameNames("rojo", {
@@ -237,10 +239,9 @@ class GameScene extends Phaser.Scene {
 
       
 
-       
 
+    
     }
-
     update() {
 
         //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
@@ -265,47 +266,51 @@ class GameScene extends Phaser.Scene {
     }   
 
         if (cursors.A.isDown) {
-            player1.x -= 3;
+            player1.setVelocityX(-160);
             player1.anims.play('left_red', true);
-           
+            player1.setVelocityY(0);
 
         }
         else if (cursors.D.isDown) {
 
-            player1.x += 3;
+            player1.setVelocityX(160);
             player1.anims.play('right_red', true);
-
+            player1.setVelocityY(0);
         }
         else  if (cursors.W.isDown ) {
-
-            player1.y -= 3;
+            player1.setVelocityY(-160);
+            player1.setVelocityX(0);
 
         } else if (cursors.S.isDown ) {
+            player1.setVelocityY(160);
+            player1.setVelocityX(0);
 
-            player1.y += 3;
-
-        } 
+        } else {
+            player1.body.velocity.x = 0;
+            player1.body.velocity.y = 0;
+        }
 
         if (cursors.J.isDown) {
-            player2.x -= 3;
+            player2.setVelocityX(-160);
             player2.anims.play('left_blue', true);
-           
-
+            player2.setVelocityY(0);
         }
         else if (cursors.L.isDown) {
-
-            player2.x += 3;
+            player2.setVelocityX(160);
             player2.anims.play('right_blue', true);
-
+            player2.setVelocityY(0);
         }
         else  if (cursors.I.isDown ) {
-
-            player2.y -= 3;
-
+            player2.setVelocityY(-160);
+            player2.setVelocityX(0);
         } else if (cursors.K.isDown ) {
-
-            player2.y += 3;
-
-        } 
+            player2.setVelocityY(160);
+            player2.setVelocityX(0);
+        } else {
+            player2.body.velocity.x = 0;
+            player2.body.velocity.y = 0;
+        }
     }
-}
+    }
+
+    
