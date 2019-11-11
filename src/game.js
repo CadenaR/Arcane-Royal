@@ -114,6 +114,7 @@ var orbe2 = 'https://i.ibb.co/RDLvB5P/orbe2.png';
 var orbe3 = 'https://i.ibb.co/WPQKMjJ/orbe3.png';
 
 var config = {
+
     type: Phaser.AUTO,
     width: 1280,
     height: 720,
@@ -135,6 +136,22 @@ function preload ()
     this.load.image('orbe3', orbe3);
     this.load.image('baseroja', baseroja);
     this.load.image('baseazul', baseazul);
+
+    width: 1280,
+    height: 720,
+    backgroundColor: 0x000000,
+   // scale : {
+    //    mode : Phaser.Scale.RESIZE,
+     //   autoCenter : Phaser.Scale.CENTER_BOTH
+   //_ },
+    physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: false
+        }
+    },
+    scene: [LoadScene,GameScene,MenuScene]
+
 }
 
 function create ()
