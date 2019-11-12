@@ -1,4 +1,4 @@
-/*function Mago(x,y,sprite){
+﻿/*function Mago(x,y,sprite){
     this.x = x;
     this.y = y;
     this.sprite = sprite;
@@ -18,12 +18,35 @@ var tiles = [];
 var tileStr = [];
 var items = [];
 var full = false;
+var plVel = 200;
+var framer = 14;
 
 class Item {
     constructor(statBuff, duration, sprite) {
         this.stat = statBuff;
         this.duration = duration;
         this.sprite = sprite;
+    }
+}
+
+class magoRojo {
+    constructor(sprite, vida, escudo, ataque, velocidad) {
+        this.sprite = sprite;
+        this.vida = vida;
+        this.escudo = escudo;
+        this.ataque = ataque;
+        this.velocidad = velocidad;
+        this.mAngle = 0;
+    }
+}
+class magoAzul {
+    constructor(sprite, vida, escudo, ataque, velocidad) {
+        this.sprite = sprite;
+        this.vida = vida;
+        this.escudo = escudo;
+        this.ataque = ataque;
+        this.velocidad = velocidad;
+        this.mAngle = 180;
     }
 }
 
@@ -237,6 +260,8 @@ class GameScene extends Phaser.Scene {
         // group.enableBody = true;
 
         var framer = 12;
+        // group.enableBody = true;
+
         var array = [];
         var wall = this.physics.add.staticGroup();
 
@@ -256,21 +281,28 @@ class GameScene extends Phaser.Scene {
 
         }
 
-        player1 = this.physics.add.sprite(64, 360, "player1");
-        player2 = this.physics.add.sprite(1216, 360, "player2");
 
-        this.physics.add.collider(player1, wall);
-        this.physics.add.collider(player2, wall);
+        var player1 = this.physics.add.sprite(64, 360, "player1");
+        var player2 = this.physics.add.sprite(1216, 360, "player2");
 
-        player1.physicsBodyType = Phaser.Physics.ARCADE;
-        player1.body.setCollideWorldBounds(true);
+        magoRojo = new magoRojo(player1, 3, false, false, plVel);
+        magoAzul = new magoAzul(player2, 3, false, false, plVel)
 
-        player2.physicsBodyType = Phaser.Physics.ARCADE;
-        player2.body.setCollideWorldBounds(true);
+        this.physics.add.collider(magoRojo.sprite, wall);
+        this.physics.add.collider(magoAzul.sprite, wall);
+
+        this.physics.world.bounds.top = 8;
+        this.physics.world.bounds.bottom = 712;
+
+        magoRojo.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        magoRojo.sprite.body.setCollideWorldBounds(true);
+
+        magoAzul.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        magoAzul.sprite.body.setCollideWorldBounds(true);
 
         this.anims.create({
             key: "right_red",
-            frames: this.anims.generateFrameNames("rojo", {
+            frames: this.anims.generateFrameNames("rojoLR", {
                 start: 4,
                 end: 7
             }),
@@ -280,7 +312,7 @@ class GameScene extends Phaser.Scene {
 
         this.anims.create({
             key: "left_red",
-            frames: this.anims.generateFrameNames("rojo", {
+            frames: this.anims.generateFrameNames("rojoLR", {
                 start: 0,
                 end: 3
             }),
@@ -290,7 +322,7 @@ class GameScene extends Phaser.Scene {
 
         this.anims.create({
             key: "right_blue",
-            frames: this.anims.generateFrameNames("azul", {
+            frames: this.anims.generateFrameNames("azulLR", {
                 start: 4,
                 end: 7
             }),
@@ -300,7 +332,46 @@ class GameScene extends Phaser.Scene {
 
         this.anims.create({
             key: "left_blue",
-            frames: this.anims.generateFrameNames("azul", {
+            frames: this.anims.generateFrameNames("azulLR", {
+                start: 0,
+                end: 3
+            }),
+            frameRate: framer,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "up_red",
+            frames: this.anims.generateFrameNames("rojoUD", {
+                start: 4,
+                end: 7
+            }),
+            frameRate: framer,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "down_red",
+            frames: this.anims.generateFrameNames("rojoUD", {
+                start: 0,
+                end: 3
+            }),
+            frameRate: framer,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "up_blue",
+            frames: this.anims.generateFrameNames("azulUD", {
+                start: 4,
+                end: 7
+            }),
+            frameRate: framer,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "down_blue",
+            frames: this.anims.generateFrameNames("azulUD", {
                 start: 0,
                 end: 3
             }),
@@ -339,45 +410,58 @@ class GameScene extends Phaser.Scene {
         }
 
         if (cursors.A.isDown) {
-            player1.setVelocityX(-160);
-            player1.anims.play('left_red', true);
-            player1.setVelocityY(0);
 
+            magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
+            magoRojo.sprite.anims.play('left_red', true);
+            magoRojo.sprite.setVelocityY(0);
         } else if (cursors.D.isDown) {
 
-            player1.setVelocityX(160);
-            player1.anims.play('right_red', true);
-            player1.setVelocityY(0);
+            magoRojo.sprite.setVelocityX(magoRojo.velocidad);
+            magoRojo.sprite.setVelocityY(0);
+            magoRojo.sprite.anims.play('right_red', true);
         } else if (cursors.W.isDown) {
-            player1.setVelocityY(-160);
-            player1.setVelocityX(0);
+            magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
+            magoRojo.sprite.setVelocityX(0);
+
+            magoRojo.sprite.anims.play('up_red', true);
+
 
         } else if (cursors.S.isDown) {
-            player1.setVelocityY(160);
-            player1.setVelocityX(0);
+            magoRojo.sprite.setVelocityY(magoRojo.velocidad);
+            magoRojo.sprite.setVelocityX(0);
+
+            magoRojo.sprite.anims.play('down_red', true);
+
 
         } else {
-            player1.body.velocity.x = 0;
-            player1.body.velocity.y = 0;
+            magoRojo.sprite.body.velocity.x = 0;
+            magoRojo.sprite.body.velocity.y = 0;
         }
 
         if (cursors.J.isDown) {
-            player2.setVelocityX(-160);
-            player2.anims.play('left_blue', true);
-            player2.setVelocityY(0);
+
+            magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
+            magoAzul.sprite.anims.play('left_blue', true);
+            magoAzul.sprite.setVelocityY(0);
         } else if (cursors.L.isDown) {
-            player2.setVelocityX(160);
-            player2.anims.play('right_blue', true);
-            player2.setVelocityY(0);
+            magoAzul.sprite.setVelocityX(magoAzul.velocidad);
+            magoAzul.sprite.anims.play('right_blue', true);
+            magoAzul.sprite.setVelocityY(0);
         } else if (cursors.I.isDown) {
-            player2.setVelocityY(-160);
-            player2.setVelocityX(0);
+            magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
+            magoAzul.sprite.setVelocityX(0);
+
+            magoAzul.sprite.anims.play('up_blue', true);
+
         } else if (cursors.K.isDown) {
-            player2.setVelocityY(160);
-            player2.setVelocityX(0);
+            magoAzul.sprite.setVelocityY(magoAzul.velocidad);
+            magoAzul.sprite.setVelocityX(0);
+
+            magoAzul.sprite.anims.play('down_blue', true);
+
         } else {
-            player2.body.velocity.x = 0;
-            player2.body.velocity.y = 0;
+            magoAzul.sprite.body.velocity.x = 0;
+            magoAzul.sprite.body.velocity.y = 0;
         }
 
         // https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
@@ -385,7 +469,7 @@ class GameScene extends Phaser.Scene {
             var bullet = bullets1.get();
 
             if (bullet) {
-                bullet.fire(player1);
+                bullet.fire(magoRojo);
 
                 lastFired1 = time + 200;
             }

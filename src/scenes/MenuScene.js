@@ -5,6 +5,11 @@ class MenuScene extends Phaser.Scene {
 
     create() {
         
+        var logoImage = new Image();
+        var buttonStart = new Image();
+        var nameField = new Image();
+
+
         const playBtn = this.add.text(this.game.renderer.width / 3, this.game.renderer.height / 3, 'Play', {
             fontSize: '100px',
             fill: '#0f0'
