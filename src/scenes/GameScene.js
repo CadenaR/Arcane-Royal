@@ -1,4 +1,4 @@
-/*function Mago(x,y,sprite){
+﻿/*function Mago(x,y,sprite){
     this.x = x;
     this.y = y;
     this.sprite = sprite;
@@ -13,6 +13,8 @@ var tiles = [];
 var tileStr = [];
 var items = [];
 var full = false;
+var plVel=200;
+var framer = 14;
 
 class Item {
     constructor (statBuff, duration, sprite){
@@ -113,7 +115,7 @@ tileStr[0]='ground';
 tileStr[1]='wall';
 tileStr[2]='baseroja';
 tileStr[3]='baseazul';
-
+var a;
 class GameScene extends Phaser.Scene {
     constructor() {
         super("gameScene");
@@ -126,9 +128,9 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbe3', "resources/Images/orbe3.png");
         this.load.image('baseroja', "resources/Images/baseroja.png");
         this.load.image('baseazul', "resources/Images/baseazul.png");
-        this.load.image("player1","resources/Images/player1.png");
+        a=this.load.image("player1","resources/Images/player1.png");
         this.load.image("player2","resources/Images/player2.png");
-        
+
         this.load.spritesheet("azul", "resources/Images/mago-azul.png",{
             frameWidth: 60, frameHeight : 80
         });
@@ -166,7 +168,6 @@ class GameScene extends Phaser.Scene {
         //var  group = this.add.group();
        // group.enableBody = true;
       
-        var framer = 12;
         var array = [];
         var wall = this.physics.add.staticGroup();
 
@@ -190,8 +191,14 @@ class GameScene extends Phaser.Scene {
         player1 = this.physics.add.sprite(64, 360, "player1");
         player2 = this.physics.add.sprite(1216, 360, "player2");
         
+        player1.direction=true;
+        player2.direction=false;
+
         this.physics.add.collider(player1, wall);
         this.physics.add.collider(player2, wall);
+
+	    this.physics.world.bounds.top=8;
+        this.physics.world.bounds.bottom=712;
 
         player1.physicsBodyType = Phaser.Physics.ARCADE;
         player1.body.setCollideWorldBounds (true);
@@ -266,47 +273,76 @@ class GameScene extends Phaser.Scene {
     }   
 
         if (cursors.A.isDown) {
-            player1.setVelocityX(-160);
+            player1.direction=false;
+            player1.setVelocityX(-plVel);
             player1.anims.play('left_red', true);
             player1.setVelocityY(0);
-
         }
         else if (cursors.D.isDown) {
-
-            player1.setVelocityX(160);
+            player1.direction=true;
+            player1.setVelocityX(plVel);
             player1.anims.play('right_red', true);
             player1.setVelocityY(0);
         }
         else  if (cursors.W.isDown ) {
-            player1.setVelocityY(-160);
+            player1.setVelocityY(-plVel);
             player1.setVelocityX(0);
+            if(!player1.direction){
+                player1.anims.play('left_red', true);
+            }
+            else{
+                player1.anims.play('right_red', true);
+            }
 
         } else if (cursors.S.isDown ) {
-            player1.setVelocityY(160);
+            player1.setVelocityY(plVel);
             player1.setVelocityX(0);
+            if(!player1.direction){
+                player1.anims.play('left_red', true);
+            }
+            else{
+                player1.anims.play('right_red', true);
+            }
 
-        } else {
+        }
+        else {
             player1.body.velocity.x = 0;
             player1.body.velocity.y = 0;
         }
 
         if (cursors.J.isDown) {
-            player2.setVelocityX(-160);
+            player2.direction=false;
+            player2.setVelocityX(-plVel);
             player2.anims.play('left_blue', true);
             player2.setVelocityY(0);
         }
         else if (cursors.L.isDown) {
-            player2.setVelocityX(160);
+            player2.direction=true;
+            player2.setVelocityX(plVel);
             player2.anims.play('right_blue', true);
             player2.setVelocityY(0);
         }
         else  if (cursors.I.isDown ) {
-            player2.setVelocityY(-160);
+            player2.setVelocityY(-plVel);
             player2.setVelocityX(0);
-        } else if (cursors.K.isDown ) {
-            player2.setVelocityY(160);
+            if(!player2.direction){
+                player2.anims.play('left_blue', true);
+            }
+            else{
+                player2.anims.play('right_blue', true);
+            }
+        }
+        else if (cursors.K.isDown ) {
+            player2.setVelocityY(plVel);
             player2.setVelocityX(0);
-        } else {
+            if(!player2.direction){
+                player2.anims.play('left_blue', true);
+            }
+            else{
+                player2.anims.play('right_blue', true);
+            }
+        }
+        else {
             player2.body.velocity.x = 0;
             player2.body.velocity.y = 0;
         }
