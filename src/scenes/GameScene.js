@@ -129,18 +129,11 @@ items[1] = new Item(10, 5, 'orbe2'); //escudo
 items[2] = new Item(15, -1, 'orbe3'); //daño
 
 //tileStr contiene los strings que referencian la imagen para cada tile, para usarla posteriormente
-<<<<<<< HEAD
-tileStr[0]='ground';
-tileStr[1]='wall';
-tileStr[2]='baseroja';
-tileStr[3]='baseazul';
-=======
+
 tileStr[0] = 'ground';
 tileStr[1] = 'wall';
 tileStr[2] = 'baseroja';
 tileStr[3] = 'baseazul';
->>>>>>> e3c842807cce4afe12ab77fc065022b5543c82fa
-
 class GameScene extends Phaser.Scene {
     constructor() {
         super("gameScene");
@@ -153,22 +146,26 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbe3', "resources/Images/orbe3.png");
         this.load.image('baseroja', "resources/Images/baseroja.png");
         this.load.image('baseazul', "resources/Images/baseazul.png");
-<<<<<<< HEAD
-        this.load.image("player1","resources/Images/player1.png");
-        this.load.image("player2","resources/Images/player2.png");
-=======
+
         this.load.image("player1", "resources/Images/player1.png");
         this.load.image("player2", "resources/Images/player2.png");
         this.load.image('bullet', "resources/Images/fireball.png");
->>>>>>> e3c842807cce4afe12ab77fc065022b5543c82fa
 
-        this.load.spritesheet("azul", "resources/Images/mago-azul.png", {
+        this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
-            frameHeight: 80
+            frameHeight: 64
         });
-        this.load.spritesheet("rojo", "resources/Images/mago-rojo.png", {
+        this.load.spritesheet("rojoLR", "resources/Images/mago-rojo.png", {
             frameWidth: 60,
-            frameHeight: 80
+            frameHeight: 64
+        });
+        this.load.spritesheet("azulUD", "resources/Images/mago-azulupdown.png", {
+            frameWidth: 60,
+            frameHeight: 64
+        });
+        this.load.spritesheet("rojoUD", "resources/Images/mago-rojoupdown.png", {
+            frameWidth: 60,
+            frameHeight: 64
         });
     }
 
@@ -385,53 +382,10 @@ class GameScene extends Phaser.Scene {
 
         cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
 
-<<<<<<< HEAD
-=======
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
 
->>>>>>> e3c842807cce4afe12ab77fc065022b5543c82fa
-
-      
-        var check = new Phaser.TimerEvent();
-
     }
-<<<<<<< HEAD
 
-    update() {
-
-        //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
-    //cambiamos la probabilidad de que se dibuje un item, si es 1000 hay una milesima de posibilidades cada vez que se ejecuta update
-    //el rango 200 - 300 creo que está bien, más arriba de eso parece que no sale nunca y más abajo sale demasiado
-        
-        var ratio = Math.random();
-        var selected;
-        var damage = 0.5;
-        var heal = 0.7;
-        var shield = 1;
-
-    //Si la variable check cumple la condición y el escenario no está lleno, pasamos a dibujar el item en una localización aleatoria
-    //sin ocupar casillas que ya están ocupadas o que no son transitables
-    if (check===0&&!full){
-        do{
-            var randX = Math.floor(Math.random()*20);
-            var randY = Math.floor(Math.random()*11);
-            var checkTile = searchTile(randX, randY);
-        }while (!full&&checkTile.getOccup());
-
-        checkTile.fill();
-        checkFull();
-
-        if(ratio<=damage){
-            selected = 2; //50% item de daño
-        }else if (ratio>=heal){
-            selected = 1; //30% item de escudo
-        }else if (ratio>damage&&ratio<heal){
-            selected = 0; //20% item de vida
-        }
-
-        this.add.sprite(randX*64+32, randY*64+40, items[selected].sprite);
-    }   
-=======
     update(time) {
 
         //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
@@ -454,7 +408,7 @@ class GameScene extends Phaser.Scene {
             checkFull();
             this.add.image(randX * 64 + 32, randY * 64 + 40, items[Math.floor(check)].sprite);
         }
->>>>>>> e3c842807cce4afe12ab77fc065022b5543c82fa
+
 
         if (cursors.A.isDown) {
 
@@ -512,11 +466,11 @@ class GameScene extends Phaser.Scene {
         }
 
         // https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
-        if (cursors.K.isDown && time > lastFired1) {
+        if (cursors.Q.isDown && time > lastFired1) {
             var bullet = bullets1.get();
 
             if (bullet) {
-                bullet.fire(magoRojo);
+                bullet.fire(magoRojo.sprite);
 
                 lastFired1 = time + 200;
             }
