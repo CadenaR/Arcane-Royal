@@ -32,13 +32,13 @@ class Item {
 }
 
 class Mage {
-    constructor(sprite, vida, escudo, ataque, velocidad) {
+    constructor(sprite, vida, escudo, ataque, velocidad, mAngle) {
         this.sprite = sprite;
         this.vida = vida;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
-        this.mAngle = 0;
+        this.mAngle = mAngle;
     }
 }
 
@@ -196,15 +196,14 @@ class GameScene extends Phaser.Scene {
 
                 this.setActive(true);
                 this.setVisible(true);
-                this.setPosition(player.x, player.y);
+                this.setPosition(player.sprite.x, player.sprite.y);
 
-                this.body.reset(player.x, player.y);
+                this.body.reset(player.sprite.x, player.sprite.y);
 
                 this.body.setSize(15, 15, true);
 
-                //cambiar con angulo del jugador
-                var angle = Phaser.Math.DegToRad(0);
-                this.angle = 180;
+                var angle = Phaser.Math.DegToRad(player.mAngle);
+                this.angle = player.mAngle + 180;
 
                 this.scene.physics.velocityFromRotation(angle, this.speed, this.body.velocity);
 
@@ -286,8 +285,8 @@ class GameScene extends Phaser.Scene {
         var player1 = this.physics.add.sprite(64, 360, "player1");
         var player2 = this.physics.add.sprite(1216, 360, "player2");
 
-        magoRojo = new Mage(player1, 3, false, false, plVel);
-        magoAzul = new Mage(player2, 3, false, false, plVel)
+        magoRojo = new Mage(player1, 3, false, false, plVel, 0);
+        magoAzul = new Mage(player2, 3, false, false, plVel, 180);
 
         this.physics.add.collider(magoRojo.sprite, wall);
         this.physics.add.collider(magoAzul.sprite, wall);
@@ -411,16 +410,17 @@ class GameScene extends Phaser.Scene {
 
 
         if (cursors.A.isDown) {
-
+            magoRojo.mAngle = 180;
             magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
             magoRojo.sprite.anims.play('left_red', true);
             magoRojo.sprite.setVelocityY(0);
         } else if (cursors.D.isDown) {
-
+            magoRojo.mAngle = 0;
             magoRojo.sprite.setVelocityX(magoRojo.velocidad);
             magoRojo.sprite.setVelocityY(0);
             magoRojo.sprite.anims.play('right_red', true);
         } else if (cursors.W.isDown) {
+            magoRojo.mAngle = 270;
             magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
             magoRojo.sprite.setVelocityX(0);
 
@@ -428,6 +428,7 @@ class GameScene extends Phaser.Scene {
 
 
         } else if (cursors.S.isDown) {
+            magoRojo.mAngle = 90;
             magoRojo.sprite.setVelocityY(magoRojo.velocidad);
             magoRojo.sprite.setVelocityX(0);
 
@@ -440,21 +441,24 @@ class GameScene extends Phaser.Scene {
         }
 
         if (cursors.J.isDown) {
-
+            magoAzul.mAngle = 180;
             magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
             magoAzul.sprite.anims.play('left_blue', true);
             magoAzul.sprite.setVelocityY(0);
         } else if (cursors.L.isDown) {
+            magoAzul.mAngle = 0;
             magoAzul.sprite.setVelocityX(magoAzul.velocidad);
             magoAzul.sprite.anims.play('right_blue', true);
             magoAzul.sprite.setVelocityY(0);
         } else if (cursors.I.isDown) {
+            magoAzul.mAngle = 270;
             magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
             magoAzul.sprite.setVelocityX(0);
 
             magoAzul.sprite.anims.play('up_blue', true);
 
         } else if (cursors.K.isDown) {
+            magoAzul.mAngle = 90;
             magoAzul.sprite.setVelocityY(magoAzul.velocidad);
             magoAzul.sprite.setVelocityX(0);
 
@@ -470,7 +474,16 @@ class GameScene extends Phaser.Scene {
             var bullet = bullets1.get();
 
             if (bullet) {
-                bullet.fire(magoRojo.sprite);
+                bullet.fire(magoRojo);
+
+                lastFired1 = time + 200;
+            }
+        }
+        if (cursors.O.isDown && time > lastFired1) {
+            var bullet = bullets1.get();
+
+            if (bullet) {
+                bullet.fire(magoAzul);
 
                 lastFired1 = time + 200;
             }
