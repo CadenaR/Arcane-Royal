@@ -7,8 +7,6 @@
 }
 */
 var cursors;
-var player1;
-var player2;
 var tiles = [];
 var tileStr = [];
 var items = [];
@@ -21,6 +19,25 @@ class Item {
         this.stat = statBuff;
         this.duration = duration;
         this.sprite = sprite;
+    }
+}
+
+class magoRojo{
+    constructor(sprite, vida, escudo, ataque, velocidad){
+        this.sprite = sprite;
+        this.vida = vida;
+        this.escudo = escudo;
+        this.ataque = ataque;
+        this.velocidad = velocidad;
+    }
+}
+class magoAzul{
+    constructor(sprite, vida, escudo, ataque, velocidad){
+        this.sprite = sprite;
+        this.vida = vida;
+        this.escudo = escudo;
+        this.ataque = ataque;
+        this.velocidad = velocidad;
     }
 }
 
@@ -132,10 +149,10 @@ class GameScene extends Phaser.Scene {
         this.load.image("player2","resources/Images/player2.png");
 
         this.load.spritesheet("azul", "resources/Images/mago-azul.png",{
-            frameWidth: 60, frameHeight : 80
+            frameWidth: 60, frameHeight : 64
         });
         this.load.spritesheet("rojo", "resources/Images/mago-rojo.png",{
-            frameWidth: 60, frameHeight : 80
+            frameWidth: 60, frameHeight : 64
         });
     }
 
@@ -187,24 +204,29 @@ class GameScene extends Phaser.Scene {
            tiles[i].setPos(i%20*64,8+Math.floor(i/20)*64)
        
         }
+
          
-        player1 = this.physics.add.sprite(64, 360, "player1");
-        player2 = this.physics.add.sprite(1216, 360, "player2");
+        var player1 = this.physics.add.sprite(64, 360, "player1");
+        var player2 = this.physics.add.sprite(1216, 360, "player2");
         
         player1.direction=true;
         player2.direction=false;
 
-        this.physics.add.collider(player1, wall);
-        this.physics.add.collider(player2, wall);
+        
+        magoRojo = new magoRojo(player1, 3, false, false, plVel);
+        magoAzul = new magoAzul(player2, 3, false, false, plVel)
+
+        this.physics.add.collider(magoRojo.sprite, wall);
+        this.physics.add.collider(magoAzul.sprite, wall);
 
 	    this.physics.world.bounds.top=8;
         this.physics.world.bounds.bottom=712;
 
-        player1.physicsBodyType = Phaser.Physics.ARCADE;
-        player1.body.setCollideWorldBounds (true);
+        magoRojo.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        magoRojo.sprite.body.setCollideWorldBounds (true);
 
-        player2.physicsBodyType = Phaser.Physics.ARCADE;
-        player2.body.setCollideWorldBounds (true);
+        magoAzul.sprite.physicsBodyType = Phaser.Physics.ARCADE;
+        magoAzul.sprite.body.setCollideWorldBounds (true);
         
         this.anims.create({
             key: "right_red",
@@ -273,78 +295,78 @@ class GameScene extends Phaser.Scene {
     }   
 
         if (cursors.A.isDown) {
-            player1.direction=false;
-            player1.setVelocityX(-plVel);
-            player1.anims.play('left_red', true);
-            player1.setVelocityY(0);
+            magoRojo.sprite.direction=false;
+            magoRojo.sprite.setVelocityX(-plVel);
+            magoRojo.sprite.anims.play('left_red', true);
+            magoRojo.sprite.setVelocityY(0);
         }
         else if (cursors.D.isDown) {
-            player1.direction=true;
-            player1.setVelocityX(plVel);
-            player1.anims.play('right_red', true);
-            player1.setVelocityY(0);
+            magoRojo.sprite.direction=true;
+            magoRojo.sprite.setVelocityX(plVel);
+            magoRojo.sprite.anims.play('right_red', true);
+            magoRojo.sprite.setVelocityY(0);
         }
         else  if (cursors.W.isDown ) {
-            player1.setVelocityY(-plVel);
-            player1.setVelocityX(0);
-            if(!player1.direction){
-                player1.anims.play('left_red', true);
+            magoRojo.sprite.setVelocityY(-plVel);
+            magoRojo.sprite.setVelocityX(0);
+            if(!magoRojo.sprite.direction){
+                magoRojo.sprite.anims.play('left_red', true);
             }
             else{
-                player1.anims.play('right_red', true);
+                magoRojo.sprite.anims.play('right_red', true);
             }
 
         } else if (cursors.S.isDown ) {
-            player1.setVelocityY(plVel);
-            player1.setVelocityX(0);
-            if(!player1.direction){
-                player1.anims.play('left_red', true);
+            magoRojo.sprite.setVelocityY(plVel);
+            magoRojo.sprite.setVelocityX(0);
+            if(!magoRojo.sprite.direction){
+                magoRojo.sprite.anims.play('left_red', true);
             }
             else{
-                player1.anims.play('right_red', true);
+                magoRojo.sprite.anims.play('right_red', true);
             }
 
         }
         else {
-            player1.body.velocity.x = 0;
-            player1.body.velocity.y = 0;
+            magoRojo.sprite.body.velocity.x = 0;
+            magoRojo.sprite.body.velocity.y = 0;
         }
 
         if (cursors.J.isDown) {
-            player2.direction=false;
-            player2.setVelocityX(-plVel);
-            player2.anims.play('left_blue', true);
-            player2.setVelocityY(0);
+            magoAzul.sprite.direction=false;
+            magoAzul.sprite.setVelocityX(-plVel);
+            magoAzul.sprite.anims.play('left_blue', true);
+            magoAzul.sprite.setVelocityY(0);
         }
         else if (cursors.L.isDown) {
-            player2.direction=true;
-            player2.setVelocityX(plVel);
-            player2.anims.play('right_blue', true);
-            player2.setVelocityY(0);
+            magoAzul.sprite.direction=true;
+            magoAzul.sprite.setVelocityX(plVel);
+            magoAzul.sprite.anims.play('right_blue', true);
+            magoAzul.sprite.setVelocityY(0);
         }
         else  if (cursors.I.isDown ) {
-            player2.setVelocityY(-plVel);
-            player2.setVelocityX(0);
-            if(!player2.direction){
-                player2.anims.play('left_blue', true);
+            magoAzul.sprite.setVelocityY(-plVel);
+            magoAzul.sprite.setVelocityX(0);
+            if(! magoAzul.sprite.direction){
+                magoAzul.sprite.anims.play('left_blue', true);
             }
             else{
-                player2.anims.play('right_blue', true);
+                magoAzul.sprite.anims.play('right_blue', true);
             }
         }
         else if (cursors.K.isDown ) {
-            player2.setVelocityY(plVel);
-            player2.setVelocityX(0);
-            if(!player2.direction){
-                player2.anims.play('left_blue', true);
+            magoAzul.sprite.setVelocityY(plVel);
+            magoAzul.sprite.setVelocityX(0);
+            if(! magoAzul.sprite.direction){
+                magoAzul.sprite.anims.play('left_blue', true);
             }
             else{
-                player2.anims.play('right_blue', true);
+                magoAzul.sprite.anims.play('right_blue', true);
             }
         }
         else {
-            player2.body.velocity.x = 0;
-            player2.body.velocity.y = 0;
+            magoAzul.sprite.body.velocity.x = 0;
+            magoAzul.sprite.body.velocity.y = 0;
         }
     }
     }
