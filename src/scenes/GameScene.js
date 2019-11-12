@@ -393,21 +393,34 @@ class GameScene extends Phaser.Scene {
         //el rango 200 - 300 creo que está bien, más arriba de eso parece que no sale nunca y más abajo sale demasiado
         var check = Math.random() * 3 * 280;
 
+        var ratio = Math.random();
+        var selected;
+        var damage = 0.5;
+        var heal = 0.7;
+        var shield = 1;
+
         //Si la variable check cumple la condición y el escenario no está lleno, pasamos a dibujar el item en una localización aleatoria
         //sin ocupar casillas que ya están ocupadas o que no son transitables
-        if (check < 3 && !full) {
-            var cond = true;
-
-            do {
-                var randX = Math.floor(Math.random() * 20);
-                var randY = Math.floor(Math.random() * 11);
+        if (check < 3&&!full){
+            do{
+                var randX = Math.floor(Math.random()*20);
+                var randY = Math.floor(Math.random()*11);
                 var checkTile = searchTile(randX, randY);
-            } while (!full && checkTile.getOccup());
+            }while (!full&&checkTile.getOccup());
 
             checkTile.fill();
             checkFull();
-            this.add.image(randX * 64 + 32, randY * 64 + 40, items[Math.floor(check)].sprite);
-        }
+
+            if(ratio<=damage){
+                selected = 2; //50% item de daño
+            }else if (ratio>=heal){
+                selected = 1; //30% item de escudo
+            }else if (ratio>damage&&ratio<heal){
+                selected = 0; //20% item de vida
+            }
+
+            this.add.sprite(randX*64+32, randY*64+40, items[selected].sprite);
+        }   
 
 
         if (cursors.A.isDown) {
