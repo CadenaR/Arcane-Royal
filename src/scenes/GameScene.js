@@ -296,18 +296,18 @@ class GameScene extends Phaser.Scene {
 
         if (cursors.A.isDown) {
             magoRojo.sprite.direction=false;
-            magoRojo.sprite.setVelocityX(-plVel);
+            magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
             magoRojo.sprite.anims.play('left_red', true);
             magoRojo.sprite.setVelocityY(0);
         }
         else if (cursors.D.isDown) {
             magoRojo.sprite.direction=true;
-            magoRojo.sprite.setVelocityX(plVel);
+            magoRojo.sprite.setVelocityX(magoRojo.velocidad);
             magoRojo.sprite.anims.play('right_red', true);
             magoRojo.sprite.setVelocityY(0);
         }
         else  if (cursors.W.isDown ) {
-            magoRojo.sprite.setVelocityY(-plVel);
+            magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
             magoRojo.sprite.setVelocityX(0);
             if(!magoRojo.sprite.direction){
                 magoRojo.sprite.anims.play('left_red', true);
@@ -317,7 +317,7 @@ class GameScene extends Phaser.Scene {
             }
 
         } else if (cursors.S.isDown ) {
-            magoRojo.sprite.setVelocityY(plVel);
+            magoRojo.sprite.setVelocityY(magoRojo.velocidad);
             magoRojo.sprite.setVelocityX(0);
             if(!magoRojo.sprite.direction){
                 magoRojo.sprite.anims.play('left_red', true);
@@ -334,18 +334,18 @@ class GameScene extends Phaser.Scene {
 
         if (cursors.J.isDown) {
             magoAzul.sprite.direction=false;
-            magoAzul.sprite.setVelocityX(-plVel);
+            magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
             magoAzul.sprite.anims.play('left_blue', true);
             magoAzul.sprite.setVelocityY(0);
         }
         else if (cursors.L.isDown) {
             magoAzul.sprite.direction=true;
-            magoAzul.sprite.setVelocityX(plVel);
+            magoAzul.sprite.setVelocityX(magoAzul.velocidad);
             magoAzul.sprite.anims.play('right_blue', true);
             magoAzul.sprite.setVelocityY(0);
         }
         else  if (cursors.I.isDown ) {
-            magoAzul.sprite.setVelocityY(-plVel);
+            magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
             magoAzul.sprite.setVelocityX(0);
             if(! magoAzul.sprite.direction){
                 magoAzul.sprite.anims.play('left_blue', true);
@@ -355,7 +355,7 @@ class GameScene extends Phaser.Scene {
             }
         }
         else if (cursors.K.isDown ) {
-            magoAzul.sprite.setVelocityY(plVel);
+            magoAzul.sprite.setVelocityY(magoAzul.velocidad);
             magoAzul.sprite.setVelocityX(0);
             if(! magoAzul.sprite.direction){
                 magoAzul.sprite.anims.play('left_blue', true);

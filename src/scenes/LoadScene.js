@@ -7,6 +7,6 @@ class LoadScene extends Phaser.Scene {
 
     create() {
         this.add.text(20, 20, "Loading game...");
-        this.scene.start("gameScene");
+        this.scene.start("MenuScene");
     }
 }
