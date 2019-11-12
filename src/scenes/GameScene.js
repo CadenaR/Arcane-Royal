@@ -20,6 +20,8 @@ var items = [];
 var full = false;
 var plVel = 200;
 var framer = 14;
+var magoAzul;
+var magoRojo;
 
 class Item {
     constructor(statBuff, duration, sprite) {
@@ -29,7 +31,7 @@ class Item {
     }
 }
 
-class magoRojo {
+class Mage {
     constructor(sprite, vida, escudo, ataque, velocidad) {
         this.sprite = sprite;
         this.vida = vida;
@@ -37,16 +39,6 @@ class magoRojo {
         this.ataque = ataque;
         this.velocidad = velocidad;
         this.mAngle = 0;
-    }
-}
-class magoAzul {
-    constructor(sprite, vida, escudo, ataque, velocidad) {
-        this.sprite = sprite;
-        this.vida = vida;
-        this.escudo = escudo;
-        this.ataque = ataque;
-        this.velocidad = velocidad;
-        this.mAngle = 180;
     }
 }
 
@@ -285,8 +277,8 @@ class GameScene extends Phaser.Scene {
         var player1 = this.physics.add.sprite(64, 360, "player1");
         var player2 = this.physics.add.sprite(1216, 360, "player2");
 
-        magoRojo = new magoRojo(player1, 3, false, false, plVel);
-        magoAzul = new magoAzul(player2, 3, false, false, plVel)
+        magoRojo = new Mage(player1, 3, false, false, plVel);
+        magoAzul = new Mage(player2, 3, false, false, plVel)
 
         this.physics.add.collider(magoRojo.sprite, wall);
         this.physics.add.collider(magoAzul.sprite, wall);
