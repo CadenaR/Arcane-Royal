@@ -237,6 +237,12 @@ class GameScene extends Phaser.Scene {
             runChildUpdate: true
         });
 
+        bullets2 = this.physics.add.group({
+            classType: Bullet,
+            maxSize: 30,
+            runChildUpdate: true
+        });
+
         //Como el mapa es simetrico en dos ejes, solo hemos tomado las posiciones de los tiles del primer cuarto del mapa
         var wallTilesQ1 = [42, 43, 63, 46, 66, 86, 106, 9, 29, 49, 109];
 
@@ -382,6 +388,7 @@ class GameScene extends Phaser.Scene {
         cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
 
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
+        this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
 
     }
 
@@ -479,13 +486,13 @@ class GameScene extends Phaser.Scene {
                 lastFired1 = time + 200;
             }
         }
-        if (cursors.O.isDown && time > lastFired1) {
-            var bullet = bullets1.get();
+        if (cursors.O.isDown && time > lastFired2) {
+            var bullet = bullets2.get();
 
             if (bullet) {
                 bullet.fire(magoAzul);
 
-                lastFired1 = time + 200;
+                lastFired2 = time + 200;
             }
         }
     }
