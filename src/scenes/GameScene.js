@@ -257,13 +257,13 @@ class GameScene extends Phaser.Scene {
 
         bullets1 = this.physics.add.group({
             classType: Bullet,
-            maxSize: 30,
+            maxSize: 1,
             runChildUpdate: true
         });
 
         bullets2 = this.physics.add.group({
             classType: Bullet,
-            maxSize: 30,
+            maxSize: 1,
             runChildUpdate: true
         });
 
@@ -412,8 +412,8 @@ class GameScene extends Phaser.Scene {
         cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
        
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
-        this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
-
+        this.physics.add.overlap(magoAzul.sprite, bullets1,  makeDamage, null, this);
+        this.physics.add.overlap(magoRojo.sprite,bullets2, makeDamage, null, this);
     }
     
     update(time) {
@@ -525,4 +525,8 @@ class GameScene extends Phaser.Scene {
 
 function destroyBullet(bullet, wall) {
     bullet.kill();
+}
+function makeDamage(mago,bullet){
+    
+    this.mago.destroy();
 }
