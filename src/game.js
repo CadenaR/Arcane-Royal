@@ -15,5 +15,4 @@ var config = {
     scene: [LoadScene,GameScene,MenuScene]
 }
 
-
 var game = new Phaser.Game(config);
