@@ -6,6 +6,12 @@
     this.speedy = 0;
 }
 */
+
+var ratio; 
+var damage = 0.5;
+var heal = 0.7;
+var shield = 1;
+var selected = 4;
 var cursors;
 var player1;
 var player2;
@@ -171,6 +177,24 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+        var timedEvent = this.time.addEvent({
+            delay: 3500,  // ms
+            callback: generar,
+            //args: [],
+            loop: true
+        });
+
+        function generar(){
+            ratio = Math.random();
+            if(ratio<=damage){
+                selected = 2; //50% item de daño
+            }else if (ratio>=heal){
+                selected = 1; //30% item de escudo
+            }else if (ratio>damage&&ratio<heal){
+                selected = 0; //20% item de vida
+            }else selected = 4;
+                
+        }
 
         // Obtenido de https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
         var Bullet = new Phaser.Class({
@@ -380,48 +404,36 @@ class GameScene extends Phaser.Scene {
         });
 
         cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
-
+       
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
 
     }
-
+    
     update(time) {
-
+        
         //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
         //cambiamos la probabilidad de que se dibuje un item, si es 1000 hay una milesima de posibilidades cada vez que se ejecuta update
         //el rango 200 - 300 creo que está bien, más arriba de eso parece que no sale nunca y más abajo sale demasiado
-        var check = Math.random() * 3 * 280;
-
-        var ratio = Math.random();
-        var selected;
-        var damage = 0.5;
-        var heal = 0.7;
-        var shield = 1;
-
+        //var check = Math.random() * 3 * 280;
+        
         //Si la variable check cumple la condición y el escenario no está lleno, pasamos a dibujar el item en una localización aleatoria
         //sin ocupar casillas que ya están ocupadas o que no son transitables
-        if (check < 3&&!full){
+        
+        if (selected!=4&&!full){
+            
             do{
                 var randX = Math.floor(Math.random()*20);
                 var randY = Math.floor(Math.random()*11);
-                var checkTile = searchTile(randX, randY);
+                var checkTile = searchTile(randX, randY);                      
             }while (!full&&checkTile.getOccup());
 
             checkTile.fill();
             checkFull();
 
-            if(ratio<=damage){
-                selected = 2; //50% item de daño
-            }else if (ratio>=heal){
-                selected = 1; //30% item de escudo
-            }else if (ratio>damage&&ratio<heal){
-                selected = 0; //20% item de vida
-            }
-
             this.add.sprite(randX*64+32, randY*64+40, items[selected].sprite);
-        }   
 
-
+            selected = 4;
+        }
         if (cursors.A.isDown) {
             magoRojo.mAngle = 180;
             magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
