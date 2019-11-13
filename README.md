@@ -137,7 +137,7 @@ Github: CadenaR
 
 Nestor Hernandez Benito \
 Correo: n.hernandezb.2017@alumnos.urjc.es \
-Github: nesherbens
+Github: nesherben
 
 Álvaro Gonzalez Alcazar \
 Correo: a.gonzaleza.2017@alumnos.urjc.es \
