@@ -7,9 +7,9 @@
 }
 */
 var delaySpawn = 3; //en segundos
-var ratio; 
-var damage = 0.5;
-var heal = 0.7;
+var ratio;
+var damage = 0.7;
+var heal = 0.85;
 var shield = 1;
 var selected = 4;
 var cursors;
@@ -187,27 +187,28 @@ class GameScene extends Phaser.Scene {
 
     create() {
         var timedEvent = this.time.addEvent({
-            delay: delaySpawn*1000,  // 1seg = 1000ms
+            delay: delaySpawn * 1000, // 1seg = 1000ms
             callback: generar,
             //args: [],
             loop: true
         });
-        function generar(){
+
+        function generar() {
             ratio = Math.random();
-            if(ratio<=damage){
+            if (ratio <= damage) {
                 selected = 2; //50% item de daño
-            }else if (ratio>=heal){
+            } else if (ratio >= heal) {
                 selected = 1; //30% item de escudo
-            }else if (ratio>damage&&ratio<heal){
+            } else if (ratio > damage && ratio < heal) {
                 selected = 0; //20% item de vida
-            }else selected = 4;
-                
+            } else selected = 4;
+
         }
-        
+
         orbes = this.physics.add.group();
 
         // Obtenido de https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
-        
+
         var Bullet = new Phaser.Class({
 
             Extends: Phaser.Physics.Arcade.Image,
@@ -263,7 +264,7 @@ class GameScene extends Phaser.Scene {
             tiles[i] = new Tile(0);
         }
 
-        
+
 
         //Como el mapa es simetrico en dos ejes, solo hemos tomado las posiciones de los tiles del primer cuarto del mapa
         var wallTilesQ1 = [42, 43, 63, 46, 66, 86, 106, 9, 29, 49, 109];
@@ -427,43 +428,43 @@ class GameScene extends Phaser.Scene {
         });
 
         cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
-       
+
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
         this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
         colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
         colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
-        
+
         colisionOrbe1 = this.physics.add.overlap(magoAzul.sprite, orbes, pickup, null, this);
         colisionOrbe2 = this.physics.add.overlap(magoRojo.sprite, orbes, pickup, null, this);
     }
-    
+
     update(time) {
-        
+
         //La variable check es la que define si se va a pintar un item o no, si cambiamos el segundo numero que la multiplica,
         //cambiamos la probabilidad de que se dibuje un item, si es 1000 hay una milesima de posibilidades cada vez que se ejecuta update
         //el rango 200 - 300 creo que está bien, más arriba de eso parece que no sale nunca y más abajo sale demasiado
         //var check = Math.random() * 3 * 280;
-        
+
         //Si la variable check cumple la condición y el escenario no está lleno, pasamos a dibujar el item en una localización aleatoria
         //sin ocupar casillas que ya están ocupadas o que no son transitables
-        
-        if (selected!=4&&!full){
-            
-            do{
-                var randX = Math.floor(Math.random()*20);
-                var randY = Math.floor(Math.random()*11);
-                var checkTile = searchTile(randX, randY);                      
-            }while (!full&&checkTile.getOccup());
+
+        if (selected != 4 && !full) {
+
+            do {
+                var randX = Math.floor(Math.random() * 20);
+                var randY = Math.floor(Math.random() * 11);
+                var checkTile = searchTile(randX, randY);
+            } while (!full && checkTile.getOccup());
 
             checkTile.fill();
             checkFull();
 
-            orbes.create(randX*64+32, randY*64+40, items[selected].sprite);
-            
+            orbes.create(randX * 64 + 32, randY * 64 + 40, items[selected].sprite);
+
             selected = 4;
         }
 
-        if (magoRojo.vida > 0){
+        if (magoRojo.vida > 0) {
             if (cursors.A.isDown) {
                 magoRojo.mAngle = 180;
                 magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
@@ -503,18 +504,18 @@ class GameScene extends Phaser.Scene {
                     magoRojo.ataque = false;
                 }
             }
-            if(magoRojo.escudo){
+            if (magoRojo.escudo) {
                 magoRojo.spriteEscudo.x = magoRojo.sprite.x;
                 magoRojo.spriteEscudo.y = magoRojo.sprite.y;
                 escudoTime--;
-                if(escudoTime<=0){
+                if (escudoTime <= 0) {
                     magoRojo.escudo = false;
                     magoRojo.spriteEscudo.setActive(false)
                     magoRojo.spriteEscudo.setVisible(false);
                 }
             }
         }
-        if(magoAzul.vida > 0){
+        if (magoAzul.vida > 0) {
             if (cursors.J.isDown) {
                 magoAzul.mAngle = 180;
                 magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
@@ -552,11 +553,11 @@ class GameScene extends Phaser.Scene {
                     magoAzul.ataque = false;
                 }
             }
-            if(magoAzul.escudo){
+            if (magoAzul.escudo) {
                 magoAzul.spriteEscudo.x = magoAzul.sprite.x;
                 magoAzul.spriteEscudo.y = magoAzul.sprite.y;
                 escudoTime--;
-                if(escudoTime<=0){
+                if (escudoTime <= 0) {
                     magoAzul.escudo = false;
                     magoAzul.spriteEscudo.setActive(false)
                     magoAzul.spriteEscudo.setVisible(false);
@@ -564,7 +565,7 @@ class GameScene extends Phaser.Scene {
             }
         }
         // https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
-        
+
     }
 }
 
@@ -572,16 +573,16 @@ function destroyBullet(bullet, wall) {
     bullet.destroy();
 }
 
-function pickup(mago,item){
-    
-    switch(item.texture.key){
+function pickup(mago, item) {
+
+    switch (item.texture.key) {
         case "orbe1":
-            if (mago.mago.vida < 3){
+            if (mago.mago.vida < 3) {
                 mago.mago.vida++;
             }
             break;
         case "orbe2":
-            if(!mago.mago.escudo){
+            if (!mago.mago.escudo) {
                 mago.mago.spriteEscudo.setActive(true);
                 mago.mago.spriteEscudo.setVisible(true);
                 mago.mago.escudo = true;
@@ -591,30 +592,31 @@ function pickup(mago,item){
         case "orbe3":
             mago.mago.ataque = true;
             break;
-        default: break;
+        default:
+            break;
     };
-    var resetTile = searchTile((item.x - 32 )/64, (item.y - 40)/64);
+    var resetTile = searchTile((item.x - 32) / 64, (item.y - 40) / 64);
     resetTile.free();
-    
+
     item.destroy();
 
 
 }
 
-function makeDamage(mago,bullet){
-    if(!mago.mago.escudo){
+function makeDamage(mago, bullet) {
+    if (!mago.mago.escudo) {
         mago.mago.vida--;
-    }else{ 
+    } else {
         mago.mago.escudo = false;
         mago.mago.spriteEscudo.setActive(false)
         mago.mago.spriteEscudo.setVisible(false);
     }
-        bullet.kill();
-        if(mago.mago.vida===0){
-            mago.setActive(false);
-            mago.setVisible(false);
-            colision1.destroy();
-            colision2.destroy();
-        }
+    bullet.kill();
+    if (mago.mago.vida === 0) {
+        mago.setActive(false);
+        mago.setVisible(false);
+        colision1.destroy();
+        colision2.destroy();
+    }
 
 }
