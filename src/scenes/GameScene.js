@@ -6,7 +6,7 @@
     this.speedy = 0;
 }
 */
-var delaySpawn = 0.5; //en segundos
+var delaySpawn = 3; //en segundos
 var ratio; 
 var damage = 0.5;
 var heal = 0.7;
@@ -576,14 +576,11 @@ function pickup(mago,item){
     
     switch(item.texture.key){
         case "orbe1":
-            console.log("es de vida");
             if (mago.mago.vida < 3){
                 mago.mago.vida++;
-                console.log("curacion");
             }
             break;
         case "orbe2":
-            console.log("es de escudo");
             if(!mago.mago.escudo){
                 mago.mago.spriteEscudo.setActive(true);
                 mago.mago.spriteEscudo.setVisible(true);
@@ -592,7 +589,6 @@ function pickup(mago,item){
             }
             break;
         case "orbe3":
-            console.log("es de daño");
             mago.mago.ataque = true;
             break;
         default: break;
