@@ -105,6 +105,8 @@ Modo gran torneo: Se podrían agregar torneos al juego basándose en el modo por
 
 <img src="src/resources/Images/mago-rojo.png" width="500">
 
+#### Sprites creados por nosotros
+
 <img src="src/resources/Images/fireball.png" width="100">
 
 <img src="src/resources/Images/barril2.png" width="100"> <img src="src/resources/Images/baseazul.png" width="100"> <img src="src/resources/Images/baseroja.png" width="100"> 
