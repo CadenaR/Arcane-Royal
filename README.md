@@ -20,22 +20,22 @@ Controles simplificados, aspecto agradable, partidas rápidas e intensas, multij
 El jugador toma el control de su avatar (El mago). Una vez todos los magos estén reunidos, participaran en distintas fases del torneo de hechizos. El jugador experimentará una experiencia de juego frenética y divertida, en la que las partidas sean breves e intensas, lo que hará que quiera seguir jugando “una ronda más”. Además, al jugar con amigos es mucho más entretenido ya que podrán interactuar de forma competitiva.
 
 #### Estilo artístico: 
-<img src="Images/IMG_20191007_134016.jpg" width="400"> 
+<img src="src/resources/Images/IMG_20191007_134016.jpg" width="400"> 
 
 En esta primera pantalla encontraremos el logotipo del juego junto al cuadro de texto para introducir nuestro usuario. También podremos encontrar un botón de ayuda y un botón para iniciar la sesión.
 
 
-<img src="Images/IMG_20191007_134031.jpg" width="400">
+<img src="src/resources/Images/IMG_20191007_134031.jpg" width="400">
 
 La segunda pantalla representa lo que el jugador encontrará al iniciar la sesión. Esperará en una sala junto a otros jugadores. En la sala tendrá un botón para decir que está listo para jugar, a lo que una vez estén todos listos comenzará la partida tras una cuenta atrás. También puede encontrar un selector de estadísticas para personalizar su personaje.
 
 
-<img src="Images/IMG_20191007_134039.jpg" width="400">
+<img src="src/resources/Images/IMG_20191007_134039.jpg" width="400">
 
 Tras la pantalla de sala de espera se desarrollará la partida, en la que interactuamos con el mapa usando el ratón y podremos ver las distintas habilidades en la interfaz de usuario
 
 
-<img src="Images/IMG_20191007_134044.jpg" width="400">
+<img src="src/resources/Images/IMG_20191007_134044.jpg" width="400">
 
 Por último, al acabar las rondas correspondientes, se hará recuento de puntos y se pasará a la pantalla de puntuaciones mostrando un ranking de jugadores.
 
@@ -84,7 +84,36 @@ Enfrentamiento por equipos: El modo propuesto inicialmente es un modo todos cont
 Hacer un segundo mapa que permita que jueguen más jugadores en la partida: Inicialmente, el juego se planteó como un juego para 4 jugadores pero posiblemente se podría hacer un mapa mayor al del modo principal e incluir la posibilidad de que jueguen más personas a la vez. Esto también se podría aplicar al modo por equipos haciendo que los equipos sean mayores o que haya más de dos equipos.
 
 Modo gran torneo: Se podrían agregar torneos al juego basándose en el modo por equipos. En este modo, múltiples equipos se van enfrentando entre ellos a lo largo de varias rondas hasta que sólo queda un vencedor.
- 
+
+#### Fase 2: Desarrollo de juego en local
+
+<img src="src/resources/Images/logoArcane.png">
+
+<img src="src/resources/Images/sky2.jpg" width="500"> 
+
+#### Escena de Menú principal
+
+<img src="src/resources/Images/menu1.png" width="800">
+
+###### Sprites obtenidos de https://opengameart.org
+
+<img src="src/resources/Images/mago-azulupdown.png" width="500">
+
+<img src="src/resources/Images/mago-azul.png" width="500">
+
+<img src="src/resources/Images/mago-rojoupdown.png" width="500">
+
+<img src="src/resources/Images/mago-rojo.png" width="500">
+
+<img src="src/resources/Images/fireball.png" width="100">
+
+<img src="src/resources/Images/barril2.png" width="100"> <img src="src/resources/Images/baseazul.png" width="100"> <img src="src/resources/Images/baseroja.png" width="100"> 
+
+<img src="src/resources/Images/orbe1.png" width="100"> <img src="src/resources/Images/orbe2.png" width="100"> <img src="src/resources/Images/orbe3.png" width="100">
+
+#### Escena de Juego
+
+<img src="src/resources/Images/game1.png" width="800">
 
 #### Integrantes:
 
