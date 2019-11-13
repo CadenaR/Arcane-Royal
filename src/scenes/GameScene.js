@@ -6,7 +6,7 @@
     this.speedy = 0;
 }
 */
-
+var delaySpawn = 3.5; //en segundos
 var ratio; 
 var damage = 0.5;
 var heal = 0.7;
@@ -30,6 +30,9 @@ var magoAzul;
 var magoRojo;
 var colision1;
 var colision2;
+var colisionOrbe1;
+var colisionOrbe2;
+var orbes;
 
 class Item {
     constructor(statBuff, duration, sprite) {
@@ -180,7 +183,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         var timedEvent = this.time.addEvent({
-            delay: 3500,  // ms
+            delay: delaySpawn*1000,  // 1seg = 1000ms
             callback: generar,
             //args: [],
             loop: true
@@ -197,6 +200,10 @@ class GameScene extends Phaser.Scene {
             }else selected = 4;
                 
         }
+        
+        orbes = this.physics.add.group({
+            tipoItem:0
+        });
 
         // Obtenido de https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
         var Bullet = new Phaser.Class({
@@ -418,6 +425,9 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
         colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
         colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
+        
+        colisionOrbe1 = this.physics.add.overlap(magoAzul.sprite, orbes, pickup, null, this);
+        colisionOrbe2 = this.physics.add.overlap(magoRojo.sprite, orbes, pickup, null, this);
     }
     
     update(time) {
@@ -441,10 +451,11 @@ class GameScene extends Phaser.Scene {
             checkTile.fill();
             checkFull();
 
-            this.add.sprite(randX*64+32, randY*64+40, items[selected].sprite);
-
+            orbes.create(randX*64+32, randY*64+40, items[selected].sprite);
+            
             selected = 4;
         }
+
         if (magoRojo.vida > 0){
             if (cursors.A.isDown) {
                 magoRojo.mAngle = 180;
@@ -534,6 +545,28 @@ class GameScene extends Phaser.Scene {
 
 function destroyBullet(bullet, wall) {
     bullet.destroy();
+}
+
+function pickup(mago,item){
+    
+    switch(item.texture.key){
+        case "orbe1":
+            console.log("es de vida");
+            break;
+        case "orbe2":
+            console.log("es de escudo");
+            break;
+        case "orbe3":
+            console.log("es de daño");
+            break;
+        default: break;
+    };
+    var resetTile = searchTile((item.x - 32 )/64, (item.y - 40)/64);
+    resetTile.free();
+    
+    item.destroy();
+
+
 }
 
 function makeDamage(mago,bullet){
