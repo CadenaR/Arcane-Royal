@@ -115,6 +115,18 @@ Modo gran torneo: Se podrían agregar torneos al juego basándose en el modo por
 
 <img src="src/resources/Images/game1.png" width="800">
 
+#### Desarrollo de la fase 2
+
+Para la segunda fase del desarrollo del juego hemos priorizado las funcionalidades básicas, tales como la pantalla del juego y un menu de inicio.
+
+Hemos desarrollado un mapa de juego, y hemos implementado las mecanicas basicas de la partida, asi como unicamente un modo de juego con dos personajes para la versión local. 
+
+Actualmente el juego se compone de una pantalla de inicio con un botón Play, que nos lleva automaticamente a la pantalla de juego.
+
+Hemos implementado un sistema de colisiones, para que el personaje no se mueva por zonas intransitables ni se salga del mapa. Tambien hemos desarrollado el sistema de powerups, con tres tipos diferentes (vida, daño y escudo), que se generan aleatoriamente. También hemos realizado un sistema de interacción entre los diferentes objetos del juego y personajes.
+
+Como parte final, cabe destacar que principalmente queremos implementar los diferentes menus (pausa , opciones, controles, créditos etc..), sonidos, interfaz de juego para indicar información en partidas, nuevo mapa.
+
 #### Integrantes:
 
 Rodrigo Cadena Rodríguez \
