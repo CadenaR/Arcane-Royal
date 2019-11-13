@@ -6,7 +6,7 @@
     this.speedy = 0;
 }
 */
-var delaySpawn = 3.5; //en segundos
+var delaySpawn = 0.5; //en segundos
 var ratio; 
 var damage = 0.5;
 var heal = 0.7;
@@ -33,6 +33,9 @@ var colision2;
 var colisionOrbe1;
 var colisionOrbe2;
 var orbes;
+var escudo;
+var escudoTime;
+
 
 class Item {
     constructor(statBuff, duration, sprite) {
@@ -43,13 +46,14 @@ class Item {
 }
 
 class Mage {
-    constructor(sprite, vida, escudo, ataque, velocidad, mAngle) {
+    constructor(sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
         this.sprite = sprite;
         this.vida = vida;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
         this.mAngle = mAngle;
+        this.spriteEscudo = spriteEscudo;
     }
 }
 
@@ -157,7 +161,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbe3', "resources/Images/orbe3.png");
         this.load.image('baseroja', "resources/Images/baseroja.png");
         this.load.image('baseazul', "resources/Images/baseazul.png");
-
+        this.load.image('escudo', "resources/Images/escudo.png");
         this.load.image("player1", "resources/Images/player1.png");
         this.load.image("player2", "resources/Images/player2.png");
         this.load.image('bullet', "resources/Images/fireball.png");
@@ -188,7 +192,6 @@ class GameScene extends Phaser.Scene {
             //args: [],
             loop: true
         });
-
         function generar(){
             ratio = Math.random();
             if(ratio<=damage){
@@ -201,11 +204,10 @@ class GameScene extends Phaser.Scene {
                 
         }
         
-        orbes = this.physics.add.group({
-            tipoItem:0
-        });
+        orbes = this.physics.add.group();
 
         // Obtenido de https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
+        
         var Bullet = new Phaser.Class({
 
             Extends: Phaser.Physics.Arcade.Image,
@@ -311,11 +313,16 @@ class GameScene extends Phaser.Scene {
         var player1 = this.physics.add.sprite(64, 360, "player1");
         var player2 = this.physics.add.sprite(1216, 360, "player2");
 
-        magoRojo = new Mage(player1, 3, false, false, plVel, 0);
-        magoAzul = new Mage(player2, 3, false, false, plVel, 180);
+        magoRojo = new Mage(player1, 3, false, false, plVel, 0, this.physics.add.sprite(player1.x, player1.y, "escudo"));
+        magoAzul = new Mage(player2, 3, false, false, plVel, 180, this.physics.add.sprite(player2.x, player2.y, "escudo"));
 
         magoRojo.sprite.mago = magoRojo;
         magoAzul.sprite.mago = magoAzul;
+
+        magoAzul.spriteEscudo.setActive(false);
+        magoAzul.spriteEscudo.setVisible(false);
+        magoRojo.spriteEscudo.setActive(false);
+        magoRojo.spriteEscudo.setVisible(false);
 
         this.physics.add.collider(magoRojo.sprite, wall);
         this.physics.add.collider(magoAzul.sprite, wall);
@@ -488,13 +495,22 @@ class GameScene extends Phaser.Scene {
                 magoRojo.sprite.body.velocity.y = 0;
             }
 
-            if (cursors.Q.isDown && time > lastFired1) {
+            if (cursors.Q.isDown && magoRojo.ataque) {
                 var bullet = bullets1.get();
 
                 if (bullet) {
                     bullet.fire(magoRojo);
-
-                    lastFired1 = time + 200;
+                    magoRojo.ataque = false;
+                }
+            }
+            if(magoRojo.escudo){
+                magoRojo.spriteEscudo.x = magoRojo.sprite.x;
+                magoRojo.spriteEscudo.y = magoRojo.sprite.y;
+                escudoTime--;
+                if(escudoTime<=0){
+                    magoRojo.escudo = false;
+                    magoRojo.spriteEscudo.setActive(false)
+                    magoRojo.spriteEscudo.setVisible(false);
                 }
             }
         }
@@ -528,13 +544,22 @@ class GameScene extends Phaser.Scene {
                 magoAzul.sprite.body.velocity.y = 0;
             }
 
-            if (cursors.O.isDown && time > lastFired2) {
+            if (cursors.O.isDown && magoAzul.ataque) {
                 var bullet = bullets2.get();
 
                 if (bullet) {
                     bullet.fire(magoAzul);
-
-                    lastFired2 = time + 200;
+                    magoAzul.ataque = false;
+                }
+            }
+            if(magoAzul.escudo){
+                magoAzul.spriteEscudo.x = magoAzul.sprite.x;
+                magoAzul.spriteEscudo.y = magoAzul.sprite.y;
+                escudoTime--;
+                if(escudoTime<=0){
+                    magoAzul.escudo = false;
+                    magoAzul.spriteEscudo.setActive(false)
+                    magoAzul.spriteEscudo.setVisible(false);
                 }
             }
         }
@@ -552,12 +577,23 @@ function pickup(mago,item){
     switch(item.texture.key){
         case "orbe1":
             console.log("es de vida");
+            if (mago.mago.vida < 3){
+                mago.mago.vida++;
+                console.log("curacion");
+            }
             break;
         case "orbe2":
             console.log("es de escudo");
+            if(!mago.mago.escudo){
+                mago.mago.spriteEscudo.setActive(true);
+                mago.mago.spriteEscudo.setVisible(true);
+                mago.mago.escudo = true;
+                escudoTime = 300;
+            }
             break;
         case "orbe3":
             console.log("es de daño");
+            mago.mago.ataque = true;
             break;
         default: break;
     };
@@ -570,7 +606,13 @@ function pickup(mago,item){
 }
 
 function makeDamage(mago,bullet){
+    if(!mago.mago.escudo){
         mago.mago.vida--;
+    }else{ 
+        mago.mago.escudo = false;
+        mago.mago.spriteEscudo.setActive(false)
+        mago.mago.spriteEscudo.setVisible(false);
+    }
         bullet.kill();
         if(mago.mago.vida===0){
             mago.setActive(false);
@@ -578,6 +620,5 @@ function makeDamage(mago,bullet){
             colision1.destroy();
             colision2.destroy();
         }
-
 
 }
