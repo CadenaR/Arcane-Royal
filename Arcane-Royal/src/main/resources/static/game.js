@@ -2,6 +2,7 @@ var config = {
     width: 1280,
     height: 720,
     backgroundColor: 0x000000,
+    fontFamily: 'mifuente',
    // scale : {
     //    mode : Phaser.Scale.RESIZE,
      //   autoCenter : Phaser.Scale.CENTER_BOTH

@@ -4,17 +4,19 @@ class MenuScene extends Phaser.Scene {
     }
     preload() {
         this.load.image("logo", "../resources/Images/logoArcane.png");
-        this.load.image("fondo", "../resources/Images/sky2.jpg");
+        this.load.image("fondo", "../resources/Images/sky1.png");
+       
     }
 
     create() {
 
-        this.add.image(this.game.renderer.width / 2, this.game.renderer.height * .40, "logo").setDepth(1);
+        this.add.image(this.game.renderer.width / 2, this.game.renderer.height * .40+15, "logo").setDepth(1);
         this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
-        const playBtn = this.add.text(this.game.renderer.width * .40, this.game.renderer.height * 0.60, 'Play', {
+        const playBtn = this.add.text(this.game.renderer.width * .40-10, this.game.renderer.height * 0.45, 'Jugar', {
             fontSize: '100px',
             fill: '#000',
-            align: "center"
+            align: "center",
+            fontFamily: 'mifuente'
         }).setInteractive();
 
         playBtn.on('pointerover', () => {
@@ -33,5 +35,54 @@ class MenuScene extends Phaser.Scene {
         playBtn.on('pointerdown', () => {
             this.scene.start("gameScene");
         });
+   
+        const ControlBtn = this.add.text(this.game.renderer.width * .31-10, this.game.renderer.height * 0.6, 'Controles', {
+            fontSize: '100px',
+            fill: '#000',
+            align: "center",
+            fontFamily: 'mifuente'
+        }).setInteractive();
+
+        ControlBtn.on('pointerover', () => {
+            ControlBtn.setStyle({
+                fill: '#ff0'
+            });
+        });
+
+        ControlBtn.on('pointerout', () => {
+            ControlBtn.setStyle({
+                fill: '#000'
+            });
+        });
+
+        var that = this;
+        ControlBtn.on('pointerdown', () => {
+            this.scene.start("creditScene");
+        });
+             
+        const CreditBtn = this.add.text(this.game.renderer.width * .335-10, this.game.renderer.height * 0.75, 'Créditos', {
+            fontSize: '100px',
+            fill: '#000',
+            align: "center",
+            fontFamily: 'mifuente'
+        }).setInteractive();
+
+        CreditBtn.on('pointerover', () => {
+            CreditBtn.setStyle({
+                fill: '#ff0'
+            });
+        });
+
+        CreditBtn.on('pointerout', () => {
+            CreditBtn.setStyle({
+                fill: '#000'
+            });
+        });
+
+        var that = this;
+        CreditBtn.on('pointerdown', () => {
+            this.scene.start("creditScene");
+        });
+        
     }
 }
