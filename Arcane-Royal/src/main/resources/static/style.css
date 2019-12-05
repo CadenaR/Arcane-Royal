@@ -1,7 +1,7 @@
 @font-face{
     font-family: 'mifuente';
-    src: local('resources/m04.ttf') format("truetype");
-    font-weight: 400;
+    src: url('resources/m04.ttf') format("truetype");
+    font-weight: 40;
     font-weight: normal;
     
 }
