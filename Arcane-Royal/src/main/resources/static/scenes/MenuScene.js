@@ -5,16 +5,16 @@ class MenuScene extends Phaser.Scene {
     preload() {
         this.load.image("logo", "../resources/Images/logoArcane.png");
         this.load.image("fondo", "../resources/Images/sky1.png");
-       
+        
     }
 
     create() {
 
         this.add.image(this.game.renderer.width / 2, this.game.renderer.height * .40+15, "logo").setDepth(1);
         this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
-        const playBtn = this.add.text(this.game.renderer.width * .40-10, this.game.renderer.height * 0.45, 'Jugar', {
+        const playBtn = this.add.text(this.game.renderer.width * .30-10, this.game.renderer.height * 0.45, 'Jugar', {
             fontSize: '100px',
-            fill: '#000',
+            fill: '#b04',
             align: "center",
             fontFamily: 'mifuente'
         }).setInteractive();
@@ -27,7 +27,7 @@ class MenuScene extends Phaser.Scene {
 
         playBtn.on('pointerout', () => {
             playBtn.setStyle({
-                fill: '#000'
+                fill: '#b04''
             });
         });
 
@@ -36,7 +36,7 @@ class MenuScene extends Phaser.Scene {
             this.scene.start("gameScene");
         });
    
-        const ControlBtn = this.add.text(this.game.renderer.width * .31-10, this.game.renderer.height * 0.6, 'Controles', {
+        const ControlBtn = this.add.text(this.game.renderer.width * .15-10, this.game.renderer.height * 0.6, 'Controles', {
             fontSize: '100px',
             fill: '#000',
             align: "center",
@@ -60,7 +60,7 @@ class MenuScene extends Phaser.Scene {
             this.scene.start("creditScene");
         });
              
-        const CreditBtn = this.add.text(this.game.renderer.width * .335-10, this.game.renderer.height * 0.75, 'Créditos', {
+        const CreditBtn = this.add.text(this.game.renderer.width * .18-10, this.game.renderer.height * 0.75, 'Creditos', {
             fontSize: '100px',
             fill: '#000',
             align: "center",
