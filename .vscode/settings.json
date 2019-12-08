@@ -1,0 +1,4 @@
+{
+    "boot-java.scan-java-test-sources.on": true,
+    "boot-java.support-spring-xml-config.on": true
+}

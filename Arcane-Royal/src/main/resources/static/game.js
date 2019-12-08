@@ -12,7 +12,7 @@ var config = {
           gravity: false
         }
     },
-    scene: [LoadScene,GameScene,MenuScene]
+    scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene]
 }
 
 var game = new Phaser.Game(config);

@@ -56,7 +56,7 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         controlBtn.on('pointerdown', () => {
-            //this.scene.start("creditScene");
+            this.scene.start("controlScene");
         });
 
         const creditBtn = this.add.text(this.game.renderer.width * .31 - 75 - 55 + 11 + 48, this.game.renderer.height * 0.75, 'Creditos', {
@@ -80,7 +80,7 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         creditBtn.on('pointerdown', () => {
-            //this.scene.start("creditScene");
+            this.scene.start("creditScene");
         });
     }
 }

@@ -140,6 +140,21 @@ function destroyBullet(bullet, wall) {
     bullet.destroy();
 }
 
+//lee la configuracion del mapa en txt
+function leerConfig(){
+    var arrayData = new Array();
+    var archivoTXT = new XMLHttpRequest();
+    var fileRuta = '../resources/maps/mapa.txt';
+    
+    archivoTXT.open("GET",fileRuta,false);
+    archivoTXT.send(null);
+    var txt = archivoTXT.responseText;
+    for(var i = 0;i<txt.length;i++){
+        if(txt[i] != "\n" && txt[i] != '\r')
+        arrayData.push(parseInt(txt[i]));
+    }
+}
+
 //Se define lo que ocurre al coger un objeto
 function pickup(mago, item) {
     switch (item.texture.key) {
@@ -208,6 +223,7 @@ class GameScene extends Phaser.Scene {
         super("gameScene");
     }
     preload() {
+        
         this.load.image('wall', "resources/Images/barril2.png");
         this.load.image('ground', "resources/Images/tile2.png");
         this.load.image('orbe1', "resources/Images/orbe1.png");
@@ -359,6 +375,11 @@ class GameScene extends Phaser.Scene {
             runChildUpdate: true
         });
 
+
+        //lector de archivos de configuracion de mapa.
+        
+        leerConfig();
+        
         //Aquí generamos todos los tiles, los inicializamos a 0 que es el tipo de tile vacío
         for (var i = 0; i < 20 * 11; i++) {
             tiles[i] = new Tile(0);
