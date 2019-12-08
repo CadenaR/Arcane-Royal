@@ -1,4 +1,9 @@
 ﻿//=====Variables globales=====
+// Variables para API
+var connectionIP;
+var connectionID;
+var connectionDate;
+
 //Variables de los jugadores
 var magoAzul;
 var magoRojo;
@@ -126,7 +131,7 @@ function checkFull() {
     }
     //El límite de items son 15, aquí usamos 67 porque también debemos contar los 52 tiles ocupados
     //en los que no podemos generar items
-    if (n < 52+15) {
+    if (n < 52 + 15) {
         full = false;
     }
 }
@@ -251,6 +256,21 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+        $.getJSON("http://jsonip.com?callback=?", function (data) {
+            connectionIP = data.ip;
+        });
+
+        connectionDate = new Date();
+
+        var connection = {
+            connected: true,
+            ip: connectionIP,
+            date: connectionDate
+        }
+
+        createConnection(connection, function (connectionWithId) {
+            connectionID = connectionWithId.id;
+        });
         //La variable orbes guarda un grupo con todos los objetos de los items, nos servirá mas adelante para las colisiones
         orbes = this.physics.add.group();
 
@@ -265,7 +285,7 @@ class GameScene extends Phaser.Scene {
 
         //La función generar es la que se encarga de seleccionar que item se va a dibujar y de dibujarlo
         function generar() {
-            ratio = Math.random()+0.2;
+            ratio = Math.random() + 0.2;
             if (ratio <= damage) {
                 selected = 2; //50% item de daño
             } else if (ratio >= heal) {
@@ -297,17 +317,16 @@ class GameScene extends Phaser.Scene {
         var Bullet = new Phaser.Class({
             Extends: Phaser.Physics.Arcade.Image,
 
-            initialize:
-                function Bullet(scene) {
-                    Phaser.Physics.Arcade.Image.call(this, scene, 0, 0, 'bullet');
+            initialize: function Bullet(scene) {
+                Phaser.Physics.Arcade.Image.call(this, scene, 0, 0, 'bullet');
 
-                    this.setBlendMode(1);
-                    this.setDepth(1);
-                    this.speed = 400;
-                    this.lifespan = 1000;
+                this.setBlendMode(1);
+                this.setDepth(1);
+                this.speed = 400;
+                this.lifespan = 1000;
 
-                    this._temp = new Phaser.Math.Vector2();
-                },
+                this._temp = new Phaser.Math.Vector2();
+            },
 
             fire: function (player) {
                 this.lifespan = 1000;
@@ -390,11 +409,10 @@ class GameScene extends Phaser.Scene {
         var wall = this.physics.add.staticGroup();
         //Procedemos a asignar a cada tile su posición y a dibujarlos
         for (var i = 0; i < 20 * 11; i++) {
-            tiles[i].setPos(i % 20 * 64 + 32, 8 + Math.floor(i / 20) * 64 + 32);          
+            tiles[i].setPos(i % 20 * 64 + 32, 8 + Math.floor(i / 20) * 64 + 32);
             if (tiles[i].getType() === 1) {
                 wall.create(tiles[i].getX(), tiles[i].getY(), tileStr[tiles[i].getType()]);
-            }
-            else {
+            } else {
                 this.physics.add.sprite(tiles[i].getX(), tiles[i].getY(), tileStr[tiles[i].getType()]);
             }
             tiles[i].setPos(i % 20 * 64, 8 + Math.floor(i / 20) * 64)
@@ -424,7 +442,7 @@ class GameScene extends Phaser.Scene {
 
         magoAzul.sprite.physicsBodyType = Phaser.Physics.ARCADE;
         magoAzul.sprite.body.setCollideWorldBounds(true);
-        
+
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
             key: "right_red",
@@ -511,7 +529,7 @@ class GameScene extends Phaser.Scene {
         //Esto define las colisiones de las balas con los muros
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
         this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
-        
+
         //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
         //cuando muere un jugador
         colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
@@ -531,26 +549,22 @@ class GameScene extends Phaser.Scene {
                 magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
                 magoRojo.sprite.anims.play('left_red', true);
                 magoRojo.sprite.setVelocityY(0);
-            }
-            else if (cursors.D.isDown) {
+            } else if (cursors.D.isDown) {
                 magoRojo.mAngle = 0;
                 magoRojo.sprite.setVelocityX(magoRojo.velocidad);
                 magoRojo.sprite.anims.play('right_red', true);
                 magoRojo.sprite.setVelocityY(0);
-            }
-            else if (cursors.W.isDown) {
+            } else if (cursors.W.isDown) {
                 magoRojo.mAngle = 270;
                 magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
                 magoRojo.sprite.anims.play('up_red', true);
                 magoRojo.sprite.setVelocityX(0);
-            }
-            else if (cursors.S.isDown) {
+            } else if (cursors.S.isDown) {
                 magoRojo.mAngle = 90;
                 magoRojo.sprite.setVelocityY(magoRojo.velocidad);
                 magoRojo.sprite.anims.play('down_red', true);
                 magoRojo.sprite.setVelocityX(0);
-            }
-            else {
+            } else {
                 magoRojo.sprite.body.velocity.x = 0;
                 magoRojo.sprite.body.velocity.y = 0;
             }
@@ -582,26 +596,22 @@ class GameScene extends Phaser.Scene {
                 magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
                 magoAzul.sprite.anims.play('left_blue', true);
                 magoAzul.sprite.setVelocityY(0);
-            }
-            else if (cursors.L.isDown) {
+            } else if (cursors.L.isDown) {
                 magoAzul.mAngle = 0;
                 magoAzul.sprite.setVelocityX(magoAzul.velocidad);
                 magoAzul.sprite.anims.play('right_blue', true);
                 magoAzul.sprite.setVelocityY(0);
-            }
-            else if (cursors.I.isDown) {
+            } else if (cursors.I.isDown) {
                 magoAzul.mAngle = 270;
                 magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
                 magoAzul.sprite.anims.play('up_blue', true);
                 magoAzul.sprite.setVelocityX(0);
-            }
-            else if (cursors.K.isDown) {
+            } else if (cursors.K.isDown) {
                 magoAzul.mAngle = 90;
                 magoAzul.sprite.setVelocityY(magoAzul.velocidad);
                 magoAzul.sprite.anims.play('down_blue', true);
                 magoAzul.sprite.setVelocityX(0);
-            }
-            else {
+            } else {
                 magoAzul.sprite.body.velocity.x = 0;
                 magoAzul.sprite.body.velocity.y = 0;
             }
@@ -626,3 +636,51 @@ class GameScene extends Phaser.Scene {
         }
     }
 }
+
+
+
+function createConnection(connection, callback) {
+
+    console.log("createConnection: " + JSON.stringify(connection));
+
+
+    $.ajax({
+        url: "http://localhost:9090/connections",
+        method: "POST",
+        processData: false,
+        data: JSON.stringify(connection),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (response) {
+        callback(response);
+    });
+
+}
+
+function updateConnection(connection) {
+    $.ajax({
+        method: 'PUT',
+        url: 'http://localhost:9090/connections/' + connection.id,
+        data: JSON.stringify(connection),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (connection) {
+        console.log("Updated item: " + JSON.stringify(connection))
+    })
+}
+
+$(window).on("beforeunload", function () {
+    var updatedConnection = {
+        id: connectionID,
+        connected: false,
+        ip: connectionIP,
+        date: connectionDate
+
+    }
+    updateConnection(updatedConnection);
+
+    return null;
+});
