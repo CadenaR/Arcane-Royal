@@ -8,6 +8,14 @@ var connectionDate;
 var magoAzul;
 var magoRojo;
 
+//Variable de la escena
+var scene;
+
+//Variables de la UI
+var uiPos = [];
+var cargaR;
+var cargaA;
+
 //Variables de los disparos
 var bullets1;
 var bullets2;
@@ -45,14 +53,24 @@ var cursors;
 
 //=====Clases=====
 class Mage {
-    constructor(sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
+    constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
+        this.color=color;
+        this.colorN=colorN;
         this.sprite = sprite;
         this.vida = vida;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
         this.mAngle = mAngle;
-        this.spriteEscudo = spriteEscudo;
+        this.spriteEscudo = spriteEscudo;   
+    }
+    updateVida(v){
+        this.vida+=v;
+        GameScene.prototype.updateUI(this.color, this.colorN, this.vida);
+    }
+    updateCarga(v, alpha){
+        this.ataque=v;
+        GameScene.prototype.updateCarga(this.colorN, alpha);
     }
 }
 
@@ -105,16 +123,6 @@ class Tile {
 //=====Funciones=====
 //Esta función se usa para calcular en que parte del mapa está el tile opuesto simetricamente en el eje x
 //al tile en n
-function oppX(n) {
-    var x = n;
-    var y = 0;
-    while (x > 19) {
-        x -= 20;
-        y++;
-    }
-    return 19 - x + y * 20;
-}
-
 function searchTile(x, y) {
     for (const t of tiles) {
         if (t.getX2() == x && t.getY2() == y) {
@@ -142,7 +150,6 @@ function checkFull() {
 function destroyBullet(bullet, wall) {
     bullet.destroy();
 }
-
 
 //lee la configuracion del mapa en txt
 function leerConfig(){
@@ -173,7 +180,7 @@ function pickup(mago, item) {
     switch (item.texture.key) {
         case "orbe1":
             if (mago.mago.vida < 3) {
-                mago.mago.vida++;
+                mago.mago.updateVida(1);
             }
             break;
         case "orbe2":
@@ -185,7 +192,7 @@ function pickup(mago, item) {
             }
             break;
         case "orbe3":
-            mago.mago.ataque = true;
+            mago.mago.updateCarga(true, 1);
             break;
         default:
             break;
@@ -201,7 +208,7 @@ function pickup(mago, item) {
 //Se define lo que ocurre cuando un disparo impacta al mago
 function makeDamage(mago, bullet) {
     if (!mago.mago.escudo) {
-        mago.mago.vida--;
+        mago.mago.updateVida(-1);
     } else {
         mago.mago.escudo = false;
         mago.mago.spriteEscudo.setActive(false)
@@ -230,13 +237,19 @@ tileStr[1] = 'wall';
 tileStr[2] = 'baseroja';
 tileStr[3] = 'baseazul';
 
+//uiPos contiene la posición de la interfaz del jugador 1 y la del 2.
+uiPos[0] = [0, 0];
+uiPos[1] = [1280-128, 0];
+uiPos[2] = [85, 16];
+uiPos[3] = [1280-84, 16];
+
 //=====GameScene=====
 class GameScene extends Phaser.Scene {
     constructor() {
         super("gameScene");
+        scene = this;
     }
-    preload() {
-        
+    preload() {        
         this.load.image('wall', "resources/Images/barril2.png");
         this.load.image('ground', "resources/Images/tile2.png");
         this.load.image('orbe1', "resources/Images/orbe1.png");
@@ -248,6 +261,18 @@ class GameScene extends Phaser.Scene {
         this.load.image("player1", "resources/Images/player1.png");
         this.load.image("player2", "resources/Images/player2.png");
         this.load.image('bullet', "resources/Images/fireball.png");
+        this.load.image('UIbase1', "resources/Images/interfazbase1.png");
+        this.load.image('UIbase2', "resources/Images/interfazbase2.png");
+        this.load.image('rojo0', "resources/Images/interfaz1.png");
+        this.load.image('rojo1', "resources/Images/rojo1hp.png");
+        this.load.image('rojo2', "resources/Images/rojo2hp.png");
+        this.load.image('rojo3', "resources/Images/rojo3hp.png");
+        this.load.image('azul0', "resources/Images/interfaz2.png");
+        this.load.image('azul1', "resources/Images/azul1hp.png");
+        this.load.image('azul2', "resources/Images/azul2hp.png");
+        this.load.image('azul3', "resources/Images/azul3hp.png");
+        this.load.image('orbeUI', "resources/Images/orbe-interfaz.png");
+        this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
@@ -325,6 +350,7 @@ class GameScene extends Phaser.Scene {
                 orbes.create(randX * 64 + 32, randY * 64 + 48, items[selected]);
             }
         }
+
         //Obtenido de https://labs.phaser.io/edit.html?src=src/input/gamepad/twin%20stick%20shooter.js
         //Creamos una clase Bullet usando Phaser.Class y en ella definimos los métodos que usamos para los disparos
         var Bullet = new Phaser.Class({
@@ -414,8 +440,8 @@ class GameScene extends Phaser.Scene {
         }
 
         //A continuación vamos a definir los jugadores, añadirles los sprites y todos los temas de las físicas y colisiones con los muros
-        magoRojo = new Mage(this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"));
-        magoAzul = new Mage(this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"));
+        magoRojo = new Mage('rojo', 0, this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"));
+        magoAzul = new Mage('azul', 1, this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"));
 
         magoRojo.sprite.mago = magoRojo;
         magoAzul.sprite.mago = magoAzul;
@@ -436,6 +462,16 @@ class GameScene extends Phaser.Scene {
 
         magoAzul.sprite.physicsBodyType = Phaser.Physics.ARCADE;
         magoAzul.sprite.body.setCollideWorldBounds(true);
+
+        //Dibujo de la interfaz
+        this.add.image(uiPos[0][0], uiPos[0][1], 'UIbase1').setOrigin(0, 0);
+        this.add.image(uiPos[1][0], uiPos[1][1], 'UIbase2').setOrigin(0, 0);
+        this.add.image(uiPos[0][0], uiPos[0][1], magoRojo.color + magoRojo.vida).setOrigin(0, 0);
+        this.add.image(uiPos[1][0], uiPos[1][1], magoAzul.color + magoAzul.vida).setOrigin(0, 0);
+        cargaR = this.add.image(uiPos[2][0], uiPos[2][1], 'orbeUI');
+        cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
+        cargaR.alpha=0.4;
+        cargaA.alpha=0.4;
 
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
@@ -567,7 +603,7 @@ class GameScene extends Phaser.Scene {
                 var bullet = bullets1.get();
                 if (bullet) {
                     bullet.fire(magoRojo);
-                    magoRojo.ataque = false;
+                    magoRojo.updateCarga(false, 0.4);
                 }
             }
             //Escudo
@@ -584,7 +620,6 @@ class GameScene extends Phaser.Scene {
         }
         //Definimos las teclas que usa el jugador 2 y sus efectos
         if (magoAzul.vida > 0) {
-
             if (cursors.J.isDown) {
                 magoAzul.mAngle = 180;
                 magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
@@ -614,7 +649,7 @@ class GameScene extends Phaser.Scene {
 
                 if (bullet) {
                     bullet.fire(magoAzul);
-                    magoAzul.ataque = false;
+                    magoAzul.updateCarga(false, 0.4);
                 }
             }
             if (magoAzul.escudo) {
@@ -627,6 +662,19 @@ class GameScene extends Phaser.Scene {
                     magoAzul.spriteEscudo.setVisible(false);
                 }
             }
+        }
+    }
+
+    updateUI(color, colorN, vida){
+        scene.add.image(uiPos[colorN][0], uiPos[colorN][1], color+vida).setOrigin(0, 0);
+    }
+
+    updateCarga(color, alpha){
+        if (color==0){
+            cargaR.alpha=alpha;
+        }
+        else if (color==1){
+            cargaA.alpha=alpha;
         }
     }
 }

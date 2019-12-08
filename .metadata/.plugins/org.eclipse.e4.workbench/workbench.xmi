@@ -387,7 +387,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_cYydTxlQEeqYPsoC-Exqag" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_oA4MgBniEeqAAe3Nf4YDdw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_cY1gtRlQEeqYPsoC-Exqag"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9AQIcBntEeqRS9nYwxE7kA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_cY1gtRlQEeqYPsoC-Exqag"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_cYydXBlQEeqYPsoC-Exqag" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -418,12 +418,9 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_cYydohlQEeqYPsoC-Exqag" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_oA7P0BniEeqAAe3Nf4YDdw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_cY1gZRlQEeqYPsoC-Exqag"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9ASksBntEeqRS9nYwxE7kA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_cY1gZRlQEeqYPsoC-Exqag"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_cYydrRlQEeqYPsoC-Exqag" elementId="org.eclipse.jdt.ui.CompilationUnitEditor" visible="false">
-        <tags>Draggable</tags>
-      </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_cYydrhlQEeqYPsoC-Exqag" elementId="org.eclipse.wst.jsdt.ui.CompilationUnitEditor" visible="false">
         <tags>Draggable</tags>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_cYydrxlQEeqYPsoC-Exqag" elementId="group.editor" toBeRendered="false">
