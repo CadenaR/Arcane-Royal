@@ -8,8 +8,9 @@ var connectionDate;
 var magoAzul;
 var magoRojo;
 
-//Variable de la escena
+//Variables globales de la escena
 var scene;
+var globalScore = [0, 0];
 
 //Variables de la UI
 var uiPos = [];
@@ -36,6 +37,7 @@ var framer = 14;
 //Variables empleadas al generar y procesar tiles
 var tiles = [];
 var tileStr = [];
+var occCount;
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -46,6 +48,7 @@ var colision2;
 
 //Variables de items
 var items = [];
+var itemLimit = 15;
 var orbes;
 var escudo;
 var escudoTime;
@@ -80,6 +83,7 @@ class Tile {
         this.occup = false;
         //Solo queremos generar items en los tiles del tipo 0 así que marcamos los demás como ocupados
         if (type != 0) {
+            occCount++;
             this.occup = true;
         }
         this.x = -1;
@@ -142,7 +146,7 @@ function checkFull() {
     }
     //El límite de items son 15, aquí usamos 67 porque también debemos contar los 52 tiles ocupados
     //en los que no podemos generar items
-    if (n < 52 + 15) {
+    if (n < occCount + itemLimit) {
         full = false;
     }
 }
@@ -216,6 +220,7 @@ function makeDamage(mago, bullet) {
     }
     bullet.kill();
     if (mago.mago.vida === 0) {
+        globalScore[mago.mago.color]++;
         mago.setActive(false);
         mago.setVisible(false);
         colision1.destroy();
@@ -417,7 +422,8 @@ class GameScene extends Phaser.Scene {
 
         //Lector de archivos de configuracion de mapa y selección de mapa.
         var arrayTile = leerConfig();
-        
+        occCount = 0;
+
         //Aquí generamos todos los tiles según el mapa cargado
         for (var i = 0; i < arrayTile.length; i++) {
             tiles[i] = new Tile(arrayTile[i]);
@@ -435,8 +441,7 @@ class GameScene extends Phaser.Scene {
                 this.physics.add.sprite(tiles[i].getX(), tiles[i].getY(), tileStr[tiles[i].getType()]);
             }
 
-            tiles[i].setPos(i % 20 * 64, 16 + Math.floor(i / 20) * 64)
-
+            tiles[i].setPos(i % 20 * 64, 16 + Math.floor(i / 20) * 64);
         }
 
         //A continuación vamos a definir los jugadores, añadirles los sprites y todos los temas de las físicas y colisiones con los muros
