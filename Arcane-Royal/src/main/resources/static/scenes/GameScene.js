@@ -29,6 +29,9 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 
+//Array de archivos de mapas
+var archivosMapas = [];
+
 //Referencias colisiones de los jugadores con las balas
 var colision1;
 var colision2;
@@ -140,19 +143,26 @@ function destroyBullet(bullet, wall) {
     bullet.destroy();
 }
 
+
 //lee la configuracion del mapa en txt
 function leerConfig(){
+    var fileRuta = [];
+    for(var x=0;x<5;x++){
+    fileRuta[x] = '../resources/maps/mapa'+(x+1)+'.txt';
+    archivosMapas[x] = fileRuta[x];
+    }
+    var mapselect = Math.random()*(archivosMapas.length-1)+1;//no va?
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
-    var fileRuta = '../resources/maps/mapa.txt';
+        archivoTXT.open("GET",archivosMapas[1],false);
+        archivoTXT.send(null);
+        var txt = archivoTXT.responseText;
+        for(var i = 0;i<txt.length;i++){
+            if(txt[i] != "\n" && txt[i] != '\r')
+            arrayData.push(parseInt(txt[i]));
+        }
     
-    archivoTXT.open("GET",fileRuta,false);
-    archivoTXT.send(null);
-    var txt = archivoTXT.responseText;
-    for(var i = 0;i<txt.length;i++){
-        if(txt[i] != "\n" && txt[i] != '\r')
-        arrayData.push(parseInt(txt[i]));
-    }
+    return arrayData;
 }
 
 //Se define lo que ocurre al coger un objeto
@@ -378,13 +388,13 @@ class GameScene extends Phaser.Scene {
 
         //lector de archivos de configuracion de mapa.
         
-        leerConfig();
+        var arrayTile = leerConfig(); //en teoria con esto vale
         
         //Aquí generamos todos los tiles, los inicializamos a 0 que es el tipo de tile vacío
-        for (var i = 0; i < 20 * 11; i++) {
-            tiles[i] = new Tile(0);
+        for (var i = 0; i < arrayTile.length; i++) {
+            tiles[i] = new Tile(arrayTile[i]);
         }
-
+/*      
         //Como el mapa es simetrico en dos ejes, solo hemos tomado las posiciones de los tiles del primer cuarto
         //del mapa que son del tipo 1
         var wallTilesQ1 = [42, 43, 63, 46, 66, 86, 106, 9, 29, 49, 109];
@@ -405,7 +415,7 @@ class GameScene extends Phaser.Scene {
             tiles[219 - i] = new Tile(3);
             tiles[218 - i] = new Tile(3);
         }
-
+*/
         var wall = this.physics.add.staticGroup();
         //Procedemos a asignar a cada tile su posición y a dibujarlos
         for (var i = 0; i < 20 * 11; i++) {
