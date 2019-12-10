@@ -299,20 +299,17 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
-        $.getJSON("http://jsonip.com?callback=?", function (data) {
-            connectionIP = data.ip;
-        });
-
-        connectionDate = new Date();
+    	connectionDate = new Date();
 
         var connection = {
             connected: true,
-            ip: connectionIP,
             date: connectionDate
         }
 
         createConnection(connection, function (connectionWithId) {
             connectionID = connectionWithId.id;
+            connectionIP = connectionWithId.ip;
+
         });
         //La variable orbes guarda un grupo con todos los objetos de los items, nos servirá mas adelante para las colisiones
         orbes = this.physics.add.group();
@@ -687,12 +684,8 @@ class GameScene extends Phaser.Scene {
 
 
 function createConnection(connection, callback) {
-
-    console.log("createConnection: " + JSON.stringify(connection));
-
-
     $.ajax({
-        url: "http://localhost:9090/connections",
+        url: "/connections",
         method: "POST",
         processData: false,
         data: JSON.stringify(connection),
@@ -708,7 +701,7 @@ function createConnection(connection, callback) {
 function updateConnection(connection) {
     $.ajax({
         method: 'PUT',
-        url: 'http://localhost:9090/connections/' + connection.id,
+        url: '/connections/' + connection.id,
         data: JSON.stringify(connection),
         processData: false,
         headers: {
