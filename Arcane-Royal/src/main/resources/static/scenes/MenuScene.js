@@ -13,6 +13,31 @@ class MenuScene extends Phaser.Scene {
     }
 
     create() {
+        connectionDate = new Date();
+
+        var connection = {
+            connected: true,
+            date: connectionDate
+        }
+
+        createConnection(connection, function (connectionWithId) {
+            connectionID = connectionWithId.id;
+            connectionIP = connectionWithId.ip;
+
+        });
+
+        var newConnection = {
+            text: 'conectado',
+        }
+
+        createMessage(newConnection, function (messageWithId) {
+
+        });
+
+        loadMessages(function (messages) {
+            numMsgs = messages.length - 1;
+        });
+
         this.add.image(this.game.renderer.width / 2 - 3, this.game.renderer.height * .40, "logo").setDepth(1);
         this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
         const playBtn = this.add.text(this.game.renderer.width * .40 - 72, this.game.renderer.height * 0.45, 'Jugar', {
