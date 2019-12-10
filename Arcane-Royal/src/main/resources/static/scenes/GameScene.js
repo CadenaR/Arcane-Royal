@@ -257,6 +257,7 @@ uiPos[0] = [0, 0];
 uiPos[1] = [1280-128, 0];
 uiPos[2] = [85, 16];
 uiPos[3] = [1280-84, 16];
+uiPos[4] = [1280/2-48,0];
 
 //=====GameScene=====
 class GameScene extends Phaser.Scene {
@@ -288,6 +289,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('azul3', "resources/Images/azul3hp.png");
         this.load.image('orbeUI', "resources/Images/orbe-interfaz.png");
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
+        this.load.image('puntosUI', "resources/Images/puntos interfaz.png")
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
@@ -490,6 +492,9 @@ class GameScene extends Phaser.Scene {
         cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
         cargaR.alpha=0.4;
         cargaA.alpha=0.4;
+
+        //interfaz de puntos
+        this.add.image(uiPos[4][0], uiPos[0][0], 'puntosUI').setOrigin(0,0);
 
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
