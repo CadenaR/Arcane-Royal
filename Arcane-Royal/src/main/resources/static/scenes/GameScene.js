@@ -64,7 +64,7 @@ class Mage {
         this.color=color;
         this.colorN=colorN;
         this.sprite = sprite;
-        this.vida = 1;
+        this.vida = vida;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
@@ -289,7 +289,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('azul3', "resources/Images/azul3hp.png");
         this.load.image('orbeUI', "resources/Images/orbe-interfaz.png");
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
-        this.load.image('puntosUI', "resources/Images/puntos interfaz.png")
+        this.load.image('puntosUI', "resources/Images/puntos interfaz.png");
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
@@ -488,13 +488,14 @@ class GameScene extends Phaser.Scene {
         this.add.image(uiPos[1][0], uiPos[1][1], 'UIbase2').setOrigin(0, 0);
         this.add.image(uiPos[0][0], uiPos[0][1], magoRojo.color + magoRojo.vida).setOrigin(0, 0);
         this.add.image(uiPos[1][0], uiPos[1][1], magoAzul.color + magoAzul.vida).setOrigin(0, 0);
+        this.add.image(uiPos[4][0], uiPos[0][0], 'puntosUI').setOrigin(0,0);
         cargaR = this.add.image(uiPos[2][0], uiPos[2][1], 'orbeUI');
         cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
+        
+        cargaR.scale=1.1;
+        cargaA.scale=1.1;
         cargaR.alpha=0.4;
         cargaA.alpha=0.4;
-
-        //interfaz de puntos
-        this.add.image(uiPos[4][0], uiPos[0][0], 'puntosUI').setOrigin(0,0);
 
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
