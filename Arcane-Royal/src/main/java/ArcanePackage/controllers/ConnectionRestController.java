@@ -1,6 +1,7 @@
 package ArcanePackage.controllers;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,17 @@ public class ConnectionRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Connection> addConnection(@RequestBody Connection connection) {
+	public ResponseEntity<Connection> addConnection(@RequestBody Connection connection, HttpServletRequest request) {
 		connection.setId(null);
+		//https://www.mkyong.com/java/how-to-get-client-ip-address-in-java/
+		String remoteAddr = "";
+		if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                connection.setIp(request.getRemoteAddr());
+            }
+        }
+		
 		Connection newConnection = repo.saveAndFlush(connection);
 		return new ResponseEntity<>(newConnection,HttpStatus.CREATED);
 	}
