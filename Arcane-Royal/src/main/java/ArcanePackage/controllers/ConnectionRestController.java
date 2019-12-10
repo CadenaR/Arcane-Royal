@@ -41,9 +41,10 @@ public class ConnectionRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Connection> updateConnection(@RequestBody Connection updatedConnection,
-			@PathVariable Integer id) {
+			@PathVariable Integer id, @PathVariable String user) {
 		
 		updatedConnection.setId(id);
+		updatedConnection.setUser(user);
 		Connection connection = repo.saveAndFlush(updatedConnection);
 		return new ResponseEntity<>(connection,HttpStatus.CREATED);
 	}

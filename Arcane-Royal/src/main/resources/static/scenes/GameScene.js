@@ -3,10 +3,14 @@
 
 var numMsgs;
 var noChating = true;
+var user = null;
 
 //Variables de los jugadores
 var magoAzul;
 var magoRojo;
+
+//Variables de conexión
+var newCon = false;
 
 //Variables globales de la escena
 var scene;
@@ -74,6 +78,12 @@ class Mage {
     updateCarga(v, alpha) {
         this.ataque = v;
         GameScene.prototype.updateCarga(this.colorN, alpha);
+    }
+    setEnemy(enemy) {
+        this.enemy = enemy;
+    }
+    getEnemy() {
+        return this.enemy;
     }
 }
 
@@ -220,7 +230,7 @@ function makeDamage(mago, bullet) {
     }
     bullet.kill();
     if (mago.mago.vida === 0) {
-        globalScore[mago.mago.color]++;
+        globalScore[mago.mago.getEnemy().colorN]++;
         mago.setActive(false);
         mago.setVisible(false);
         colision1.destroy();
@@ -247,6 +257,7 @@ uiPos[0] = [0, 0];
 uiPos[1] = [1280 - 128, 0];
 uiPos[2] = [85, 16];
 uiPos[3] = [1280 - 84, 16];
+uiPos[4] = [1280 / 2 - 48, 0];
 
 //=====GameScene=====
 class GameScene extends Phaser.Scene {
@@ -278,6 +289,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('azul3', "resources/Images/azul3hp.png");
         this.load.image('orbeUI', "resources/Images/orbe-interfaz.png");
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
+        this.load.image('puntosUI', "resources/Images/puntos interfaz.png");
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
@@ -441,6 +453,9 @@ class GameScene extends Phaser.Scene {
         magoRojo = new Mage('rojo', 0, this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"));
         magoAzul = new Mage('azul', 1, this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"));
 
+        magoAzul.setEnemy(magoRojo);
+        magoRojo.setEnemy(magoAzul);
+
         magoRojo.sprite.mago = magoRojo;
         magoAzul.sprite.mago = magoAzul;
 
@@ -466,8 +481,12 @@ class GameScene extends Phaser.Scene {
         this.add.image(uiPos[1][0], uiPos[1][1], 'UIbase2').setOrigin(0, 0);
         this.add.image(uiPos[0][0], uiPos[0][1], magoRojo.color + magoRojo.vida).setOrigin(0, 0);
         this.add.image(uiPos[1][0], uiPos[1][1], magoAzul.color + magoAzul.vida).setOrigin(0, 0);
+        this.add.image(uiPos[4][0], uiPos[0][0], 'puntosUI').setOrigin(0, 0);
         cargaR = this.add.image(uiPos[2][0], uiPos[2][1], 'orbeUI');
         cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
+
+        cargaR.scale = 1.1;
+        cargaA.scale = 1.1;
         cargaR.alpha = 0.4;
         cargaA.alpha = 0.4;
 
@@ -721,32 +740,3 @@ function createMessage(message, callback) {
         callback(message);
     })
 }
-
-// 
-/*
-//Mostrar mensaje en el chat
-function showOtherMessage(message) {
-    if (message.text == "conectado") {
-        showConnectMessage(message)
-    } else {
-        numMsgs++;
-        $('#myMessages').append(
-            '<div class="message-other"><span>' + message.text +
-            '</span> </div>')
-    }
-
-}
-
-function showMyMessage(message) {
-    numMsgs++;
-    $('#myMessages').append(
-        '<div class="message-mine"><span>' + message.text +
-        '</span> </div>')
-}
-
-function showConnectMessage(message) {
-    numMsgs++;
-    $('#myMessages').append(
-        '<div class="message-connection"><span>' + message.ip + ' ' + message.text +
-        '</span> </div>')
-}*/
