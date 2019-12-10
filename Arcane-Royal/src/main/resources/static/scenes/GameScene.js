@@ -1,8 +1,8 @@
 ﻿//=====Variables globales=====
 // Variables para API
-var connectionIP;
-var connectionID;
-var connectionDate;
+
+var numMsgs;
+var noChating = true;
 
 //Variables de los jugadores
 var magoAzul;
@@ -57,22 +57,22 @@ var cursors;
 //=====Clases=====
 class Mage {
     constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
-        this.color=color;
-        this.colorN=colorN;
+        this.color = color;
+        this.colorN = colorN;
         this.sprite = sprite;
         this.vida = vida;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
         this.mAngle = mAngle;
-        this.spriteEscudo = spriteEscudo;   
+        this.spriteEscudo = spriteEscudo;
     }
-    updateVida(v){
-        this.vida+=v;
+    updateVida(v) {
+        this.vida += v;
         GameScene.prototype.updateUI(this.color, this.colorN, this.vida);
     }
-    updateCarga(v, alpha){
-        this.ataque=v;
+    updateCarga(v, alpha) {
+        this.ataque = v;
         GameScene.prototype.updateCarga(this.colorN, alpha);
     }
 }
@@ -156,26 +156,26 @@ function destroyBullet(bullet, wall) {
 }
 
 //lee la configuracion del mapa en txt
-function leerConfig(){
+function leerConfig() {
     var fileRuta = [];
-    
-    for(var x=0;x<5;x++){
-        fileRuta[x] = '../resources/maps/mapa'+(x+1)+'.txt';
+
+    for (var x = 0; x < 5; x++) {
+        fileRuta[x] = '../resources/maps/mapa' + (x + 1) + '.txt';
         archivosMapas[x] = fileRuta[x];
     }
 
-    var mapselect = Math.floor(Math.random()*(archivosMapas.length-1)+1);//no va?
+    var mapselect = Math.floor(Math.random() * (archivosMapas.length - 1) + 1); //no va?
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
-    archivoTXT.open("GET",archivosMapas[mapselect],false);
+    archivoTXT.open("GET", archivosMapas[mapselect], false);
     archivoTXT.send(null);
     var txt = archivoTXT.responseText;
 
-    for(var i = 0;i<txt.length;i++){
-        if(txt[i] != "\n" && txt[i] != '\r')
-        arrayData.push(parseInt(txt[i]));
+    for (var i = 0; i < txt.length; i++) {
+        if (txt[i] != "\n" && txt[i] != '\r')
+            arrayData.push(parseInt(txt[i]));
     }
-    
+
     return arrayData;
 }
 
@@ -244,9 +244,9 @@ tileStr[3] = 'baseazul';
 
 //uiPos contiene la posición de la interfaz del jugador 1 y la del 2.
 uiPos[0] = [0, 0];
-uiPos[1] = [1280-128, 0];
+uiPos[1] = [1280 - 128, 0];
 uiPos[2] = [85, 16];
-uiPos[3] = [1280-84, 16];
+uiPos[3] = [1280 - 84, 16];
 
 //=====GameScene=====
 class GameScene extends Phaser.Scene {
@@ -254,7 +254,7 @@ class GameScene extends Phaser.Scene {
         super("gameScene");
         scene = this;
     }
-    preload() {        
+    preload() {
         this.load.image('wall', "resources/Images/barril2.png");
         this.load.image('ground', "resources/Images/tile2.png");
         this.load.image('orbe1', "resources/Images/orbe1.png");
@@ -299,18 +299,14 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
-    	connectionDate = new Date();
 
-        var connection = {
-            connected: true,
-            date: connectionDate
-        }
 
-        createConnection(connection, function (connectionWithId) {
-            connectionID = connectionWithId.id;
-            connectionIP = connectionWithId.ip;
+        loadMessages(function (messages) {
+            numMsgs = messages.length - 1;
 
         });
+
+
         //La variable orbes guarda un grupo con todos los objetos de los items, nos servirá mas adelante para las colisiones
         orbes = this.physics.add.group();
 
@@ -472,8 +468,8 @@ class GameScene extends Phaser.Scene {
         this.add.image(uiPos[1][0], uiPos[1][1], magoAzul.color + magoAzul.vida).setOrigin(0, 0);
         cargaR = this.add.image(uiPos[2][0], uiPos[2][1], 'orbeUI');
         cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
-        cargaR.alpha=0.4;
-        cargaA.alpha=0.4;
+        cargaR.alpha = 0.4;
+        cargaA.alpha = 0.4;
 
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
@@ -573,154 +569,184 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        //Definimos las teclas que usa el jugador 1 y sus efectos
-        if (magoRojo.vida > 0) {
-            //Movimiento del jugador
-            if (cursors.A.isDown) {
-                magoRojo.mAngle = 180;
-                magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
-                magoRojo.sprite.anims.play('left_red', true);
-                magoRojo.sprite.setVelocityY(0);
-            } else if (cursors.D.isDown) {
-                magoRojo.mAngle = 0;
-                magoRojo.sprite.setVelocityX(magoRojo.velocidad);
-                magoRojo.sprite.anims.play('right_red', true);
-                magoRojo.sprite.setVelocityY(0);
-            } else if (cursors.W.isDown) {
-                magoRojo.mAngle = 270;
-                magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
-                magoRojo.sprite.anims.play('up_red', true);
-                magoRojo.sprite.setVelocityX(0);
-            } else if (cursors.S.isDown) {
-                magoRojo.mAngle = 90;
-                magoRojo.sprite.setVelocityY(magoRojo.velocidad);
-                magoRojo.sprite.anims.play('down_red', true);
-                magoRojo.sprite.setVelocityX(0);
-            } else {
-                magoRojo.sprite.body.velocity.x = 0;
-                magoRojo.sprite.body.velocity.y = 0;
-            }
-            //Ataque
-            if (cursors.Q.isDown && magoRojo.ataque) {
-                var bullet = bullets1.get();
-                if (bullet) {
-                    bullet.fire(magoRojo);
-                    magoRojo.updateCarga(false, 0.4);
+        if (numMsgs >= 0) {
+            loadMessages(function (messages) {
+                for (var i = numMsgs + 1; i < messages.length; i++) {
+                    showOtherMessage(messages[i]);
                 }
-            }
-            //Escudo
-            if (magoRojo.escudo) {
-                magoRojo.spriteEscudo.x = magoRojo.sprite.x;
-                magoRojo.spriteEscudo.y = magoRojo.sprite.y;
-                escudoTime--;
-                if (escudoTime <= 0) {
-                    magoRojo.escudo = false;
-                    magoRojo.spriteEscudo.setActive(false)
-                    magoRojo.spriteEscudo.setVisible(false);
-                }
-            }
-        }
-        //Definimos las teclas que usa el jugador 2 y sus efectos
-        if (magoAzul.vida > 0) {
-            if (cursors.J.isDown) {
-                magoAzul.mAngle = 180;
-                magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
-                magoAzul.sprite.anims.play('left_blue', true);
-                magoAzul.sprite.setVelocityY(0);
-            } else if (cursors.L.isDown) {
-                magoAzul.mAngle = 0;
-                magoAzul.sprite.setVelocityX(magoAzul.velocidad);
-                magoAzul.sprite.anims.play('right_blue', true);
-                magoAzul.sprite.setVelocityY(0);
-            } else if (cursors.I.isDown) {
-                magoAzul.mAngle = 270;
-                magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
-                magoAzul.sprite.anims.play('up_blue', true);
-                magoAzul.sprite.setVelocityX(0);
-            } else if (cursors.K.isDown) {
-                magoAzul.mAngle = 90;
-                magoAzul.sprite.setVelocityY(magoAzul.velocidad);
-                magoAzul.sprite.anims.play('down_blue', true);
-                magoAzul.sprite.setVelocityX(0);
-            } else {
-                magoAzul.sprite.body.velocity.x = 0;
-                magoAzul.sprite.body.velocity.y = 0;
-            }
-            if (cursors.O.isDown && magoAzul.ataque) {
-                var bullet = bullets2.get();
 
-                if (bullet) {
-                    bullet.fire(magoAzul);
-                    magoAzul.updateCarga(false, 0.4);
+            });
+
+        }
+        if ($(".value-input").is(":focus")) {
+            noChating = false;
+        } else {
+            noChating = true;
+        }
+
+        if (noChating) {
+            //Definimos las teclas que usa el jugador 1 y sus efectos
+            if (magoRojo.vida > 0) {
+                //Movimiento del jugador
+                if (cursors.A.isDown) {
+                    magoRojo.mAngle = 180;
+                    magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
+                    magoRojo.sprite.anims.play('left_red', true);
+                    magoRojo.sprite.setVelocityY(0);
+                } else if (cursors.D.isDown) {
+                    magoRojo.mAngle = 0;
+                    magoRojo.sprite.setVelocityX(magoRojo.velocidad);
+                    magoRojo.sprite.anims.play('right_red', true);
+                    magoRojo.sprite.setVelocityY(0);
+                } else if (cursors.W.isDown) {
+                    magoRojo.mAngle = 270;
+                    magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
+                    magoRojo.sprite.anims.play('up_red', true);
+                    magoRojo.sprite.setVelocityX(0);
+                } else if (cursors.S.isDown) {
+                    magoRojo.mAngle = 90;
+                    magoRojo.sprite.setVelocityY(magoRojo.velocidad);
+                    magoRojo.sprite.anims.play('down_red', true);
+                    magoRojo.sprite.setVelocityX(0);
+                } else {
+                    magoRojo.sprite.body.velocity.x = 0;
+                    magoRojo.sprite.body.velocity.y = 0;
+                }
+                //Ataque
+                if (cursors.Q.isDown && magoRojo.ataque) {
+                    var bullet = bullets1.get();
+                    if (bullet) {
+                        bullet.fire(magoRojo);
+                        magoRojo.updateCarga(false, 0.4);
+                    }
+                }
+                //Escudo
+                if (magoRojo.escudo) {
+                    magoRojo.spriteEscudo.x = magoRojo.sprite.x;
+                    magoRojo.spriteEscudo.y = magoRojo.sprite.y;
+                    escudoTime--;
+                    if (escudoTime <= 0) {
+                        magoRojo.escudo = false;
+                        magoRojo.spriteEscudo.setActive(false)
+                        magoRojo.spriteEscudo.setVisible(false);
+                    }
                 }
             }
-            if (magoAzul.escudo) {
-                magoAzul.spriteEscudo.x = magoAzul.sprite.x;
-                magoAzul.spriteEscudo.y = magoAzul.sprite.y;
-                escudoTime--;
-                if (escudoTime <= 0) {
-                    magoAzul.escudo = false;
-                    magoAzul.spriteEscudo.setActive(false)
-                    magoAzul.spriteEscudo.setVisible(false);
+            //Definimos las teclas que usa el jugador 2 y sus efectos
+            if (magoAzul.vida > 0) {
+                if (cursors.J.isDown) {
+                    magoAzul.mAngle = 180;
+                    magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
+                    magoAzul.sprite.anims.play('left_blue', true);
+                    magoAzul.sprite.setVelocityY(0);
+                } else if (cursors.L.isDown) {
+                    magoAzul.mAngle = 0;
+                    magoAzul.sprite.setVelocityX(magoAzul.velocidad);
+                    magoAzul.sprite.anims.play('right_blue', true);
+                    magoAzul.sprite.setVelocityY(0);
+                } else if (cursors.I.isDown) {
+                    magoAzul.mAngle = 270;
+                    magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
+                    magoAzul.sprite.anims.play('up_blue', true);
+                    magoAzul.sprite.setVelocityX(0);
+                } else if (cursors.K.isDown) {
+                    magoAzul.mAngle = 90;
+                    magoAzul.sprite.setVelocityY(magoAzul.velocidad);
+                    magoAzul.sprite.anims.play('down_blue', true);
+                    magoAzul.sprite.setVelocityX(0);
+                } else {
+                    magoAzul.sprite.body.velocity.x = 0;
+                    magoAzul.sprite.body.velocity.y = 0;
+                }
+                if (cursors.O.isDown && magoAzul.ataque) {
+                    var bullet = bullets2.get();
+
+                    if (bullet) {
+                        bullet.fire(magoAzul);
+                        magoAzul.updateCarga(false, 0.4);
+                    }
+                }
+                if (magoAzul.escudo) {
+                    magoAzul.spriteEscudo.x = magoAzul.sprite.x;
+                    magoAzul.spriteEscudo.y = magoAzul.sprite.y;
+                    escudoTime--;
+                    if (escudoTime <= 0) {
+                        magoAzul.escudo = false;
+                        magoAzul.spriteEscudo.setActive(false)
+                        magoAzul.spriteEscudo.setVisible(false);
+                    }
                 }
             }
         }
     }
 
-    updateUI(color, colorN, vida){
-        scene.add.image(uiPos[colorN][0], uiPos[colorN][1], color+vida).setOrigin(0, 0);
+    updateUI(color, colorN, vida) {
+        scene.add.image(uiPos[colorN][0], uiPos[colorN][1], color + vida).setOrigin(0, 0);
     }
 
-    updateCarga(color, alpha){
-        if (color==0){
-            cargaR.alpha=alpha;
-        }
-        else if (color==1){
-            cargaA.alpha=alpha;
+    updateCarga(color, alpha) {
+        if (color == 0) {
+            cargaR.alpha = alpha;
+        } else if (color == 1) {
+            cargaA.alpha = alpha;
         }
     }
 }
 
 
 
-function createConnection(connection, callback) {
-    $.ajax({
-        url: "/connections",
-        method: "POST",
-        processData: false,
-        data: JSON.stringify(connection),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (response) {
-        callback(response);
-    });
 
-}
 
-function updateConnection(connection) {
+
+//Carga de mensajes desde servidor
+function loadMessages(callback) {
     $.ajax({
-        method: 'PUT',
-        url: '/connections/' + connection.id,
-        data: JSON.stringify(connection),
-        processData: false,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (connection) {
-        console.log("Updated item: " + JSON.stringify(connection))
+        url: '/messages'
+    }).done(function (message) {
+        callback(message);
     })
 }
 
-$(window).on("beforeunload", function () {
-    var updatedConnection = {
-        id: connectionID,
-        connected: false,
-        ip: connectionIP,
-        date: connectionDate
+//Crear mensaje en el servidor
+function createMessage(message, callback) {
+    $.ajax({
+        method: "POST",
+        url: '/messages',
+        data: JSON.stringify(message),
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function (message) {
+        callback(message);
+    })
+}
 
+// 
+/*
+//Mostrar mensaje en el chat
+function showOtherMessage(message) {
+    if (message.text == "conectado") {
+        showConnectMessage(message)
+    } else {
+        numMsgs++;
+        $('#myMessages').append(
+            '<div class="message-other"><span>' + message.text +
+            '</span> </div>')
     }
-    updateConnection(updatedConnection);
 
-    return null;
-});
+}
+
+function showMyMessage(message) {
+    numMsgs++;
+    $('#myMessages').append(
+        '<div class="message-mine"><span>' + message.text +
+        '</span> </div>')
+}
+
+function showConnectMessage(message) {
+    numMsgs++;
+    $('#myMessages').append(
+        '<div class="message-connection"><span>' + message.ip + ' ' + message.text +
+        '</span> </div>')
+}*/
