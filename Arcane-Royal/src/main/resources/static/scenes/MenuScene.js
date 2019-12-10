@@ -8,7 +8,6 @@ class MenuScene extends Phaser.Scene {
     }
 
     create() {
-
         this.add.image(this.game.renderer.width / 2-3, this.game.renderer.height * .40, "logo").setDepth(1);
         this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
         const playBtn = this.add.text(this.game.renderer.width * .40-72, this.game.renderer.height * 0.45, 'Jugar', {
@@ -32,7 +31,7 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         playBtn.on('pointerdown', () => {
-            this.scene.start("gameScene");
+            this.scene.start("loginScene");
         });
         
         const controlBtn = this.add.text(this.game.renderer.width * .31 - 75 - 55 + 11, this.game.renderer.height * 0.6, 'Controles', {

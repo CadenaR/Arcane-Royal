@@ -9,6 +9,9 @@ public class Connection {
 	private Integer id;
 	
 	@Column
+	private String userName;
+	
+	@Column
 	private boolean connected;
 	
 	@Column
@@ -23,6 +26,14 @@ public class Connection {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getUser() {
+		return this.userName;
+	}
+	
+	public void setUser (String user) {
+		this.userName=user;
 	}
 
 	public boolean isConnected() {

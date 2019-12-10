@@ -3,10 +3,14 @@
 var connectionIP;
 var connectionID;
 var connectionDate;
+var user=null;
 
 //Variables de los jugadores
 var magoAzul;
 var magoRojo;
+
+//Variables de conexión
+var newCon=false;
 
 //Variables globales de la escena
 var scene;
@@ -60,12 +64,12 @@ class Mage {
         this.color=color;
         this.colorN=colorN;
         this.sprite = sprite;
-        this.vida = vida;
+        this.vida = 1;
         this.escudo = escudo;
         this.ataque = ataque;
         this.velocidad = velocidad;
         this.mAngle = mAngle;
-        this.spriteEscudo = spriteEscudo;   
+        this.spriteEscudo = spriteEscudo;
     }
     updateVida(v){
         this.vida+=v;
@@ -74,6 +78,12 @@ class Mage {
     updateCarga(v, alpha){
         this.ataque=v;
         GameScene.prototype.updateCarga(this.colorN, alpha);
+    }
+    setEnemy(enemy){
+        this.enemy=enemy;
+    }
+    getEnemy(){
+        return this.enemy;
     }
 }
 
@@ -220,7 +230,7 @@ function makeDamage(mago, bullet) {
     }
     bullet.kill();
     if (mago.mago.vida === 0) {
-        globalScore[mago.mago.color]++;
+        globalScore[mago.mago.getEnemy().colorN]++;
         mago.setActive(false);
         mago.setVisible(false);
         colision1.destroy();
@@ -448,6 +458,9 @@ class GameScene extends Phaser.Scene {
         magoRojo = new Mage('rojo', 0, this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"));
         magoAzul = new Mage('azul', 1, this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"));
 
+        magoAzul.setEnemy(magoRojo);
+        magoRojo.setEnemy(magoAzul);
+
         magoRojo.sprite.mago = magoRojo;
         magoAzul.sprite.mago = magoAzul;
 
@@ -576,6 +589,14 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+        /*if(newCon){
+            this.add.text(0,10,'Conectado', {
+                fontSize: '80px',
+                fill: '#000',
+                align: "center",
+            });
+            newCon=false;
+        }*/
         //Definimos las teclas que usa el jugador 1 y sus efectos
         if (magoRojo.vida > 0) {
             //Movimiento del jugador
@@ -666,7 +687,7 @@ class GameScene extends Phaser.Scene {
                     magoAzul.spriteEscudo.setActive(false)
                     magoAzul.spriteEscudo.setVisible(false);
                 }
-            }
+            }        
         }
     }
 
@@ -684,12 +705,9 @@ class GameScene extends Phaser.Scene {
     }
 }
 
-
-
 function createConnection(connection, callback) {
-
     console.log("createConnection: " + JSON.stringify(connection));
-
+    newCon=true;
 
     $.ajax({
         url: "http://localhost:9090/connections",
@@ -722,10 +740,10 @@ function updateConnection(connection) {
 $(window).on("beforeunload", function () {
     var updatedConnection = {
         id: connectionID,
+        userName: user,
         connected: false,
         ip: connectionIP,
         date: connectionDate
-
     }
     updateConnection(updatedConnection);
 

@@ -2,6 +2,9 @@ var config = {
     width: 1280,
     height: 720,
     backgroundColor: 0x000000,
+    dom: {
+        createContainer: true
+    },
    // scale : {
     //    mode : Phaser.Scale.RESIZE,
      //   autoCenter : Phaser.Scale.CENTER_BOTH
@@ -12,7 +15,7 @@ var config = {
           gravity: false
         }
     },
-    scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene]
+    scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene,LoginScene]
 }
 
 var game = new Phaser.Game(config);
