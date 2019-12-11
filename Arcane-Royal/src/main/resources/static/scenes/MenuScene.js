@@ -188,7 +188,7 @@ function showOtherMessage(message) {
     } else {
         numMsgs++;
         $('#myMessages').append(
-            '<div class="message-other"><span>' + message.text +
+            '<div class="message-other"><span>' + message.ip + ': <br>' + message.text +
             '</span> </div>')
     }
 

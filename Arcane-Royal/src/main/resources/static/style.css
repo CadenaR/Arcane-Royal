@@ -33,14 +33,14 @@
 
 .message-mine {
     text-align: right;
-    background-color: aquamarine;
+    background-color: rgb(127, 255, 223);
     border-radius: 10%;
     margin: 1px;
 }
 
 .message-other {
     text-align: left;
-    background-color: burlywood;
+    background-color: rgb(135, 219, 222);
     border-radius: 10%;
     margin: 1px;
 }
