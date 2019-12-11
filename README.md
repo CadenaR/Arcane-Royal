@@ -179,8 +179,7 @@ Para correr el proyecto, volvemos a hacer click derecho en él, nos vamos a Run 
 
 #### Diagrama de navegación
 
-</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Navegación.jpg
-" width="200">
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Navegación.jpg" width="600">
 
 #### Diagrama de clases de Java
 
