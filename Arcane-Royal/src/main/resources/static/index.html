@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="ISO-8859-1">
     <link rel="stylesheet" type="text/css" href="style.css">
     <span style="font-family: 'mifuente'"></span>
     <script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -20,6 +21,11 @@
 <body>
 
     <div class="chat" id="myForm" style="display: block;">
+        <div class="login">
+            <input type="text" placeholder="Introduce aquí tu usuario" id="userInput" name="username">
+            <button type="submit" id="user" class="btn">Enviar</button>
+        </div>
+
         <h1>Chat</h1>
         <div class="messages" id="myMessages">
 

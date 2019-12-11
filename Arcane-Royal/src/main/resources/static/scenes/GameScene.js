@@ -1,9 +1,9 @@
 ﻿//=====Variables globales=====
 // Variables para API
-
 var numMsgs;
 var noChating = true;
 var user = null;
+var user2;
 
 //Variables de los jugadores
 var magoAzul;
