@@ -129,6 +129,30 @@ Hemos implementado un sistema de colisiones, para que el personaje no se mueva p
 
 Como parte final, cabe destacar que principalmente queremos implementar los diferentes menús (pausa , opciones, controles, créditos etc..), sonidos, interfaz de juego para indicar información en partidas, nuevo mapa.
 
+#### Fase 3: Implementando características API Rest y mejoras respecto a la versión anterior
+
+#### Cambios en la versión local
+
+Uno de los cambios más importantes ha sido la adición de nuevos mapas, se han añadido 4 mapas a la versión anterior, lo que hace que junto con el mapa original, tengamos ahora un total de 5 mapas. Además es posible añadir nuevos mapas facilmente ya que estos se hacen mediante archivos .txt, el programa lee estos archivos y pinta los tiles en su correspondiente posición, por lo que los maps agregados son facilmente modificables y también podemos añadir nuevos mapas facilmente si así lo deseamos.
+
+Relacionado con esto también hemos implementado una partida jugable completa, esto es, al comenzar la partida se jugará un mapa hasta que uno de los magos mate al otro. Al lograrlo, se le añadirá un punto al mago que haya salido victorioso y se cargará el siguiente mapa (los mapas, tanto el primero como los siguientes se cargarán de forma aleatoria eligiendo uno de los 5 mapas implementados). Los magos seguirán compitiendo hasta que uno de ellos logre un total de 5 puntos, después de esto regresaremos al menú principal (tenemos pensado implementar una pantalla de puntuaciones más adelante para que ambos jugadores puedan ver su rendimiento en la partida).
+
+También hemos hecho una mejora considerable de los gráficos del juego, hemos cambiado los tiles por completo y hemos agregado la interfaz que faltaba en la versión anterior, esta interfaz le da al jugador información sobre su estado y el estado de la partida, le muestra los puntos de cada mago en la partida, su barra de salud y si dispone de una carga para poder disparar.
+
+Además de esto, hemos cambiado el fondo del menú, la fuente de las letras y hemos agregado nuevas pantallas, una de controles (que le muestra al jugador como se juega), una de créditos (en la que salen nuestros nombres) y una pantalla para introducir el usuario que aparece después de darle a Jugar (aunque no hemos podido terminarla completamente porque hemos tenido problemas para meter un textfield en medio de la pantalla).
+
+Además hemos corregido algunos errores que había con la generación de ítems y hemos mejorado las colisiones con los bordes del mapa, también es posible volver al menú principal en medio de una partida pulsando la tecla Escape.
+
+Y por último, aunque no los hemos podido implementar, hemos buscado efectos de sonido y música para el juego, pero Phaser nos ha dado problemas para implementarlos, por lo que actualmente no están en esta versión.
+
+#### Implementación de características de red usando API Rest
+
+Hemos implementado las primeras funcionalidades de red a nuestro juego, la primera de ellas es una lista de conexiones, el juego detecta cuando un nuevo jugador se une a la partida y cuando se desconecta. 
+
+Todo esto lo pueden ver los jugadores en el chat, el cual es la otra función que hemos implementado, los jugadores pueden mandarse mensajes desde una ventanita que aparece a la derecha del juego y en la que se muestran tus mensajes y los del resto de jugadores conectados contigo.
+
+También hemos implementado la posibilidad de que los usuarios puedan asignarse un nombre de usuario en el chat y en el juego, esto permite que los demás jugadores vean nuestro nombre en el chat cuando escribimos, de lo contrario se mostrará Anónimo como nombre identificativo del jugador. Respecto a esto hemos restringido el juego para que solo puedas comenzar a jugar si te asignas un nombre de usuario.
+
 #### Integrantes:
 
 Rodrigo Cadena Rodríguez \
