@@ -20,22 +20,22 @@ Controles simplificados, aspecto agradable, partidas rápidas e intensas, multij
 El jugador toma el control de su avatar (El mago). Una vez todos los magos estén reunidos, participaran en distintas fases del torneo de hechizos. El jugador experimentará una experiencia de juego frenética y divertida, en la que las partidas sean breves e intensas, lo que hará que quiera seguir jugando “una ronda más”. Además, al jugar con amigos es mucho más entretenido ya que podrán interactuar de forma competitiva.
 
 #### Estilo artístico: 
-<img src="src/resources/Images/IMG_20191007_134016.jpg" width="400"> 
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/IMG_20191007_134016.jpg" width="400"> 
 
 En esta primera pantalla encontraremos el logotipo del juego junto al cuadro de texto para introducir nuestro usuario. También podremos encontrar un botón de ayuda y un botón para iniciar la sesión.
 
 
-<img src="src/resources/Images/IMG_20191007_134031.jpg" width="400">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/IMG_20191007_134031.jpg" width="400">
 
 La segunda pantalla representa lo que el jugador encontrará al iniciar la sesión. Esperará en una sala junto a otros jugadores. En la sala tendrá un botón para decir que está listo para jugar, a lo que una vez estén todos listos comenzará la partida tras una cuenta atrás. También puede encontrar un selector de estadísticas para personalizar su personaje.
 
 
-<img src="src/resources/Images/IMG_20191007_134039.jpg" width="400">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/IMG_20191007_134039.jpg" width="400">
 
 Tras la pantalla de sala de espera se desarrollará la partida, en la que interactuamos con el mapa usando el ratón y podremos ver las distintas habilidades en la interfaz de usuario
 
 
-<img src="src/resources/Images/IMG_20191007_134044.jpg" width="400">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/IMG_20191007_134044.jpg" width="400">
 
 Por último, al acabar las rondas correspondientes, se hará recuento de puntos y se pasará a la pantalla de puntuaciones mostrando un ranking de jugadores.
 
@@ -87,35 +87,35 @@ Modo gran torneo: Se podrían agregar torneos al juego basándose en el modo por
 
 #### Fase 2: Desarrollo de juego en local
 
-<img src="src/resources/Images/logoArcane.png">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/logoArcane.png">
 
-<img src="src/resources/Images/sky2.jpg" width="500"> 
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/sky2.jpg" width="500"> 
 
 #### Escena de Menú principal
 
-<img src="src/resources/Images/menu1.png" width="800">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/menu1.png" width="800">
 
 ###### Sprites obtenidos de https://opengameart.org
 
-<img src="src/resources/Images/mago-azulupdown.png" width="500">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/mago-azulupdown.png" width="500">
 
-<img src="src/resources/Images/mago-azul.png" width="500">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/mago-azul.png" width="500">
 
-<img src="src/resources/Images/mago-rojoupdown.png" width="500">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/mago-rojoupdown.png" width="500">
 
-<img src="src/resources/Images/mago-rojo.png" width="500">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/mago-rojo.png" width="500">
 
 #### Sprites creados por nosotros
 
-<img src="src/resources/Images/fireball.png" width="100">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/fireball.png" width="100">
 
-<img src="src/resources/Images/barril2.png" width="100"> <img src="src/resources/Images/baseazul.png" width="100"> <img src="src/resources/Images/baseroja.png" width="100"> 
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/barril2.png" width="100"> <img src="Arcane-Royal/src/main/resources/static/resources/Images/baseazul.png" width="100"> <img src="Arcane-Royal/src/main/resources/static/resources/Images/baseroja.png" width="100"> 
 
-<img src="src/resources/Images/orbe1.png" width="100"> <img src="src/resources/Images/orbe2.png" width="100"> <img src="src/resources/Images/orbe3.png" width="100">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/orbe1.png" width="100"> <img src="Arcane-Royal/src/main/resources/static/resources/Images/orbe2.png" width="100"> <img src="Arcane-Royal/src/main/resources/static/resources/Images/orbe3.png" width="100">
 
 #### Escena de Juego
 
-<img src="src/resources/Images/game1.png" width="800">
+<img src="Arcane-Royal/src/main/resources/static/resources/Images/game1.png" width="800">
 
 #### Desarrollo de la fase 2
 
@@ -135,11 +135,20 @@ Como parte final, cabe destacar que principalmente queremos implementar los dife
 
 Uno de los cambios más importantes ha sido la adición de nuevos mapas, se han añadido 4 mapas a la versión anterior, lo que hace que junto con el mapa original, tengamos ahora un total de 5 mapas. Además es posible añadir nuevos mapas facilmente ya que estos se hacen mediante archivos .txt, el programa lee estos archivos y pinta los tiles en su correspondiente posición, por lo que los maps agregados son facilmente modificables y también podemos añadir nuevos mapas facilmente si así lo deseamos.
 
+Mapas añadidos y su versión en el txt:
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/mapas.png" width="2400">
+
 Relacionado con esto también hemos implementado una partida jugable completa, esto es, al comenzar la partida se jugará un mapa hasta que uno de los magos mate al otro. Al lograrlo, se le añadirá un punto al mago que haya salido victorioso y se cargará el siguiente mapa (los mapas, tanto el primero como los siguientes se cargarán de forma aleatoria eligiendo uno de los 5 mapas implementados). Los magos seguirán compitiendo hasta que uno de ellos logre un total de 5 puntos, después de esto regresaremos al menú principal (tenemos pensado implementar una pantalla de puntuaciones más adelante para que ambos jugadores puedan ver su rendimiento en la partida).
 
 También hemos hecho una mejora considerable de los gráficos del juego, hemos cambiado los tiles por completo y hemos agregado la interfaz que faltaba en la versión anterior, esta interfaz le da al jugador información sobre su estado y el estado de la partida, le muestra los puntos de cada mago en la partida, su barra de salud y si dispone de una carga para poder disparar.
 
+Así se ve el juego actualmente:
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Juego.png" width="800">
+
 Además de esto, hemos cambiado el fondo del menú, la fuente de las letras y hemos agregado nuevas pantallas, una de controles (que le muestra al jugador como se juega), una de créditos (en la que salen nuestros nombres) y una pantalla para introducir el usuario que aparece después de darle a Jugar (aunque no hemos podido terminarla completamente porque hemos tenido problemas para meter un textfield en medio de la pantalla).
+
+Pantallas del menú actualmente (Menú, Controles, Créditos y pantalla inacabada de introducción del nombre de usuario respectivamente):
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Menú.png" width="200"><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Controles.png" width="200"><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Créditos.png" width="200"><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Usuario.png" width="200">
 
 Además hemos corregido algunos errores que había con la generación de ítems y hemos mejorado las colisiones con los bordes del mapa, también es posible volver al menú principal en medio de una partida pulsando la tecla Escape.
 
@@ -152,6 +161,9 @@ Hemos implementado las primeras funcionalidades de red a nuestro juego, la prime
 Todo esto lo pueden ver los jugadores en el chat, el cual es la otra función que hemos implementado, los jugadores pueden mandarse mensajes desde una ventanita que aparece a la derecha del juego y en la que se muestran tus mensajes y los del resto de jugadores conectados contigo.
 
 También hemos implementado la posibilidad de que los usuarios puedan asignarse un nombre de usuario en el chat y en el juego, esto permite que los demás jugadores vean nuestro nombre en el chat cuando escribimos, de lo contrario se mostrará Anónimo como nombre identificativo del jugador. Respecto a esto hemos restringido el juego para que solo puedas comenzar a jugar si te asignas un nombre de usuario.
+
+Funciones de red implementadas (todas son visibles en el chat):
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Chat.png" width="200">
 
 #### Integrantes:
 
