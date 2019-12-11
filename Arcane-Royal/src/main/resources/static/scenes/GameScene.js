@@ -15,6 +15,7 @@ var newCon = false;
 //Variables globales de la escena
 var scene;
 var globalScore = [0, 0];
+var gameWin = 5; // rondas de victoria
 
 //Variables de la UI
 var uiPos = [];
@@ -235,6 +236,48 @@ function makeDamage(mago, bullet) {
         mago.setVisible(false);
         colision1.destroy();
         colision2.destroy();
+        if(globalScore[0]!=gameWin||globalScore[1]!=gameWin){
+            this.scene.start(
+               'gameScene',
+                 2000
+            );
+        }
+        if(globalScore[0]===gameWin){
+            
+        globalScore[0]=0;
+        globalScore[1]=0;
+            console.log("rojo gana");
+            var message = {
+                text: "Ha ganado: Mago Rojo",
+            }
+            showMyMessage("Ha ganado: Mago Rojo");
+            createMessage(message, function (messageWithId) {
+
+        });
+
+        this.scene.start(
+            'menuScene',
+            3000
+        );
+        }
+        
+        if(globalScore[1]===gameWin){
+            console.log("azul gana");
+            
+            globalScore[0]=0;
+            globalScore[1]=0;
+            var message = {
+                text: "Ha ganado: Mago Azul",
+            }
+            showMyMessage("Ha ganado: Mago Azul");
+            createMessage(message, function (messageWithId) {
+
+            });
+            this.scene.start(
+                'menuScene',
+                 3000
+            );
+        }
     }
 }
 
@@ -260,7 +303,7 @@ uiPos[3] = [1280 - 84, 16];
 uiPos[4] = [1280 / 2 - 48, 0];
 
 //=====GameScene=====
-class GameScene extends Phaser.Scene {
+class GameScene extends Phaser.Scene{
     constructor() {
         super("gameScene");
         scene = this;
@@ -484,6 +527,9 @@ class GameScene extends Phaser.Scene {
         this.add.image(uiPos[4][0], uiPos[0][0], 'puntosUI').setOrigin(0, 0);
         cargaR = this.add.image(uiPos[2][0], uiPos[2][1], 'orbeUI');
         cargaA = this.add.image(uiPos[3][0], uiPos[3][1], 'orbeUI');
+
+        this.add.text(uiPos[4][0]+16,uiPos[0][1]+5,globalScore[0].toString(),{fontSize: 18,color:"#F88", fontFamily: 'mifuente'});
+        this.add.text(uiPos[4][0]+60,uiPos[0][1]+5,globalScore[1].toString(),{fontSize: 18,color:"#88F", fontFamily: 'mifuente'});
 
         cargaR.scale = 1.1;
         cargaA.scale = 1.1;
