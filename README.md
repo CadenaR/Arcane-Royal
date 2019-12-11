@@ -165,6 +165,27 @@ También hemos implementado la posibilidad de que los usuarios puedan asignarse 
 Funciones de red implementadas (todas son visibles en el chat):
 </br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Chat.png" width="200">
 
+#### Instrucciones para cargar el proyecto
+
+Para testear y desarrollar el proyecto, hemos empleado Spring Tools Suite 4 en su versión para Eclipse, por lo tanto recomendamos usar este programa para probar el juego.
+
+Una vez instalado el programa, procedemos a seleccionar el directorio de donde está todo el proyecto como el directorio de Workplace de Spring Tools Suite.
+
+Sin embargo, aún con el directorio seleccionado, Spring Tools Suite 4 no nos detecta el proyecto por lo que tenemos que irnos a File, Open Projects from file System, luego le damos a Directory... y seleccionamos el directorio en el que está todo y procedemos a importar.
+
+Ahora, queremos que Maven detecte el proyecto, por lo que en la  ventanita de la izquierda en la que aparecen los directorios del proyecto, le damos click derecho al proyecto y nos vamos a Maven y a Update Project..., se empezará a cargar un proceso de Maven para identificar los archivos de nuestro proyecto y al terminar podremos cargarlo por fin.
+
+Para correr el proyecto, volvemos a hacer click derecho en él, nos vamos a Run as y le damos a Spring Boot Camp. A continuación podremos ejecutar el juego en un local host, en el puerto 9090 (url: localhost:9090). Si queremos probar las funcionalidades en red del chat, podemos abrir varias pestañas (aunque probarlo así hará que sucedan algunos fallos).
+
+#### Diagrama de navegación
+
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Navegación.jpg
+" width="200">
+
+#### Diagrama de clases de Java
+
+
+
 #### Integrantes:
 
 Rodrigo Cadena Rodríguez \
