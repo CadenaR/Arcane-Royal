@@ -183,7 +183,7 @@ Para correr el proyecto, volvemos a hacer click derecho en él, nos vamos a Run 
 
 #### Diagrama de clases de Java
 
-
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/Clases.jpg" width="600">
 
 #### Integrantes:
 
