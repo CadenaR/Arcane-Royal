@@ -617,8 +617,8 @@ class GameScene extends Phaser.Scene{
         });
 
         //Aquí añadimos todas las teclas del teclado que vamos a usar
-        cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O');
-
+        cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O,ESC');
+        
         //Esto define las colisiones de las balas con los muros
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
         this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
@@ -650,6 +650,13 @@ class GameScene extends Phaser.Scene{
         }
 
         if (noChating) {
+
+            if(cursors.ESC.isDown){
+
+                this.scene.pause();
+                this.scene.start("menuScene");
+
+            }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (magoRojo.vida > 0) {
                 //Movimiento del jugador
