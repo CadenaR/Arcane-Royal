@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.springframework.web.socket.config.annotation.EnableWebSocket"/>
+<fullyQualifiedTypeName name="org.springframework.web.socket.handler.TextWebSocketHandler"/>
+<fullyQualifiedTypeName name="org.springframework.web.socket.WebSocketSession"/>
+<fullyQualifiedTypeName name="org.springframework.web.socket.TextMessage"/>
+</qualifiedTypeNameHistroy>

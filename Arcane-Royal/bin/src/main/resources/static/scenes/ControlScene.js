@@ -10,7 +10,7 @@ class ControlScene extends Phaser.Scene {
     create() {
 
         this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
-        this.add.image(this.game.renderer.width / 2-3, this.game.renderer.height * .33, "controles").setDepth(1);
+        this.add.image(this.game.renderer.width / 2, this.game.renderer.height * .40, "controles").setDepth(1);
         const backBtn = this.add.text(this.game.renderer.width * .32, this.game.renderer.height * 0.75, 'Volver', {
             fontSize: '80px',
             fill: '#000',

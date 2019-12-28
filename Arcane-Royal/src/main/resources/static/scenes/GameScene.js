@@ -6,6 +6,8 @@ var user = null;
 var user2;
 
 //Variables de los jugadores
+var player = new Object();
+var orden = 10;
 var magoAzul;
 var magoRojo;
 
@@ -58,7 +60,7 @@ var orbes;
 var escudo;
 var escudoTime;
 var cursors;
-
+var websocket = new WebSocket("ws://127.0.0.1:9090/echo");
 //=====Clases=====
 class Mage {
     constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
@@ -302,6 +304,12 @@ uiPos[2] = [85, 16];
 uiPos[3] = [1280 - 84, 16];
 uiPos[4] = [1280 / 2 - 48, 0];
 
+//WebSockets
+websocket.onopen = function(evt) { onOpen(evt) };
+websocket.onclose = function(evt) { onClose(evt) };
+websocket.onmessage = function(evt) { onMessage(evt) };
+websocket.onerror = function(evt) { onError(evt) };
+
 //=====GameScene=====
 class GameScene extends Phaser.Scene{
     constructor() {
@@ -352,10 +360,7 @@ class GameScene extends Phaser.Scene{
         });
     }
 
-
     create() {
-
-
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
 
@@ -617,20 +622,35 @@ class GameScene extends Phaser.Scene{
         });
 
         //Aquí añadimos todas las teclas del teclado que vamos a usar
-        cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,I,J,K,L,U,O,ESC');
-        
+        cursors = this.input.keyboard.addKeys('W,S,A,D,Q,E,ESC');
+                
         //Esto define las colisiones de las balas con los muros
         this.physics.add.overlap(bullets1, wall, destroyBullet, null, this);
         this.physics.add.overlap(bullets2, wall, destroyBullet, null, this);
 
-        //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
-        //cuando muere un jugador
-        colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
-        colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
-
         //Esto define la colisión de los jugadores con los items
         this.physics.add.overlap(magoAzul.sprite, orbes, pickup, null, this);
         this.physics.add.overlap(magoRojo.sprite, orbes, pickup, null, this);
+
+        if (orden === 0){
+            player.mago = magoRojo;
+            player.color = "red";
+
+            //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
+            //cuando muere un jugador
+            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
+            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
+        }
+
+        else{
+            player.mago = magoAzul;
+            player.color = "blue";
+            
+            //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
+            //cuando muere un jugador
+            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
+            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
+        }
     }
 
     update() {
@@ -643,21 +663,67 @@ class GameScene extends Phaser.Scene{
             });
 
         }
-        if ($(".value-input").is(":focus")) {
+        if ($("#value-input").is(":focus")) {
+            cursors.enabled=false;
             noChating = false;
         } else {
+            cursors.enabled=true;
             noChating = true;
         }
 
         if (noChating) {
-
             if(cursors.ESC.isDown){
-
                 this.scene.pause();
                 this.scene.start("menuScene");
-
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
+            if (player.mago.vida > 0) {
+                //Movimiento del jugador
+                if (cursors.A.isDown) {
+                    player.mago.mAngle = 180;
+                    player.mago.sprite.setVelocityX(-player.mago.velocidad);
+                    player.mago.sprite.anims.play('left_'+player.color, true);
+                    player.mago.sprite.setVelocityY(0);
+                } else if (cursors.D.isDown) {
+                    player.mago.mAngle = 0;
+                    player.mago.sprite.setVelocityX(player.mago.velocidad);
+                    player.mago.sprite.anims.play('right_'+player.color, true);
+                    player.mago.sprite.setVelocityY(0);
+                } else if (cursors.W.isDown) {
+                    player.mago.mAngle = 270;
+                    player.mago.sprite.setVelocityY(-player.mago.velocidad);
+                    player.mago.sprite.anims.play('up_'+player.color, true);
+                    player.mago.sprite.setVelocityX(0);
+                } else if (cursors.S.isDown) {
+                    player.mago.mAngle = 90;
+                    player.mago.sprite.setVelocityY(player.mago.velocidad);
+                    player.mago.sprite.anims.play('down_'+player.color, true);
+                    player.mago.sprite.setVelocityX(0);
+                } else {
+                    player.mago.sprite.body.velocity.x = 0;
+                    player.mago.sprite.body.velocity.y = 0;
+                }
+                //Ataque
+                if (cursors.Q.isDown && player.mago.ataque) {
+                    var bullet = bullets1.get();
+                    if (bullet) {
+                        bullet.fire(player.mago);
+                        player.mago.updateCarga(false, 0.4);
+                    }
+                }
+                //Escudo
+                if (player.mago.escudo) {
+                    player.mago.spriteEscudo.x = player.mago.sprite.x;
+                    player.mago.spriteEscudo.y = player.mago.sprite.y;
+                    escudoTime--;
+                    if (escudoTime <= 0) {
+                        player.mago.escudo = false;
+                        player.mago.spriteEscudo.setActive(false)
+                        player.mago.spriteEscudo.setVisible(false);
+                    }
+                }
+            }
+            /*
             if (magoRojo.vida > 0) {
                 //Movimiento del jugador
                 if (cursors.A.isDown) {
@@ -704,7 +770,7 @@ class GameScene extends Phaser.Scene{
                     }
                 }
             }
-            //Definimos las teclas que usa el jugador 2 y sus efectos
+            //Definimos las teclas que usa el jugador 2 y sus efectos          
             if (magoAzul.vida > 0) {
                 if (cursors.J.isDown) {
                     magoAzul.mAngle = 180;
@@ -748,8 +814,9 @@ class GameScene extends Phaser.Scene{
                         magoAzul.spriteEscudo.setVisible(false);
                     }
                 }
-            }
+            }*/
         }
+
     }
 
     updateUI(color, colorN, vida) {
@@ -764,11 +831,6 @@ class GameScene extends Phaser.Scene{
         }
     }
 }
-
-
-
-
-
 
 //Carga de mensajes desde servidor
 function loadMessages(callback) {
