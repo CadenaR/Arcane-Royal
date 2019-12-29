@@ -22,6 +22,11 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				players++;
 				session.sendMessage(new TextMessage(""+players));
 			}else if (message.getPayload().equals("DISCONNECTION")) {
+				for(int i = 0; i < sessions.size(); i++) {
+					if(sessions.get(i).equals(session)) {
+						sessions.remove(i);
+					}
+				}
 				players--;		
 			}
 			else

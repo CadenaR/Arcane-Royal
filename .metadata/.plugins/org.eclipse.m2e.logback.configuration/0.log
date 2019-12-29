@@ -7658,3 +7658,8 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact antlr:antlr:j
 2019-12-29 19:33:12,043 [Worker-50: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 90 resources
 2019-12-29 19:33:14,022 [Worker-50: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2019-12-29 19:33:14,023 [Worker-50: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\y700\Documents\GitHub\Arcane-Royal\Arcane-Royal\src\test\resources
+2019-12-29 19:53:49,103 [Worker-55: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-12-29 19:53:49,115 [Worker-55: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2019-12-29 19:53:49,128 [Worker-55: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 90 resources
+2019-12-29 19:53:49,144 [Worker-55: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-12-29 19:53:49,145 [Worker-55: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\y700\Documents\GitHub\Arcane-Royal\Arcane-Royal\src\test\resources
