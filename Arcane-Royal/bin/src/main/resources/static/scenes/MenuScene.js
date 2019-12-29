@@ -251,7 +251,7 @@ $(window).on("beforeunload", function () {
         date: connectionDate
 
     }
-
+    
     updateConnection(updatedConnection);
 
     var disconnection = {
@@ -259,7 +259,7 @@ $(window).on("beforeunload", function () {
     }
 
     createMessage(disconnection, function (m) {
-
+        websocket.doSend("DISCONNECTION");
     });
 
     return null;
