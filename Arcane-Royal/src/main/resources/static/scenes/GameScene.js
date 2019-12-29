@@ -9,6 +9,7 @@ var user2;
 var websocket;
 var datosEnv;
 var datosRecib;
+var cambio;
 
 //Variables de los jugadores
 var player = new Object();
@@ -373,6 +374,8 @@ class GameScene extends Phaser.Scene{
     }
 
     create() {
+        this.physics.world.setFPS(30);
+
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
 
@@ -683,6 +686,8 @@ class GameScene extends Phaser.Scene{
             noChating = true;
         }
 
+        cambio=false;
+
         if (noChating) {
             if(cursors.ESC.isDown){
                 this.scene.pause();
@@ -696,26 +701,31 @@ class GameScene extends Phaser.Scene{
                     player.mago.mAngle = 180;
                     velocity[0]=-player.mago.velocidad;
                     velocity[1]=0;
-                    animation='left';                   
+                    animation='left';
+                    cambio=true;                
                 } else if (cursors.D.isDown) {
                     player.mago.mAngle = 0;
                     velocity[0]=player.mago.velocidad;
                     velocity[1]=0;
-                    animation='right';             
+                    animation='right';
+                    cambio=true;
                 } else if (cursors.W.isDown) {
                     player.mago.mAngle = 270;
                     velocity[0]=0;
                     velocity[1]=-player.mago.velocidad;
                     animation='up';
+                    cambio=true;
                 } else if (cursors.S.isDown) {
                     player.mago.mAngle = 90;
                     velocity[0]=0;
                     velocity[1]=player.mago.velocidad;
                     animation='down';
-                } else {
+                    cambio=true;
+                } else if (velocity[0]!=0||velocity[1]!=0){
                     animation=undefined;
                     velocity[0]=0;
                     velocity[1]=0;
+                    cambio=true;                  
                 }
                 //Ataque
                 if (cursors.Q.isDown && player.mago.ataque) {
@@ -737,108 +747,19 @@ class GameScene extends Phaser.Scene{
                     }
                 }
             }
-
-            datosEnv = {
-                color: player.color,
-                mAngle: player.mago.mAngle,
-                velocityX: velocity[0],
-                velocityY: velocity[1],
-                anim: animation
-            }
-            doSend (JSON.stringify(datosEnv));
-            //console.log(JSON.stringify(datosEnv));
-            /*
-            if (magoRojo.vida > 0) {
-                //Movimiento del jugador
-                if (cursors.A.isDown) {
-                    magoRojo.mAngle = 180;
-                    magoRojo.sprite.setVelocityX(-magoRojo.velocidad);
-                    magoRojo.sprite.anims.play('left_red', true);
-                    magoRojo.sprite.setVelocityY(0);
-                } else if (cursors.D.isDown) {
-                    magoRojo.mAngle = 0;
-                    magoRojo.sprite.setVelocityX(magoRojo.velocidad);
-                    magoRojo.sprite.anims.play('right_red', true);
-                    magoRojo.sprite.setVelocityY(0);
-                } else if (cursors.W.isDown) {
-                    magoRojo.mAngle = 270;
-                    magoRojo.sprite.setVelocityY(-magoRojo.velocidad);
-                    magoRojo.sprite.anims.play('up_red', true);
-                    magoRojo.sprite.setVelocityX(0);
-                } else if (cursors.S.isDown) {
-                    magoRojo.mAngle = 90;
-                    magoRojo.sprite.setVelocityY(magoRojo.velocidad);
-                    magoRojo.sprite.anims.play('down_red', true);
-                    magoRojo.sprite.setVelocityX(0);
-                } else {
-                    magoRojo.sprite.body.velocity.x = 0;
-                    magoRojo.sprite.body.velocity.y = 0;
+            if (cambio){
+                datosEnv = {
+                    color: player.color,
+                    mAngle: player.mago.mAngle,
+                    velocityX: velocity[0],
+                    velocityY: velocity[1],
+                    anim: animation
                 }
-                //Ataque
-                if (cursors.Q.isDown && magoRojo.ataque) {
-                    var bullet = bullets1.get();
-                    if (bullet) {
-                        bullet.fire(magoRojo);
-                        magoRojo.updateCarga(false, 0.4);
-                    }
-                }
-                //Escudo
-                if (magoRojo.escudo) {
-                    magoRojo.spriteEscudo.x = magoRojo.sprite.x;
-                    magoRojo.spriteEscudo.y = magoRojo.sprite.y;
-                    escudoTime--;
-                    if (escudoTime <= 0) {
-                        magoRojo.escudo = false;
-                        magoRojo.spriteEscudo.setActive(false)
-                        magoRojo.spriteEscudo.setVisible(false);
-                    }
-                }
-            }
-            //Definimos las teclas que usa el jugador 2 y sus efectos          
-            if (magoAzul.vida > 0) {
-                if (cursors.J.isDown) {
-                    magoAzul.mAngle = 180;
-                    magoAzul.sprite.setVelocityX(-magoAzul.velocidad);
-                    magoAzul.sprite.anims.play('left_blue', true);
-                    magoAzul.sprite.setVelocityY(0);
-                } else if (cursors.L.isDown) {
-                    magoAzul.mAngle = 0;
-                    magoAzul.sprite.setVelocityX(magoAzul.velocidad);
-                    magoAzul.sprite.anims.play('right_blue', true);
-                    magoAzul.sprite.setVelocityY(0);
-                } else if (cursors.I.isDown) {
-                    magoAzul.mAngle = 270;
-                    magoAzul.sprite.setVelocityY(-magoAzul.velocidad);
-                    magoAzul.sprite.anims.play('up_blue', true);
-                    magoAzul.sprite.setVelocityX(0);
-                } else if (cursors.K.isDown) {
-                    magoAzul.mAngle = 90;
-                    magoAzul.sprite.setVelocityY(magoAzul.velocidad);
-                    magoAzul.sprite.anims.play('down_blue', true);
-                    magoAzul.sprite.setVelocityX(0);
-                } else {
-                    magoAzul.sprite.body.velocity.x = 0;
-                    magoAzul.sprite.body.velocity.y = 0;
-                }
-                if (cursors.O.isDown && magoAzul.ataque) {
-                    var bullet = bullets2.get();
-
-                    if (bullet) {
-                        bullet.fire(magoAzul);
-                        magoAzul.updateCarga(false, 0.4);
-                    }
-                }
-                if (magoAzul.escudo) {
-                    magoAzul.spriteEscudo.x = magoAzul.sprite.x;
-                    magoAzul.spriteEscudo.y = magoAzul.sprite.y;
-                    escudoTime--;
-                    if (escudoTime <= 0) {
-                        magoAzul.escudo = false;
-                        magoAzul.spriteEscudo.setActive(false)
-                        magoAzul.spriteEscudo.setVisible(false);
-                    }
-                }
-            }*/
+                doSend (JSON.stringify(datosEnv));
+                console.log("ENVÍO:")
+                console.log(magoRojo.sprite.x+" "+magoRojo.sprite.y);
+                console.log(magoAzul.sprite.x+" "+magoAzul.sprite.y);
+            }            
         }
 
     }
