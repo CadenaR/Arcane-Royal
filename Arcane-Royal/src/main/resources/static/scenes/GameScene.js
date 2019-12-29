@@ -27,6 +27,7 @@ var cargaA;
 //Variables de los disparos
 var bullets1;
 var bullets2;
+var BuVel = 900;
 
 //Variables de la generación de items
 var delaySpawn = 3; //En segundos
@@ -38,7 +39,7 @@ var selected;
 var full = false;
 
 //Variables que regulan la velocidad de los personajes
-var plVel = 200;
+var plVel = 300;
 var framer = 14;
 
 //Variables empleadas al generar y procesar tiles
@@ -419,8 +420,8 @@ class GameScene extends Phaser.Scene{
 
                 this.setBlendMode(1);
                 this.setDepth(1);
-                this.speed = 400;
-                this.lifespan = 1000;
+                this.speed = BuVel;
+                this.lifespan = 250000/BuVel;
 
                 this._temp = new Phaser.Math.Vector2();
             },

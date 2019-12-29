@@ -3,17 +3,18 @@ class LoginScene extends Phaser.Scene {
         super("loginScene");
     }
     preload() {
+        this.load.image("loginfondo", "../resources/Images/loginfondo.png");
         this.load.html('nameform', 'resources/Text/loginform.html');
     }
 
     create() {
         
-        this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
+        this.add.image(0, 0, "loginfondo").setOrigin(0).setDepth(0);
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
         element.setDepth(100);
         
-        const startBtn = this.add.text(this.game.renderer.width * .27, this.game.renderer.height * 0.6, 'Comenzar', {
-            fontSize: '80px',
+        const startBtn = this.add.text(this.game.renderer.width * .31, this.game.renderer.height * 0.70, 'Comenzar', {
+            fontSize: '60px',
             fill: '#000',
             align: "center",
             fontFamily: 'mifuente'
@@ -39,8 +40,8 @@ class LoginScene extends Phaser.Scene {
         });
     
 
-        const backBtn = this.add.text(this.game.renderer.width * .32, this.game.renderer.height * 0.75, 'Volver', {
-            fontSize: '80px',
+        const backBtn = this.add.text(this.game.renderer.width * .36, this.game.renderer.height * 0.83, 'Volver', {
+            fontSize: '60px',
             fill: '#000',
             align: "center",
             fontFamily: 'mifuente'
