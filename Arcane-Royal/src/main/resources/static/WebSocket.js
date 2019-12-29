@@ -1,26 +1,51 @@
 function onOpen(evt)
 {
-  console.log("hola");
+  console.log("CONNECTED");
+  doSend("CONNECTION");
 }
 
 function onClose(evt)
 {
-  //writeToScreen("DISCONNECTED");
+  console.log("DISCONNECTED");
+  doSend("DISCONNECTION");
 }
 
 function onMessage(evt)
 {
-  //writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
-  websocket.close();
+  console.log(evt.data);
+  console.log(orden);
+  datosRecib=JSON.parse(evt.data);
+
+  if(datosRecib.color===player.color){
+    player.mago.sprite.setVelocityX(datosRecib.velocityX);
+    player.mago.sprite.setVelocityY(datosRecib.velocityY);
+    if(datosRecib.anim!=undefined){
+      player.mago.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
+    }
+  }else{
+    player.mago.enemy.sprite.setVelocityX(datosRecib.velocityX);
+    player.mago.enemy.sprite.setVelocityY(datosRecib.velocityY);
+    if(datosRecib.anim!=undefined){
+      player.mago.enemy.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
+    }
+  }
+}
+
+function onMessageConnection(evt){
+  var contador = evt.data;
+  console.log(evt.data);
+  if (evt.data!="1"){
+    orden=1;
+  }
+  websocket.onmessage = function(evt) { onMessage(evt) };
 }
 
 function onError(evt)
 {
-  //writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+  alert('ERROR');
 }
 
 function doSend(message)
 {
-  //writeToScreen("SENT: " + message);
   websocket.send(message);
 }

@@ -5,11 +5,18 @@ var noChating = true;
 var user = null;
 var user2;
 
+//Variables websocket
+var websocket;
+var datosEnv;
+var datosRecib;
+
 //Variables de los jugadores
 var player = new Object();
-var orden = 10;
+var orden = 0;
 var magoAzul;
 var magoRojo;
+var velocity = [];
+var animation;
 
 //Variables de conexión
 var newCon = false;
@@ -60,7 +67,6 @@ var orbes;
 var escudo;
 var escudoTime;
 var cursors;
-var websocket = new WebSocket("ws://127.0.0.1:9090/echo");
 //=====Clases=====
 class Mage {
     constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
@@ -138,6 +144,15 @@ class Tile {
 }
 
 //=====Funciones=====
+function openSocket(){
+    //WebSockets
+    websocket = new WebSocket("ws://127.0.0.1:9090/echo");
+    websocket.onmessage = function(evt) { onMessageConnection(evt) };
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onerror = function(evt) { onError(evt) };    
+}
+
 //Esta función se usa para calcular en que parte del mapa está el tile opuesto simetricamente en el eje x
 //al tile en n
 function searchTile(x, y) {
@@ -304,12 +319,6 @@ uiPos[2] = [85, 16];
 uiPos[3] = [1280 - 84, 16];
 uiPos[4] = [1280 / 2 - 48, 0];
 
-//WebSockets
-websocket.onopen = function(evt) { onOpen(evt) };
-websocket.onclose = function(evt) { onClose(evt) };
-websocket.onmessage = function(evt) { onMessage(evt) };
-websocket.onerror = function(evt) { onError(evt) };
-
 //=====GameScene=====
 class GameScene extends Phaser.Scene{
     constructor() {
@@ -358,6 +367,8 @@ class GameScene extends Phaser.Scene{
             frameWidth: 60,
             frameHeight: 64
         });
+
+        openSocket();
     }
 
     create() {
@@ -543,7 +554,7 @@ class GameScene extends Phaser.Scene{
 
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
-            key: "right_red",
+            key: "right_rojo",
             frames: this.anims.generateFrameNames("rojoLR", {
                 start: 4,
                 end: 7
@@ -553,7 +564,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "left_red",
+            key: "left_rojo",
             frames: this.anims.generateFrameNames("rojoLR", {
                 start: 0,
                 end: 3
@@ -563,7 +574,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "right_blue",
+            key: "right_azul",
             frames: this.anims.generateFrameNames("azulLR", {
                 start: 4,
                 end: 7
@@ -573,7 +584,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "left_blue",
+            key: "left_azul",
             frames: this.anims.generateFrameNames("azulLR", {
                 start: 0,
                 end: 3
@@ -582,7 +593,7 @@ class GameScene extends Phaser.Scene{
             repeat: 0
         });
         this.anims.create({
-            key: "up_red",
+            key: "up_rojo",
             frames: this.anims.generateFrameNames("rojoUD", {
                 start: 4,
                 end: 7
@@ -592,7 +603,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "down_red",
+            key: "down_rojo",
             frames: this.anims.generateFrameNames("rojoUD", {
                 start: 0,
                 end: 3
@@ -602,7 +613,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "up_blue",
+            key: "up_azul",
             frames: this.anims.generateFrameNames("azulUD", {
                 start: 4,
                 end: 7
@@ -612,7 +623,7 @@ class GameScene extends Phaser.Scene{
         });
 
         this.anims.create({
-            key: "down_blue",
+            key: "down_azul",
             frames: this.anims.generateFrameNames("azulUD", {
                 start: 0,
                 end: 3
@@ -634,7 +645,7 @@ class GameScene extends Phaser.Scene{
 
         if (orden === 0){
             player.mago = magoRojo;
-            player.color = "red";
+            player.color = "rojo";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
@@ -644,7 +655,7 @@ class GameScene extends Phaser.Scene{
 
         else{
             player.mago = magoAzul;
-            player.color = "blue";
+            player.color = "azul";
             
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
@@ -675,33 +686,35 @@ class GameScene extends Phaser.Scene{
             if(cursors.ESC.isDown){
                 this.scene.pause();
                 this.scene.start("menuScene");
+                websocket.doSend("DISCONNECTION");
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {
                 //Movimiento del jugador
                 if (cursors.A.isDown) {
                     player.mago.mAngle = 180;
-                    player.mago.sprite.setVelocityX(-player.mago.velocidad);
-                    player.mago.sprite.anims.play('left_'+player.color, true);
-                    player.mago.sprite.setVelocityY(0);
+                    velocity[0]=-player.mago.velocidad;
+                    velocity[1]=0;
+                    animation='left';                   
                 } else if (cursors.D.isDown) {
                     player.mago.mAngle = 0;
-                    player.mago.sprite.setVelocityX(player.mago.velocidad);
-                    player.mago.sprite.anims.play('right_'+player.color, true);
-                    player.mago.sprite.setVelocityY(0);
+                    velocity[0]=player.mago.velocidad;
+                    velocity[1]=0;
+                    animation='right';             
                 } else if (cursors.W.isDown) {
                     player.mago.mAngle = 270;
-                    player.mago.sprite.setVelocityY(-player.mago.velocidad);
-                    player.mago.sprite.anims.play('up_'+player.color, true);
-                    player.mago.sprite.setVelocityX(0);
+                    velocity[0]=0;
+                    velocity[1]=-player.mago.velocidad;
+                    animation='up';
                 } else if (cursors.S.isDown) {
                     player.mago.mAngle = 90;
-                    player.mago.sprite.setVelocityY(player.mago.velocidad);
-                    player.mago.sprite.anims.play('down_'+player.color, true);
-                    player.mago.sprite.setVelocityX(0);
+                    velocity[0]=0;
+                    velocity[1]=player.mago.velocidad;
+                    animation='down';
                 } else {
-                    player.mago.sprite.body.velocity.x = 0;
-                    player.mago.sprite.body.velocity.y = 0;
+                    animation=undefined;
+                    velocity[0]=0;
+                    velocity[1]=0;
                 }
                 //Ataque
                 if (cursors.Q.isDown && player.mago.ataque) {
@@ -723,6 +736,16 @@ class GameScene extends Phaser.Scene{
                     }
                 }
             }
+
+            datosEnv = {
+                color: player.color,
+                mAngle: player.mago.mAngle,
+                velocityX: velocity[0],
+                velocityY: velocity[1],
+                anim: animation
+            }
+            doSend (JSON.stringify(datosEnv));
+            //console.log(JSON.stringify(datosEnv));
             /*
             if (magoRojo.vida > 0) {
                 //Movimiento del jugador
@@ -851,7 +874,7 @@ function createMessage(message, callback) {
         headers: {
             "Content-Type": "application/json"
         }
-    }).done(function (message) {
+    }).done(function (message) {        
         callback(message);
     })
 }
