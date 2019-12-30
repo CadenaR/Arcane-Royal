@@ -10,12 +10,14 @@ var websocket;
 var datosEnv;
 var datosRecib;
 var cambio;
+var response=false;
 
 //Variables de los jugadores
 var player = new Object();
 var orden = 0;
 var magoAzul;
 var magoRojo;
+var playerSprite;
 var velocity = [];
 var animation;
 
@@ -54,6 +56,7 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 var occCount;
+var mapselect;
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -193,8 +196,6 @@ function leerConfig() {
         fileRuta[x] = '../resources/maps/mapa' + (x + 1) + '.txt';
         archivosMapas[x] = fileRuta[x];
     }
-
-    var mapselect = Math.floor(Math.random() * (archivosMapas.length - 1) + 1); //no va?
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
     archivoTXT.open("GET", archivosMapas[mapselect], false);
@@ -205,7 +206,6 @@ function leerConfig() {
         if (txt[i] != "\n" && txt[i] != '\r')
             arrayData.push(parseInt(txt[i]));
     }
-
     return arrayData;
 }
 
@@ -488,10 +488,9 @@ class GameScene extends Phaser.Scene{
         });
 
 
-        //Lector de archivos de configuracion de mapa y selección de mapa.
+        //Lector de archivos de configuracion de mapa y selección de mapa.        
         var arrayTile = leerConfig();
         occCount = 0;
-
         //Aquí generamos todos los tiles según el mapa cargado
         for (var i = 0; i < arrayTile.length; i++) {
             tiles[i] = new Tile(arrayTile[i]);
@@ -649,6 +648,7 @@ class GameScene extends Phaser.Scene{
 
         if (orden === 0){
             player.mago = magoRojo;
+            //Object.assign(playerSprite, magoRojo.sprite);
             player.color = "rojo";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -659,6 +659,7 @@ class GameScene extends Phaser.Scene{
 
         else{
             player.mago = magoAzul;
+            //Object.assign(playerSprite, magoAzul.sprite);
             player.color = "azul";
             
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -666,6 +667,7 @@ class GameScene extends Phaser.Scene{
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
         }
+        //playerSprite.mago = undefined;
     }
 
     update() {
@@ -692,7 +694,7 @@ class GameScene extends Phaser.Scene{
             if(cursors.ESC.isDown){
                 this.scene.pause();
                 this.scene.start("menuScene");
-                websocket.doSend("DISCONNECTION");
+                doSend("DISCONNECTION");
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {
@@ -747,19 +749,23 @@ class GameScene extends Phaser.Scene{
                     }
                 }
             }
-            if (cambio){
+            if (cambio){          
                 datosEnv = {
+                    //spriteObj: playerSprite,
                     color: player.color,
                     mAngle: player.mago.mAngle,
                     velocityX: velocity[0],
                     velocityY: velocity[1],
+                    x: player.mago.sprite.x+velocity[0]/30,
+                    y: player.mago.sprite.y+velocity[1]/30,
                     anim: animation
                 }
+                //playerSprite.color=player.color;
                 doSend (JSON.stringify(datosEnv));
                 console.log("ENVÍO:")
                 console.log(magoRojo.sprite.x+" "+magoRojo.sprite.y);
                 console.log(magoAzul.sprite.x+" "+magoAzul.sprite.y);
-            }            
+            }                  
         }
 
     }
