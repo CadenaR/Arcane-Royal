@@ -54,6 +54,7 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 var occCount;
+var mapselect;
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -194,7 +195,6 @@ function leerConfig() {
         archivosMapas[x] = fileRuta[x];
     }
 
-    var mapselect = Math.floor(Math.random() * (archivosMapas.length - 1) + 1); //no va?
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
     archivoTXT.open("GET", archivosMapas[mapselect], false);
@@ -250,6 +250,7 @@ function makeDamage(mago, bullet) {
     }
     bullet.kill();
     if (mago.mago.vida === 0) {
+        
         globalScore[mago.mago.getEnemy().colorN]++;
         mago.setActive(false);
         mago.setVisible(false);
@@ -375,7 +376,7 @@ class GameScene extends Phaser.Scene{
 
     create() {
         this.physics.world.setFPS(30);
-
+        doSend("NUEVA RONDA");
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
 
@@ -489,9 +490,10 @@ class GameScene extends Phaser.Scene{
 
 
         //Lector de archivos de configuracion de mapa y selección de mapa.
+        if(orden===0){
         var arrayTile = leerConfig();
         occCount = 0;
-
+        }
         //Aquí generamos todos los tiles según el mapa cargado
         for (var i = 0; i < arrayTile.length; i++) {
             tiles[i] = new Tile(arrayTile[i]);

@@ -40,7 +40,7 @@ function onMessageConnection(evt){
   if (evt.data!="1"){
     orden=1;
   }
-  websocket.onmessage = function(evt) { onMessage(evt) };
+  websocket.onmessage = function(evt) { onMapCheck(evt) };
 }
 
 function onError(evt)
@@ -52,3 +52,10 @@ function doSend(message)
 {
   websocket.send(message);
 }
+
+function onMapCheck(evt){
+
+  mapselect = parseInt(evt.data);
+
+  websocket.onmessage = function(evt) { onMessage(evt) };
+};
