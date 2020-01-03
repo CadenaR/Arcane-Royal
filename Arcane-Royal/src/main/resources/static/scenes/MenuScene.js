@@ -113,7 +113,8 @@ class MenuScene extends Phaser.Scene {
         });
     }
 
-    update() {
+    //update() {
+        /*
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -123,7 +124,8 @@ class MenuScene extends Phaser.Scene {
             });
 
         }
-    }
+        */
+    //}
 }
 
 function createConnection(connection, callback) {

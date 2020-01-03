@@ -2,7 +2,7 @@
 // Variables para API
 var numMsgs;
 var noChating = true;
-var user = null;
+var user = 11;
 var user2;
 
 //Variables websocket
@@ -686,7 +686,7 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (numMsgs >= 0) {
+        /*if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
                     showOtherMessage(messages[i]);
@@ -701,7 +701,7 @@ class GameScene extends Phaser.Scene {
         } else {
             cursors.enabled = true;
             noChating = true;
-        }
+        }*/
 
         cambio = false;
 
