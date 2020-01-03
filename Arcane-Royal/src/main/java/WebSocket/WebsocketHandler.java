@@ -1,7 +1,7 @@
 package WebSocket;
 
 import java.util.ArrayList;
-import java.math.*;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,7 +22,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				players++;
 				session.sendMessage(new TextMessage(""+players));
 			}else if(message.getPayload().equals("RONDA")){
-				mapa = (int)(Math.random() * (4) + 1);
+				mapa = (int)(Math.random() * (5));
 				System.out.println("Mapa: "+ mapa);
 				for (WebSocketSession sess : sessions) {
 					sess.sendMessage(new TextMessage(""+mapa));
@@ -46,7 +46,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				
 			}
 	}
-	
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
