@@ -39,7 +39,7 @@ function onMessage(evt)
       player.mago.enemy.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
     }
     }
-    console.log("RECIBO")
+    console.log("RECIBO");
     console.log(magoRojo.sprite.x+" "+magoRojo.sprite.y);
     console.log(magoAzul.sprite.x+" "+magoAzul.sprite.y);
     

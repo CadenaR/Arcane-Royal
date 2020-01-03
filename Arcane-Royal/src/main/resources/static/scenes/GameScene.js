@@ -385,7 +385,6 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.physics.world.setFPS(30);
-        doSend("NUEVA RONDA");
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
 
@@ -764,7 +763,7 @@ class GameScene extends Phaser.Scene {
                     escudoTime--;
                     if (escudoTime <= 0) {
                         player.mago.escudo = false;
-                        player.mago.spriteEscudo.setActive(false)
+                        player.mago.spriteEscudo.setActive(false);
                         player.mago.spriteEscudo.setVisible(false);
                     }
                 }
@@ -780,7 +779,7 @@ class GameScene extends Phaser.Scene {
                 }
                 //playerSprite.color=player.color;
                 doSend(JSON.stringify(datosEnv));
-                console.log("ENVÍO:")
+                console.log("ENVÍO:");
                 console.log(magoRojo.sprite.x + " " + magoRojo.sprite.y);
                 console.log(magoAzul.sprite.x + " " + magoAzul.sprite.y);
             }
