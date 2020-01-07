@@ -3,6 +3,7 @@ package WebSocket;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -29,13 +30,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				}
 			}else if (message.getPayload().equals("MAPA")) {
 				session.sendMessage(new TextMessage(""+mapa));
-			}else if (message.getPayload().equals("DISCONNECTION")) {
-				for(int i = 0; i < sessions.size(); i++) {
-					if(sessions.get(i).equals(session)) {
-						sessions.remove(i);
-					}
-				}
-				players--;
 			}
 			else
 			{
@@ -51,4 +45,20 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessions.add(session);
 	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+			for(int i = 0; i < sessions.size(); i++) {
+				
+				if(sessions.get(i).equals(session)) {
+					sessions.remove(i);
+				}
+				else {
+					sessions.get(i).sendMessage(new TextMessage("PlayerDisconnected"));
+				}
+			}
+			players--;
+		
+	}
+	
 }
