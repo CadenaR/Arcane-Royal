@@ -8,7 +8,8 @@ class LoginScene extends Phaser.Scene {
     }
 
     create() {
-        
+        openSocket();
+                
         this.add.image(0, 0, "loginfondo").setOrigin(0).setDepth(0);
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
         element.setDepth(100);

@@ -27,7 +27,7 @@ var newCon = false;
 //Variables globales de la escena
 var scene;
 var globalScore = [0, 0];
-var gameWin = 5; // rondas de victoria
+var gameWin = 3; // rondas de victoria
 
 //Variables de la UI
 var uiPos = [];
@@ -56,7 +56,7 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 var occCount;
-var mapselect=0;
+var mapselect= [];
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -158,9 +158,9 @@ function openSocket() {
     websocket.onopen = function (evt) {
         onOpen(evt)
     };
-    /*websocket.onclose = function (evt) {
+    websocket.onclose = function (evt) {
         onClose(evt)
-    };*/
+    };
     websocket.onerror = function (evt) {
         onError(evt)
     };
@@ -206,7 +206,7 @@ function leerConfig() {
     }
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
-    archivoTXT.open("GET", archivosMapas[mapselect], false);
+    archivoTXT.open("GET", archivosMapas[mapselect[globalScore[0]+globalScore[1]]], false);
     archivoTXT.send(null);
     var txt = archivoTXT.responseText;
 
@@ -264,7 +264,6 @@ function makeDamage(mago, bullet) {
     }
     bullet.kill();
     if (mago.mago.vida === 0) {
-
         globalScore[mago.mago.getEnemy().colorN]++;
         mago.setActive(false);
         mago.setVisible(false);
@@ -276,6 +275,7 @@ function makeDamage(mago, bullet) {
                 2000
             );
         }
+
         if (globalScore[0] === gameWin) {
 
             globalScore[0] = 0;
@@ -289,6 +289,7 @@ function makeDamage(mago, bullet) {
 
             });
 
+            websocket.close();
             this.scene.start(
                 'menuScene',
                 3000
@@ -307,11 +308,21 @@ function makeDamage(mago, bullet) {
             createMessage(message, function (messageWithId) {
 
             });
+
+            websocket.close();
             this.scene.start(
                 'menuScene',
                 3000
             );
         }
+    }
+}
+
+function getMaps() {
+    if(orden===0){
+        doSend("RONDA");   
+    }else{
+        doSend("MAPA");
     }
 }
 
@@ -384,15 +395,12 @@ class GameScene extends Phaser.Scene {
             frameWidth: 60,
             frameHeight: 64
         });
-
-        openSocket();
     }
 
     create() {
         this.physics.world.setFPS(30);
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
-
         });
 
 
@@ -721,7 +729,7 @@ class GameScene extends Phaser.Scene {
             if (cursors.ESC.isDown) {
                 this.scene.pause();
                 this.scene.start("menuScene");
-                doSend("DISCONNECTION");
+                websocket.close();
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {

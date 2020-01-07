@@ -12,6 +12,7 @@ function onClose(evt)
 function onMessage(evt)
 {
   datosRecib=JSON.parse(evt.data);
+  console.log(datosRecib);
   if (datosRecib.tipo === "Mago") {
     if(datosRecib.color===player.color){
       player.mago.mAngle=datosRecib.mAngle;
@@ -46,11 +47,15 @@ function onMessage(evt)
     else { 
       var bullet = bullets2.get();
       if (bullet) {
-          bullet.fire(player.enemy.mago);
-          player.enemy.mago.updateCarga(false, 0.4);
+          bullet.fire(player.mago.enemy);
+          player.mago.enemy.updateCarga(false, 0.4);
       }
     }
-  }  
+  }
+  //Este else recibe el mapa
+  else if (datosRecib.tipo === "Map"){
+    mapselect = datosRecib.mapas;
+  }
 }
 
 
@@ -58,19 +63,9 @@ function onMessageConnection(evt){
   var contador = evt.data;
   if (evt.data!="1"){
     orden=1;
-  }  
-  websocket.onmessage = function(evt) { onMessageMap(evt) };
-  if(orden===0){
-    doSend("RONDA");   
-  }else{
-    doSend("MAPA");
   }
-}
-
-function onMessageMap(evt){
-  mapselect = parseInt(evt.data);
-  console.log(mapselect);
   websocket.onmessage = function(evt) { onMessage(evt) };
+  getMaps();
 }
 
 function onError(evt)
