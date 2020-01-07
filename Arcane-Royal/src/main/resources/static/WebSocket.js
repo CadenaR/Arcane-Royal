@@ -12,41 +12,45 @@ function onClose(evt)
 function onMessage(evt)
 {
   datosRecib=JSON.parse(evt.data);
-  if (datosRecib.tipo == "Mago") {
+  if (datosRecib.tipo === "Mago") {
     if(datosRecib.color===player.color){
-      //enemCambio=false;
-      //datosRecib.sprite.mago=player.mago;
-      //player.mago.sprite=datosRecib.sprite;
-      
       player.mago.mAngle=datosRecib.mAngle;
       player.mago.sprite.setVelocity(datosRecib.velocityX, datosRecib.velocityY);      
-      //player.mago.sprite.setPosition(datosRecib.x,datosRecib.y);
       if(datosRecib.anim!=undefined){
         player.mago.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
       }      
     }
     else {
-      //enemCambio=true;
-      //datosRecib.sprite.mago=player.mago.enemy;
-      //player.mago.enemy.sprite=datosRecib.sprite;
-      
-      player.mago.enemy.mAngle=datosRecib.mAngle;
-      //player.mago.enemy.sprite.setVelocity(datosRecib.velocityX, datosRecib.velocityY);    
+      player.mago.enemy.mAngle=datosRecib.mAngle;     
       player.mago.enemy.sprite.setPosition(datosRecib.x,datosRecib.y);
       if(datosRecib.anim!=undefined){
         player.mago.enemy.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
       }
     }  
-  }     
-  else if (datosRecib.tipo == "Bullet"){
-
   }
-  else if (datosRecib.tipo == "Item"){
+  else if (datosRecib.tipo === "Item"){
     checkTile = searchTile (datosRecib.x, datosRecib.y);
     checkTile.fill();
     checkFull();
     orbes.create(datosRecib.x * 64 + 32, datosRecib.y * 64 + 48, items[datosRecib.itemType]);
   }
+   
+  else if (datosRecib.tipo === "Shoot"){
+    if (player.mago.color == datosRecib.color){
+      var bullet = bullets1.get();
+      if (bullet) {
+          bullet.fire(player.mago);
+          player.mago.updateCarga(false, 0.4);
+      }
+    } 
+    else { 
+      var bullet = bullets2.get();
+      if (bullet) {
+          bullet.fire(player.enemy.mago);
+          player.enemy.mago.updateCarga(false, 0.4);
+      }
+    }
+  }  
 }
 
 

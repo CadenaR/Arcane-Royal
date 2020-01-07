@@ -249,6 +249,12 @@ function pickup(mago, item) {
 
 //Se define lo que ocurre cuando un disparo impacta al mago
 function makeDamage(mago, bullet) {
+    datosEnv = {
+        tipo: "Damage",
+        color: player.color,
+        bullet: bullet            
+    }
+    doSend(JSON.stringify(datosEnv));
     if (!mago.mago.escudo) {
         mago.mago.updateVida(-1);
     } else {
@@ -752,11 +758,11 @@ class GameScene extends Phaser.Scene {
                 }
                 //Ataque
                 if (cursors.Q.isDown && player.mago.ataque) {
-                    var bullet = bullets1.get();
-                    if (bullet) {
-                        bullet.fire(player.mago);
-                        player.mago.updateCarga(false, 0.4);
+                    datosEnv = {
+                        tipo: "Shoot",
+                        color: player.color
                     }
+                    doSend(JSON.stringify(datosEnv));                    
                 }
                 //Escudo
                 if (player.mago.escudo) {
@@ -773,7 +779,6 @@ class GameScene extends Phaser.Scene {
             if (cambio) {
                 datosEnv = {
                     tipo: "Mago",
-                    //spriteObj: playerSprite,
                     x: player.mago.sprite.x,
                     y: player.mago.sprite.y,
                     color: player.color,
