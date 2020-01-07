@@ -10,7 +10,6 @@ var websocket;
 var datosEnv;
 var datosRecib;
 var cambio;
-var enemCambio;
 var response = false;
 
 //Variables de los jugadores
@@ -57,7 +56,7 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 var occCount;
-var mapselect;
+var mapselect=0;
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -152,16 +151,16 @@ class Tile {
 //=====Funciones=====
 function openSocket() {
     //WebSockets
-    websocket = new WebSocket("ws://127.0.0.1:9090/echo");
+    websocket = new WebSocket("ws://"+ location.host +"/echo");
     websocket.onmessage = function (evt) {
         onMessageConnection(evt)
     };
     websocket.onopen = function (evt) {
         onOpen(evt)
     };
-    websocket.onclose = function (evt) {
+    /*websocket.onclose = function (evt) {
         onClose(evt)
-    };
+    };*/
     websocket.onerror = function (evt) {
         onError(evt)
     };
@@ -396,12 +395,14 @@ class GameScene extends Phaser.Scene {
 
         //Para hacer la generación aleatoria de items, hemos usado un timer que genera cada cierto
         //tiempo un item a través de la función generar
-        var timedEvent = this.time.addEvent({
-            delay: delaySpawn * 1000, // 1seg = 1000ms
-            callback: generar,
-            //args: [],
-            loop: true
-        });
+        if (orden == 0){
+            var timedEvent = this.time.addEvent({
+                delay: delaySpawn * 1000, // 1seg = 1000ms
+                callback: generar,
+                //args: [],
+                loop: true
+            });
+        }
 
         //La función generar es la que se encarga de seleccionar que item se va a dibujar y de dibujarlo
         function generar() {
@@ -425,11 +426,16 @@ class GameScene extends Phaser.Scene {
                 //Estas dos funciones se aseguran de que no se llene la pantalla de items, la primera
                 //marca el tile elegido como ocupado y la segunda mira si hay más de 15 items ocupados,
                 //i lo hay, la variable full pasa a ser true y no se generan más items hasta que no se
-                //coja alguno
-                checkTile.fill();
-                checkFull();
+                //coja alguno. Posteriormente se lo pasamos por websocket para que se genere el item en
+                //las dos partidas
 
-                orbes.create(randX * 64 + 32, randY * 64 + 48, items[selected]);
+                datosEnv = {
+                    tipo: "Item",
+                    x: randX,
+                    y: randY,
+                    itemType: selected                    
+                }
+                doSend(JSON.stringify(datosEnv));
             }
         }
 
@@ -744,10 +750,6 @@ class GameScene extends Phaser.Scene {
                     velocity[1] = 0;
                     cambio = true;
                 }
-
-                if (enemCambio){
-                    player.mago.enemy.sprite.setVelocity(datosRecib.velocityX, datosRecib.velocityY);
-                }
                 //Ataque
                 if (cursors.Q.isDown && player.mago.ataque) {
                     var bullet = bullets1.get();
@@ -770,14 +772,16 @@ class GameScene extends Phaser.Scene {
             }
             if (cambio) {
                 datosEnv = {
+                    tipo: "Mago",
                     //spriteObj: playerSprite,
+                    x: player.mago.sprite.x,
+                    y: player.mago.sprite.y,
                     color: player.color,
                     mAngle: player.mago.mAngle,
                     velocityX: velocity[0],
                     velocityY: velocity[1],
                     anim: animation
                 }
-                //playerSprite.color=player.color;
                 doSend(JSON.stringify(datosEnv));
                 console.log("ENVÍO:");
                 console.log(magoRojo.sprite.x + " " + magoRojo.sprite.y);

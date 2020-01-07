@@ -35,7 +35,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 						sessions.remove(i);
 					}
 				}
-				players--;		
+				players--;
 			}
 			else
 			{
