@@ -219,14 +219,17 @@ function leerConfig() {
 
 //Se define lo que ocurre al coger un objeto
 function pickup(mago, item) {
+    scene.sound.play("pickup");
     switch (item.texture.key) {
         case "orbe1":
             if (mago.mago.vida < 3) {
                 mago.mago.updateVida(1);
+                scene.sound.play("healing");
             }
             break;
         case "orbe2":
             if (!mago.mago.escudo) {
+                scene.sound.play("shield");
                 mago.mago.spriteEscudo.setActive(true);
                 mago.mago.spriteEscudo.setVisible(true);
                 mago.mago.escudo = true;
@@ -257,6 +260,7 @@ function makeDamage(mago, bullet) {
     doSend(JSON.stringify(datosEnv));
     if (!mago.mago.escudo) {
         mago.mago.updateVida(-1);
+        scene.sound.play("hurt");
     } else {
         mago.mago.escudo = false;
         mago.mago.spriteEscudo.setActive(false)
@@ -375,6 +379,13 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbeUI', "resources/Images/orbe-interfaz.png");
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
         this.load.image('puntosUI', "resources/Images/puntos interfaz.png");
+
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
+        this.load.audio("fireball", "../resources/Sounds/fireball.wav");
+        this.load.audio("healing", "../resources/Sounds/healing.wav");
+        this.load.audio("shield", "../resources/Sounds/shield.wav");
+        this.load.audio("pickup", "../resources/Sounds/pickup.wav");
+        this.load.audio("hurt", "../resources/Sounds/hurt.wav");
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
@@ -725,6 +736,7 @@ class GameScene extends Phaser.Scene {
         if (noChating) {
             if (cursors.ESC.isDown) {
                 this.scene.pause();
+                scene.sound.play("click");
                 setTimeout( sceneTransition , 100 , 'menuScene') ; 
                // websocket.close();
             }
@@ -767,6 +779,7 @@ class GameScene extends Phaser.Scene {
                         tipo: "Shoot",
                         color: player.color
                     }
+                    scene.sound.play("fireball");
                     doSend(JSON.stringify(datosEnv));                    
                 }
                 //Escudo
