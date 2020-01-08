@@ -84,7 +84,6 @@ class Mage {
         this.velocidad = velocidad;
         this.mAngle = mAngle;
         this.spriteEscudo = spriteEscudo;
-        this.escudoTime = 0;     
     }
     updateVida(v) {
         this.vida += v;
@@ -231,7 +230,7 @@ function pickup(mago, item) {
                 mago.mago.spriteEscudo.setActive(true);
                 mago.mago.spriteEscudo.setVisible(true);
                 mago.mago.escudo = true;
-                mago.mago.escudoTime = 300;
+                escudoTime = 300;
             }
             break;
         case "orbe3":
@@ -271,10 +270,7 @@ function makeDamage(mago, bullet) {
         colision1.destroy();
         colision2.destroy();
         if (globalScore[0] != gameWin || globalScore[1] != gameWin) {
-            this.scene.start(
-                'gameScene',
-                2000
-            );
+            setTimeout( sceneTransition , 1000 , 'gameScene') ; 
         }
 
         if (globalScore[0] === gameWin) {
@@ -290,11 +286,9 @@ function makeDamage(mago, bullet) {
 
             });
 
-            //websocket.close();            
-            this.scene.start(
-                'menuScene',
-                3000
-            );
+            websocket.close();
+            setTimeout( sceneTransition , 2000 , 'menuScene') ;
+            
         }
 
         if (globalScore[1] === gameWin) {
@@ -310,13 +304,15 @@ function makeDamage(mago, bullet) {
 
             });
 
-            //websocket.close();
-            this.scene.start(
-                'menuScene',
-                3000
-            );
+            websocket.close();
+            
+            setTimeout( sceneTransition , 2000 , 'menuScene') ;
         }
     }
+}
+
+function sceneTransition(param){
+    scene.scene.start(param);
 }
 
 function getMaps() {
@@ -422,7 +418,6 @@ class GameScene extends Phaser.Scene {
         //La función generar es la que se encarga de seleccionar que item se va a dibujar y de dibujarlo
         function generar() {
             ratio = Math.random() + 0.2;
-
             if (ratio <= damage) {
                 selected = 2; //50% item de daño
             } else if (ratio >= heal) {
@@ -687,6 +682,7 @@ class GameScene extends Phaser.Scene {
 
         if (orden === 0) {
             player.mago = magoRojo;
+            //Object.assign(playerSprite, magoRojo.sprite);
             player.color = "rojo";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -695,6 +691,7 @@ class GameScene extends Phaser.Scene {
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
         } else {
             player.mago = magoAzul;
+            //Object.assign(playerSprite, magoAzul.sprite);
             player.color = "azul";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -702,9 +699,10 @@ class GameScene extends Phaser.Scene {
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
         }
+        //playerSprite.mago = undefined;
     }
 
-    update() {
+    update() { 
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -727,8 +725,8 @@ class GameScene extends Phaser.Scene {
         if (noChating) {
             if (cursors.ESC.isDown) {
                 this.scene.pause();
-                this.scene.start("menuScene");
-                websocket.close();
+                setTimeout( sceneTransition , 100 , 'menuScene') ; 
+               // websocket.close();
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {
@@ -775,22 +773,11 @@ class GameScene extends Phaser.Scene {
                 if (player.mago.escudo) {
                     player.mago.spriteEscudo.x = player.mago.sprite.x;
                     player.mago.spriteEscudo.y = player.mago.sprite.y;
-                    player.mago.escudoTime--;
-                    if (player.mago.escudoTime <= 0) {
+                    escudoTime--;
+                    if (escudoTime <= 0) {
                         player.mago.escudo = false;
                         player.mago.spriteEscudo.setActive(false);
                         player.mago.spriteEscudo.setVisible(false);
-                    }
-                }
-
-                if (player.mago.enemy.escudo) {
-                    player.mago.enemy.spriteEscudo.x = player.mago.enemy.sprite.x;
-                    player.mago.enemy.spriteEscudo.y = player.mago.enemy.sprite.y;
-                    player.mago.enemy.escudoTime--;
-                    if (player.mago.enemy.escudoTime <= 0) {
-                        player.mago.enemy.escudo = false;
-                        player.mago.enemy.spriteEscudo.setActive(false);
-                        player.mago.enemy.spriteEscudo.setVisible(false);
                     }
                 }
             }
