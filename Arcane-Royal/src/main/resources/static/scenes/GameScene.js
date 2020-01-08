@@ -281,7 +281,7 @@ function makeDamage(mago, bullet) {
         mago.setVisible(false);
         colision1.destroy();
         colision2.destroy();
-        if (globalScore[0] != gameWin || globalScore[1] != gameWin) {
+        if (globalScore[0] != gameWin && globalScore[1] != gameWin) {
             setTimeout( sceneTransition , 1000 , 'gameScene') ; 
         }
 
