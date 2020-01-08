@@ -270,10 +270,7 @@ function makeDamage(mago, bullet) {
         colision1.destroy();
         colision2.destroy();
         if (globalScore[0] != gameWin || globalScore[1] != gameWin) {
-            this.scene.start(
-                'gameScene',
-                2000
-            );
+            setTimeout( sceneTransition , 1000 , 'gameScene') ; 
         }
 
         if (globalScore[0] === gameWin) {
@@ -290,10 +287,8 @@ function makeDamage(mago, bullet) {
             });
 
             websocket.close();
-            this.scene.start(
-                'menuScene',
-                3000
-            );
+            setTimeout( sceneTransition , 2000 , 'menuScene') ;
+            
         }
 
         if (globalScore[1] === gameWin) {
@@ -310,12 +305,14 @@ function makeDamage(mago, bullet) {
             });
 
             websocket.close();
-            this.scene.start(
-                'menuScene',
-                3000
-            );
+            
+            setTimeout( sceneTransition , 2000 , 'menuScene') ;
         }
     }
+}
+
+function sceneTransition(param){
+    scene.scene.start(param);
 }
 
 function getMaps() {
@@ -705,7 +702,7 @@ class GameScene extends Phaser.Scene {
         //playerSprite.mago = undefined;
     }
 
-    update() {
+    update() { 
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -728,8 +725,8 @@ class GameScene extends Phaser.Scene {
         if (noChating) {
             if (cursors.ESC.isDown) {
                 this.scene.pause();
-                this.scene.start("menuScene");
-                websocket.close();
+                setTimeout( sceneTransition , 100 , 'menuScene') ; 
+               // websocket.close();
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {
