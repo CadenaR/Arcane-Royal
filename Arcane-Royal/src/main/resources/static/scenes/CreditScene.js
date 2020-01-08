@@ -4,6 +4,8 @@ class CreditScene extends Phaser.Scene {
     }
     preload() {
         this.load.image("creditos", "../resources/Images/creditos.png");
+        
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
     }
 
     create() {
