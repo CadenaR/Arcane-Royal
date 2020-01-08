@@ -29,6 +29,10 @@ var scene;
 var globalScore = [0, 0];
 var gameWin = 3; // rondas de victoria
 
+var salirMenu;
+var volver;
+var fondo;
+
 //Variables de la UI
 var uiPos = [];
 var cargaR;
@@ -351,6 +355,7 @@ class GameScene extends Phaser.Scene {
         scene = this;
     }
     preload() {
+        this.load.image("fondo", "../resources/Images/sky1.png");
         this.load.image('wall', "resources/Images/barril2.png");
         this.load.image('ground', "resources/Images/tile2.png");
         this.load.image('orbe1', "resources/Images/orbe1.png");
@@ -400,7 +405,7 @@ class GameScene extends Phaser.Scene {
             numMsgs = messages.length - 1;
         });
 
-
+       
         //La variable orbes guarda un grupo con todos los objetos de los items, nos servirá mas adelante para las colisiones
         orbes = this.physics.add.group();
 
@@ -589,6 +594,77 @@ class GameScene extends Phaser.Scene {
         cargaR.alpha = 0.4;
         cargaA.alpha = 0.4;
 
+        fondo = this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
+        fondo.setVisible(false);
+
+         volver = this.add.text(this.game.renderer.width * .36, this.game.renderer.height * 0.60, 'Volver', {
+            fontSize: '60px',
+            fill: '#000',
+            align: "center",
+            fontFamily: 'mifuente'
+        }).setInteractive();
+
+        volver.on('pointerover', () => {
+            volver.setStyle({
+                fill: '#ff0'
+            });
+        });
+
+        volver.on('pointerout', () => {
+            
+            volver.setStyle({
+                fill: '#000'
+            });
+        });
+       // volver.disableInteractive();
+
+         salirMenu = this.add.text(this.game.renderer.width * .20, this.game.renderer.height * 0.30, 'Salir al menu', {
+            fontSize: '60px',
+            fill: '#000',
+            align: "center",
+            fontFamily: 'mifuente'
+        }).setInteractive();
+
+        salirMenu.on('pointerover', () => {
+            salirMenu.setStyle({
+                fill: '#ff0'
+            });
+        });
+
+       salirMenu.on('pointerout', () => {
+           
+            salirMenu.setStyle({
+                fill: '#000'
+            });
+        });
+        salirMenu.disableInteractive();
+        salirMenu.setVisible(false);
+        volver.disableInteractive();
+        volver.setVisible(false);
+
+        volver.on('pointerdown', () => {
+        fondo.setVisible(false);
+        salirMenu.disableInteractive();
+        salirMenu.setVisible(false);
+        volver.disableInteractive();
+        volver.setVisible(false);
+
+
+        });
+
+        salirMenu.on('pointerdown', () => {
+            /*salirMenu.disableInteractive();
+            salirMenu.setVisible(false);
+            volver.disableInteractive();
+            volver.setVisible(false);
+    */      setTimeout( sceneTransition , 100 , 'menuScene') ; 
+            websocket.close();
+            });
+            
+        //salirMenu.disableInteractive();
+        //salirMenu.setVisible(false);
+
+        
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
             key: "right_rojo",
@@ -724,9 +800,18 @@ class GameScene extends Phaser.Scene {
 
         if (noChating) {
             if (cursors.ESC.isDown) {
-                this.scene.pause();
-                setTimeout( sceneTransition , 100 , 'menuScene') ; 
+                //this.scene.pause();
+                //setTimeout( sceneTransition , 100 , 'menuScene') ; 
                // websocket.close();
+                fondo.setVisible(true);
+                salirMenu.setInteractive();
+                salirMenu.setVisible(true);
+                volver.setInteractive();
+                volver.setVisible(true);
+
+                fondo.setDepth(10);
+                salirMenu.setDepth(12);
+                volver.setDepth(12);
             }
             //Definimos las teclas que usa el jugador 1 y sus efectos
             if (player.mago.vida > 0) {
