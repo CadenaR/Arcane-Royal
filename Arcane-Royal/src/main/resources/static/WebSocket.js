@@ -15,20 +15,11 @@ function onMessage(evt)
   console.log(datosRecib);
   if (datosRecib.tipo === "Mago") {
     if(datosRecib.color===player.color){
-      player.mago.mAngle=datosRecib.mAngle;
-      player.mago.sprite.setVelocity(datosRecib.velocityX, datosRecib.velocityY);      
+      pastPos = [datosRecib.x, datosRecib.y];
+      player.mago.mAngle=datosRecib.mAngle;         
+      player.mago.sprite.setPosition(datosRecib.x,datosRecib.y);
       if(datosRecib.anim!=undefined){
         player.mago.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
-      }
-      if (player.mago.escudo) {
-        player.mago.spriteEscudo.x = player.mago.sprite.x;
-        player.mago.spriteEscudo.y = player.mago.sprite.y;
-        player.mago.escudoTime--;
-        if (player.mago.escudoTime <= 0) {
-            player.mago.escudo = false;
-            player.mago.spriteEscudo.setActive(false);
-            player.mago.spriteEscudo.setVisible(false);
-        }
       }
     }
     else {

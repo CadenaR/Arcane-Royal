@@ -20,6 +20,7 @@ var magoRojo;
 var playerSprite;
 var velocity = [];
 var animation;
+var pastPos = [];
 
 //Variables de conexión
 var newCon = false;
@@ -78,7 +79,7 @@ var escudoTime;
 var cursors;
 //=====Clases=====
 class Mage {
-    constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo) {
+    constructor(color, colorN, sprite, vida, escudo, ataque, velocidad, mAngle, spriteEscudo, moveSprite) {
         this.color = color;
         this.colorN = colorN;
         this.sprite = sprite;
@@ -88,6 +89,9 @@ class Mage {
         this.velocidad = velocidad;
         this.mAngle = mAngle;
         this.spriteEscudo = spriteEscudo;
+        this.escudoTime = 0;
+        this.moveSprite = moveSprite;
+        this.moveSprite.setVisible(false);
     }
     updateVida(v) {
         this.vida += v;
@@ -223,18 +227,21 @@ function leerConfig() {
 
 //Se define lo que ocurre al coger un objeto
 function pickup(mago, item) {
+    scene.sound.play("pickup");
     switch (item.texture.key) {
         case "orbe1":
             if (mago.mago.vida < 3) {
                 mago.mago.updateVida(1);
+                scene.sound.play("healing");
             }
             break;
         case "orbe2":
             if (!mago.mago.escudo) {
+                scene.sound.play("shield");
                 mago.mago.spriteEscudo.setActive(true);
                 mago.mago.spriteEscudo.setVisible(true);
                 mago.mago.escudo = true;
-                escudoTime = 300;
+                mago.mago.escudoTime = 300;
             }
             break;
         case "orbe3":
@@ -261,6 +268,7 @@ function makeDamage(mago, bullet) {
     doSend(JSON.stringify(datosEnv));
     if (!mago.mago.escudo) {
         mago.mago.updateVida(-1);
+        scene.sound.play("hurt");
     } else {
         mago.mago.escudo = false;
         mago.mago.spriteEscudo.setActive(false)
@@ -281,7 +289,7 @@ function makeDamage(mago, bullet) {
 
             globalScore[0] = 0;
             globalScore[1] = 0;
-            console.log("rojo gana");
+            console.log("Rojo gana");
             var message = {
                 text: "Ha ganado: Mago Rojo",
             }
@@ -296,7 +304,7 @@ function makeDamage(mago, bullet) {
         }
 
         if (globalScore[1] === gameWin) {
-            console.log("azul gana");
+            console.log("Azul gana");
 
             globalScore[0] = 0;
             globalScore[1] = 0;
@@ -381,6 +389,13 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
         this.load.image('puntosUI', "resources/Images/puntos interfaz.png");
 
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
+        this.load.audio("fireball", "../resources/Sounds/fireball.wav");
+        this.load.audio("healing", "../resources/Sounds/healing.wav");
+        this.load.audio("shield", "../resources/Sounds/shield.wav");
+        this.load.audio("pickup", "../resources/Sounds/pickup.wav");
+        this.load.audio("hurt", "../resources/Sounds/hurt.wav");
+
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,
             frameHeight: 64
@@ -414,8 +429,7 @@ class GameScene extends Phaser.Scene {
         if (orden == 0){
             var timedEvent = this.time.addEvent({
                 delay: delaySpawn * 1000, // 1seg = 1000ms
-                callback: generar,
-                //args: [],
+                callback: generar,                
                 loop: true
             });
         }
@@ -543,8 +557,8 @@ class GameScene extends Phaser.Scene {
         }
 
         //A continuación vamos a definir los jugadores, añadirles los sprites y todos los temas de las físicas y colisiones con los muros
-        magoRojo = new Mage('rojo', 0, this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"));
-        magoAzul = new Mage('azul', 1, this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"));
+        magoRojo = new Mage('rojo', 0, this.physics.add.sprite(64, 360, "player1"), 3, false, false, plVel, 0, this.physics.add.sprite(64, 360, "escudo"), this.physics.add.sprite(64, 360, "player1"));
+        magoAzul = new Mage('azul', 1, this.physics.add.sprite(1216, 360, "player2"), 3, false, false, plVel, 180, this.physics.add.sprite(1216, 360, "escudo"), this.physics.add.sprite(1216, 360, "player2"));
 
         magoAzul.setEnemy(magoRojo);
         magoRojo.setEnemy(magoAzul);
@@ -557,17 +571,17 @@ class GameScene extends Phaser.Scene {
         magoRojo.spriteEscudo.setActive(false);
         magoRojo.spriteEscudo.setVisible(false);
 
-        this.physics.add.collider(magoRojo.sprite, wall);
-        this.physics.add.collider(magoAzul.sprite, wall);
+        this.physics.add.collider(magoRojo.moveSprite, wall);
+        this.physics.add.collider(magoAzul.moveSprite, wall);
 
         this.physics.world.bounds.top = 16;
         this.physics.world.bounds.bottom = 720;
 
         magoRojo.sprite.physicsBodyType = Phaser.Physics.ARCADE;
-        magoRojo.sprite.body.setCollideWorldBounds(true);
+        magoRojo.moveSprite.body.setCollideWorldBounds(true);
 
         magoAzul.sprite.physicsBodyType = Phaser.Physics.ARCADE;
-        magoAzul.sprite.body.setCollideWorldBounds(true);
+        magoAzul.moveSprite.body.setCollideWorldBounds(true);
 
         //Dibujo de la interfaz
         this.add.image(uiPos[0][0], uiPos[0][1], 'UIbase1').setOrigin(0, 0);
@@ -637,12 +651,14 @@ class GameScene extends Phaser.Scene {
                 fill: '#000'
             });
         });
+
         salirMenu.disableInteractive();
         salirMenu.setVisible(false);
         volver.disableInteractive();
         volver.setVisible(false);
 
         volver.on('pointerdown', () => {
+            scene.sound.play("click");
         fondo.setVisible(false);
         salirMenu.disableInteractive();
         salirMenu.setVisible(false);
@@ -653,11 +669,9 @@ class GameScene extends Phaser.Scene {
         });
 
         salirMenu.on('pointerdown', () => {
-            /*salirMenu.disableInteractive();
-            salirMenu.setVisible(false);
-            volver.disableInteractive();
-            volver.setVisible(false);
-    */      setTimeout( sceneTransition , 100 , 'menuScene') ; 
+          
+            scene.sound.play("click");
+          setTimeout( sceneTransition , 100 , 'menuScene') ; 
             websocket.close();
             });
             
@@ -757,8 +771,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(magoRojo.sprite, orbes, pickup, null, this);
 
         if (orden === 0) {
-            player.mago = magoRojo;
-            //Object.assign(playerSprite, magoRojo.sprite);
+            player.mago = magoRojo;            
             player.color = "rojo";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -766,16 +779,14 @@ class GameScene extends Phaser.Scene {
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
         } else {
-            player.mago = magoAzul;
-            //Object.assign(playerSprite, magoAzul.sprite);
+            player.mago = magoAzul;            
             player.color = "azul";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
-        }
-        //playerSprite.mago = undefined;
+        }        
     }
 
     update() { 
@@ -801,7 +812,8 @@ class GameScene extends Phaser.Scene {
         if (noChating) {
             if (cursors.ESC.isDown) {
                 //this.scene.pause();
-                //setTimeout( sceneTransition , 100 , 'menuScene') ; 
+                
+                
                // websocket.close();
                 fondo.setVisible(true);
                 salirMenu.setInteractive();
@@ -852,25 +864,38 @@ class GameScene extends Phaser.Scene {
                         tipo: "Shoot",
                         color: player.color
                     }
+                    scene.sound.play("fireball");
                     doSend(JSON.stringify(datosEnv));                    
                 }
                 //Escudo
                 if (player.mago.escudo) {
                     player.mago.spriteEscudo.x = player.mago.sprite.x;
                     player.mago.spriteEscudo.y = player.mago.sprite.y;
-                    escudoTime--;
-                    if (escudoTime <= 0) {
+                    player.mago.escudoTime--;
+                    if (player.mago.escudoTime <= 0) {
                         player.mago.escudo = false;
                         player.mago.spriteEscudo.setActive(false);
                         player.mago.spriteEscudo.setVisible(false);
                     }
                 }
+
+                if (player.mago.enemy.escudo) {
+                    player.mago.enemy.spriteEscudo.x = player.mago.enemy.sprite.x;
+                    player.mago.enemy.spriteEscudo.y = player.mago.enemy.sprite.y;
+                    player.mago.enemy.escudoTime--;
+                    if (player.mago.enemy.escudoTime <= 0) {
+                        player.mago.enemy.escudo = false;
+                        player.mago.enemy.spriteEscudo.setActive(false);
+                        player.mago.enemy.spriteEscudo.setVisible(false);
+                    }
+                }
             }
             if (cambio) {
+                player.mago.moveSprite.setVelocity(velocity[0], velocity[1]);  
                 datosEnv = {
                     tipo: "Mago",
-                    x: player.mago.sprite.x,
-                    y: player.mago.sprite.y,
+                    x: player.mago.moveSprite.x,
+                    y: player.mago.moveSprite.y,
                     color: player.color,
                     mAngle: player.mago.mAngle,
                     velocityX: velocity[0],
