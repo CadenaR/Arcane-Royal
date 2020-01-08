@@ -12,7 +12,6 @@ INDEX VERSION 1.131+C:\Users\Rodron\Documents\Arcane-RoyalReturns\.metadata\.plu
 706761968.index
 10564414.index
 3139515936.index
-93153958.index
 1660217409.index
 1742415240.index
 3830220549.index

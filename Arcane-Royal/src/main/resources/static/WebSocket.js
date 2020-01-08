@@ -19,13 +19,34 @@ function onMessage(evt)
       player.mago.sprite.setVelocity(datosRecib.velocityX, datosRecib.velocityY);      
       if(datosRecib.anim!=undefined){
         player.mago.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
-      }      
+      }
+      if (player.mago.escudo) {
+        player.mago.spriteEscudo.x = player.mago.sprite.x;
+        player.mago.spriteEscudo.y = player.mago.sprite.y;
+        player.mago.escudoTime--;
+        if (player.mago.escudoTime <= 0) {
+            player.mago.escudo = false;
+            player.mago.spriteEscudo.setActive(false);
+            player.mago.spriteEscudo.setVisible(false);
+        }
+      }
     }
     else {
       player.mago.enemy.mAngle=datosRecib.mAngle;     
       player.mago.enemy.sprite.setPosition(datosRecib.x,datosRecib.y);
       if(datosRecib.anim!=undefined){
         player.mago.enemy.sprite.anims.play(datosRecib.anim+'_'+datosRecib.color, true);
+      }
+
+      if (player.mago.enemy.escudo) {
+        player.mago.enemy.spriteEscudo.x = player.mago.enemy.sprite.x;
+        player.mago.enemy.spriteEscudo.y = player.mago.enemy.sprite.y;
+        player.mago.enemy.escudoTime--;
+        if (player.mago.enemy.escudoTime <= 0) {
+            player.mago.enemy.escudo = false;
+            player.mago.enemy.spriteEscudo.setActive(false);
+            player.mago.enemy.spriteEscudo.setVisible(false);
+        }
       }
     }  
   }
@@ -55,13 +76,14 @@ function onMessage(evt)
   //Este else recibe el mapa
   else if (datosRecib.tipo === "Map"){
     mapselect = datosRecib.mapas;
+    console.log(mapselect);
   }
 }
 
 
 function onMessageConnection(evt){
-  var contador = evt.data;
-  if (evt.data!="1"){
+  var contador = parseInt(evt.data);
+  if (contador%2!="1"){
     orden=1;
   }
   websocket.onmessage = function(evt) { onMessage(evt) };
