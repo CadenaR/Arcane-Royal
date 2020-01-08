@@ -31,6 +31,8 @@ class CreditScene extends Phaser.Scene {
 
         var that = this;
         backBtn.on('pointerdown', () => {
+            
+            scene.sound.play("click");
             this.scene.start("menuScene");
         });
     }
