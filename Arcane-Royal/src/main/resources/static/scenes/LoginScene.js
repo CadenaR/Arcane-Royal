@@ -5,6 +5,7 @@ class LoginScene extends Phaser.Scene {
     preload() {
         this.load.image("loginfondo", "../resources/Images/loginfondo.png");
         this.load.html('nameform', 'resources/Text/loginform.html');
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
     }
 
     create() {
@@ -36,6 +37,8 @@ class LoginScene extends Phaser.Scene {
         var that = this;
         startBtn.on('pointerdown', () => {
             if (user!=null){
+                
+                scene.sound.play("click");
                 this.scene.start("gameScene");
             }
         });
@@ -62,6 +65,8 @@ class LoginScene extends Phaser.Scene {
 
         var that = this;
         backBtn.on('pointerdown', () => {
+            
+            scene.sound.play("click");
             this.scene.start("menuScene");
         });
     }

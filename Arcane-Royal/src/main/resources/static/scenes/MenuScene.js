@@ -10,6 +10,7 @@ class MenuScene extends Phaser.Scene {
     preload() {
         this.load.image("logo", "../resources/Images/logoArcane.png");
         this.load.image("fondo", "../resources/Images/sky1.png");
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
     }
 
     create() {
@@ -61,6 +62,8 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         playBtn.on('pointerdown', () => {
+            
+            scene.sound.play("click");
             this.scene.start("loginScene");
         });
 
@@ -85,6 +88,8 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         controlBtn.on('pointerdown', () => {
+            
+            scene.sound.play("click");
             this.scene.start("controlScene");
         });
 
@@ -109,6 +114,8 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         creditBtn.on('pointerdown', () => {
+            
+            scene.sound.play("click");
             this.scene.start("creditScene");
         });
     }
