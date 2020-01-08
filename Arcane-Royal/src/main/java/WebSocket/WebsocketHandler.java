@@ -24,9 +24,8 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				players++;
 				session.sendMessage(new TextMessage(""+players));
 			}else if(message.getPayload().equals("RONDA")){
-				mapas = "";
 				m = (int)(Math.random() * (5));
-				mapas += "" + m;
+				mapas = "" + m;
 				System.out.println("Mapa: "+ m);
 				for (int i=0; i < 4; i++) {
 					m = (int)(Math.random() * (5));			 
