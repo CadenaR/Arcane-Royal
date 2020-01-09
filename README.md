@@ -195,6 +195,11 @@ Hemos agregado una pantalla de pausa, para poder salir al menú, a lo que dará 
 Hemos mejorado algunos gráficos.
 Hemos añadido efectos de sonido.
 
+#### Diagrama de clases de Java
+
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/Imagenes readme fase 2/DiagramaClases2.jpg" width="600">
+
+
 #### Integrantes:
 
 Rodrigo Cadena Rodríguez \
