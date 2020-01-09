@@ -8,7 +8,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-  datosRecib = JSON.parse(evt.data);
+    datosRecib = JSON.parse(evt.data);
   console.log(datosRecib);
   if (datosRecib.tipo === "Mago") {
     if (datosRecib.color === player.color) {
@@ -36,12 +36,16 @@ function onMessage(evt) {
         }
       }
     }
-  } else if (datosRecib.tipo === "Item") {
+  }
+
+  else if (datosRecib.tipo === "Item") {
     checkTile = searchTile(datosRecib.x, datosRecib.y);
     checkTile.fill();
     checkFull();
     orbes.create(datosRecib.x * 64 + 32, datosRecib.y * 64 + 48, items[datosRecib.itemType]);
-  } else if (datosRecib.tipo === "Shoot") {
+  }
+  
+  else if (datosRecib.tipo === "Shoot") {
     if (player.mago.color == datosRecib.color) {
       var bullet = bullets1.get();
       if (bullet) {
@@ -60,10 +64,19 @@ function onMessage(evt) {
   else if (datosRecib.tipo === "Map") {
     mapselect = datosRecib.mapas;
     console.log(mapselect);
-  } else if (datosRecib.tipo === "Jugar") {
+  }
+
+  else if (datosRecib.tipo === "Jugar") {
     game.scene.start("gameScene");
     game.scene.stop("loginScene");
-  } else if (datosRecib.tipo === "PlayerDisconnected") {
+  }
+
+  else if (datosRecib.tipo === "PlayerDisconnected") {
+    if (!disc){
+      alert("Se ha desconectado un jugador. Se te redirigirá al menú.");
+      setTimeout(sceneTransition, 3000, 'menuScene');
+    }
+    websockeet.close();
     //game.scene.start("loginScene");
     //game.scene.stop("gameScene");
   }

@@ -32,6 +32,19 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
 		} else if (message.getPayload().equals("MAPA")) {
 			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
+		} else if (message.getPayload().equals("DISCONNECTED")) {			
+			int[] sInfo = searchSession(session);
+			int j = sInfo[1];
+			int i = sInfo[0];
+			if (j == 0 && sessions.get(i)[1] != null) {
+				if(sessions.get(i)[1].isOpen())
+					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+				return;
+			} else if (j == 1 && sessions.get(i)[0] != null) {
+				if(sessions.get(i)[0].isOpen())
+					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+				return;
+			}
 		} else {
 			int[] sInfo = searchSession(session);
 			int i = sInfo[0];

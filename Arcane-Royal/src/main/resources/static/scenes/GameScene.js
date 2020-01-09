@@ -26,6 +26,7 @@ var jugar;
 
 //Variables de conexión
 var newCon = false;
+var disc;
 
 //Variables globales de la escena
 var scene;
@@ -161,6 +162,7 @@ class Tile {
 //=====Funciones=====
 function openSocket() {
     //WebSockets
+    disc = false;
     websocket = new WebSocket("ws://" + location.host + "/echo");
     websocket.onmessage = function (evt) {
         onMessageConnection(evt)
@@ -670,11 +672,13 @@ class GameScene extends Phaser.Scene {
 
         });
 
-        salirMenu.on('pointerdown', () => {
-
+        salirMenu.on('pointerdown', () => {            
+            disc = true;
+            doSend("DISCONNECTED");
             scene.sound.play("click");
+            setTimeout(websockeet.close, 8000);
             setTimeout(sceneTransition, 100, 'menuScene');
-            websocket.close();
+
         });
 
         //salirMenu.disableInteractive();
