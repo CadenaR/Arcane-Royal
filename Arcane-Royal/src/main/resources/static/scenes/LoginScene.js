@@ -19,11 +19,12 @@ class LoginScene extends Phaser.Scene {
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
         element.setDepth(100);
         if(orden===0){
-            this.add.image(0, 0, "Sel1").setOrigin(0).setDepth(0);
-            this.add.image(300, 0, "NoSel2").setOrigin(0).setDepth(0);
-        }else{
-            this.add.image(300, 0, "Sel2").setOrigin(0).setDepth(0);
-            this.add.image(0, 0, "NoSel1").setOrigin(0).setDepth(0);
+            this.add.image(225, 140, "Sel1").setOrigin(0).setDepth(1);
+            this.add.image(845, 140, "NoSel2").setOrigin(0).setDepth(1);
+        }
+        if(orden===1){
+            this.add.image(845, 140, "Sel2").setOrigin(0).setDepth(1);
+            this.add.image(225, 140, "NoSel1").setOrigin(0).setDepth(1);
         }
         
         const startBtn = this.add.text(this.game.renderer.width * .31, this.game.renderer.height * 0.70, 'Comenzar', {
