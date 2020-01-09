@@ -21,5 +21,4 @@ var config = {
     },    
     scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene,LoginScene]
 }
-
 var game = new Phaser.Game(config);

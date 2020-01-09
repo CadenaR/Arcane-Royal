@@ -8,24 +8,47 @@
 
 /*https://www.w3schools.com/howto/howto_js_popup_chat.asp*/
 /* The popup chat - hidden by default */
+
+  body{
+    font-family: 'mifuente';
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: row-reverse;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 10;
+    padding: 10;
+  }
+
 .chat {
-    display: block;
-    position: fixed;
     top: 1%;
     right: 30px;
     border: 3px solid #f1f1f1;
     z-index: 9;
+    margin: 10px;
     background-color: white;
+    align-content: stretch;
+    width: calc(100% - 960px);
 }
 
 .messages {
+    font-family: Arial, Helvetica, sans-serif;
     display: block;
-    width: 90%;
-    padding: 10px;
-    margin: 0 5px 0 5px;
+    width: 96%;
+    /*padding: 10px;*/
+    margin: 0 10px 0 10px;
     max-height: 400px;
     min-height: 300px;
-    max-width: 295px;
+    max-width: 100%;
     resize: none;
     border: 1px solid black;
     overflow-y: auto;
@@ -61,7 +84,8 @@
 
 /* Add styles to the form container */
 .form-container {
-    max-width: 300px;
+    align-content: center ;
+    max-width: 100%;
     padding: 10px;
 
 }
@@ -89,7 +113,7 @@
     padding: 16px 20px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    max-width: 300px;
     margin-bottom: 10px;
     opacity: 0.8;
 }
