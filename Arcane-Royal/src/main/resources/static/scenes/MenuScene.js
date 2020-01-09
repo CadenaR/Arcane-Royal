@@ -118,6 +118,8 @@ class MenuScene extends Phaser.Scene {
             scene.sound.play("click");
             this.scene.start("creditScene");
         });
+        comenzar = false;
+        jugar = false;
     }
 
     update() {

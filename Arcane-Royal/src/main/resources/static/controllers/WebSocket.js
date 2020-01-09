@@ -69,6 +69,12 @@ function onMessage(evt)
     mapselect = datosRecib.mapas;
     console.log(mapselect);
   }
+  else if (datosRecib.tipo === "Comenzar"){
+	    comenzar = true;
+  }
+  else if (datosRecib.tipo === "Jugar"){
+	    comenzar = true;
+  }
 }
 
 

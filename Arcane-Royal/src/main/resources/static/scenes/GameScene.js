@@ -21,6 +21,8 @@ var playerSprite;
 var velocity = [];
 var animation;
 var pastPos = [];
+var comenzar;
+var jugar;
 
 //Variables de conexión
 var newCon = false;

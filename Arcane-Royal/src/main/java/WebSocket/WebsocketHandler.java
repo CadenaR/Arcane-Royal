@@ -35,13 +35,35 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		} else {
 			int[] sInfo = searchSession(session);
 			int i = sInfo[0];
+			int j = sInfo[1];
 			String msg = message.getPayload();
-			sessions.get(i)[0].sendMessage(new TextMessage(msg));
-			if (sessions.get(i)[1] != null) {
-				if(!sessions.get(i)[1].isOpen()) {
-					sessions.get(i)[1].sendMessage(new TextMessage(msg));
+			if (msg.equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
+				if(j == 0) {
+					if (sessions.get(i)[1] != null) {
+						if(sessions.get(i)[1].isOpen()) {
+							sessions.get(i)[1].sendMessage(new TextMessage(msg));
+						}
+					}
+				} else {
+					if (sessions.get(i)[0] != null) {
+						if(sessions.get(i)[0].isOpen()) {
+							sessions.get(i)[0].sendMessage(new TextMessage(msg));
+						}
+					}
+				}
+			} else {
+				if (sessions.get(i)[0] != null) {
+					if(sessions.get(i)[0].isOpen()) {
+						sessions.get(i)[0].sendMessage(new TextMessage(msg));
+					}
+				}
+				if (sessions.get(i)[1] != null) {
+					if(sessions.get(i)[1].isOpen()) {
+						sessions.get(i)[1].sendMessage(new TextMessage(msg));
+					}
 				}
 			}
+			
 				
 		}
 	}
@@ -60,11 +82,16 @@ public class WebsocketHandler extends TextWebSocketHandler {
 					if (sess[i] == null) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
+						if(i == 1 && sess[0] != null && sess[0].isOpen()) {
+							sess[0].sendMessage(new TextMessage("Comenzar"));
+							sess[1].sendMessage(new TextMessage("Comenzar"));
+						}
 						return;
 					}
 					else if(!sess[i].isOpen()) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
+						session.sendMessage(new TextMessage("Comenzar"));
 						return;
 					}
 				}
