@@ -14,47 +14,50 @@ class LoginScene extends Phaser.Scene {
     }
 
     create() {
-                
+
 
         this.add.image(0, 0, "loginfondo").setOrigin(0).setDepth(0);
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
         element.setDepth(100);
-        if(orden===0){
+        if (orden === 0) {
             this.add.image(225, 140, "Sel1").setOrigin(0).setDepth(1);
             this.add.image(845, 140, "NoSel2").setOrigin(0).setDepth(1);
+
+            const startBtn = this.add.text(this.game.renderer.width * .31, this.game.renderer.height * 0.70, 'Comenzar', {
+                fontSize: '60px',
+                fill: '#000',
+                align: "center",
+                fontFamily: 'mifuente'
+            }).setInteractive();
+
+            startBtn.on('pointerover', () => {
+                startBtn.setStyle({
+                    fill: '#ff0'
+                });
+            });
+
+            startBtn.on('pointerout', () => {
+                startBtn.setStyle({
+                    fill: '#000'
+                });
+            });
+
+            var that = this;
+            startBtn.on('pointerdown', () => {
+                if (user != null) {
+
+                    scene.sound.play("click");
+                    doSend("Jugar");
+                }
+            });
+
+
         } else {
             this.add.image(845, 140, "Sel2").setOrigin(0).setDepth(1);
             this.add.image(225, 140, "NoSel1").setOrigin(0).setDepth(1);
         }
-        
-        const startBtn = this.add.text(this.game.renderer.width * .31, this.game.renderer.height * 0.70, 'Comenzar', {
-            fontSize: '60px',
-            fill: '#000',
-            align: "center",
-            fontFamily: 'mifuente'
-        }).setInteractive();
 
-        startBtn.on('pointerover', () => {
-            startBtn.setStyle({
-                fill: '#ff0'
-            });
-        });
 
-        startBtn.on('pointerout', () => {
-            startBtn.setStyle({
-                fill: '#000'
-            });
-        });
-
-        var that = this;
-        startBtn.on('pointerdown', () => {
-            if (user!=null){
-                
-                scene.sound.play("click");
-                this.scene.start("gameScene");
-            }
-        });
-    
 
         const backBtn = this.add.text(this.game.renderer.width * .36, this.game.renderer.height * 0.83, 'Volver', {
             fontSize: '60px',
@@ -77,7 +80,7 @@ class LoginScene extends Phaser.Scene {
 
         var that = this;
         backBtn.on('pointerdown', () => {
-            
+
             scene.sound.play("click");
             this.scene.start("menuScene");
         });

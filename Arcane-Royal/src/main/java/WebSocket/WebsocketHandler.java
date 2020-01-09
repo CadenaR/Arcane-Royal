@@ -36,22 +36,19 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			int[] sInfo = searchSession(session);
 			int i = sInfo[0];
 			int j = sInfo[1];
-			String msg = message.getPayload();
-			if (msg.equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
+			
+			if (message.getPayload().equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
 				if(j == 0) {
 					if (sessions.get(i)[1] != null) {
 						if(sessions.get(i)[1].isOpen()) {
-							sessions.get(i)[1].sendMessage(new TextMessage(msg));
-						}
-					}
-				} else {
-					if (sessions.get(i)[0] != null) {
-						if(sessions.get(i)[0].isOpen()) {
-							sessions.get(i)[0].sendMessage(new TextMessage(msg));
+							sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+							sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
 						}
 					}
 				}
+
 			} else {
+				String msg = message.getPayload();
 				if (sessions.get(i)[0] != null) {
 					if(sessions.get(i)[0].isOpen()) {
 						sessions.get(i)[0].sendMessage(new TextMessage(msg));
@@ -63,9 +60,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 					}
 				}
 			}
-			
-				
-		}
+		}	
 	}
 
 	// Crea parejas de sesiones o complementa una pareja
