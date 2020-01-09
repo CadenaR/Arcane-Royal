@@ -37,8 +37,12 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			int i = sInfo[0];
 			String msg = message.getPayload();
 			sessions.get(i)[0].sendMessage(new TextMessage(msg));
-			if (sessions.get(i)[1] != null)
-				sessions.get(i)[1].sendMessage(new TextMessage(msg));
+			if (sessions.get(i)[1] != null) {
+				if(!sessions.get(i)[1].isOpen()) {
+					sessions.get(i)[1].sendMessage(new TextMessage(msg));
+				}
+			}
+				
 		}
 	}
 
@@ -54,6 +58,11 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			for (WebSocketSession[] sess : sessions) {
 				for (int i = 0; i < 2; i++) {
 					if (sess[i] == null) {
+						sess[i] = session;
+						session.sendMessage(new TextMessage("" + (i + 1)));
+						return;
+					}
+					else if(!sess[i].isOpen()) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
 						return;
@@ -85,7 +94,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			if (j == 0 && sessions.get(i)[j] != null) {
 				sessions.get(i)[1].sendMessage(new TextMessage("PlayerDisconnected"));
 				return;
-			} else if (j == 1 && sessions.get(i)[j] != null) {
+			} else if (j == 1 && sessions.get(i)[j] != null ) {
 				sessions.get(i)[0].sendMessage(new TextMessage("PlayerDisconnected"));
 				return;
 			}

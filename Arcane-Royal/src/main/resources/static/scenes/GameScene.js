@@ -61,7 +61,7 @@ var framer = 14;
 var tiles = [];
 var tileStr = [];
 var occCount;
-var mapselect= [];
+var mapselect = [];
 
 //Array de archivos de mapas
 var archivosMapas = [];
@@ -159,7 +159,7 @@ class Tile {
 //=====Funciones=====
 function openSocket() {
     //WebSockets
-    websocket = new WebSocket("ws://"+ location.host +"/echo");
+    websocket = new WebSocket("ws://" + location.host + "/echo");
     websocket.onmessage = function (evt) {
         onMessageConnection(evt)
     };
@@ -214,7 +214,7 @@ function leerConfig() {
     }
     var arrayData = new Array();
     var archivoTXT = new XMLHttpRequest();
-    archivoTXT.open("GET", archivosMapas[mapselect[globalScore[0]+globalScore[1]]], false);
+    archivoTXT.open("GET", archivosMapas[mapselect[globalScore[0] + globalScore[1]]], false);
     archivoTXT.send(null);
     var txt = archivoTXT.responseText;
 
@@ -263,7 +263,7 @@ function makeDamage(mago, bullet) {
     datosEnv = {
         tipo: "Damage",
         color: player.color,
-        bullet: bullet            
+        bullet: bullet
     }
     doSend(JSON.stringify(datosEnv));
     if (!mago.mago.escudo) {
@@ -282,7 +282,7 @@ function makeDamage(mago, bullet) {
         colision1.destroy();
         colision2.destroy();
         if (globalScore[0] != gameWin && globalScore[1] != gameWin) {
-            setTimeout( sceneTransition , 1000 , 'gameScene') ; 
+            setTimeout(sceneTransition, 1000, 'gameScene');
         }
 
         if (globalScore[0] === gameWin) {
@@ -299,8 +299,8 @@ function makeDamage(mago, bullet) {
             });
 
             websocket.close();
-            setTimeout( sceneTransition , 2000 , 'menuScene') ;
-            
+            setTimeout(sceneTransition, 2000, 'menuScene');
+
         }
 
         if (globalScore[1] === gameWin) {
@@ -317,20 +317,20 @@ function makeDamage(mago, bullet) {
             });
 
             websocket.close();
-            
-            setTimeout( sceneTransition , 2000 , 'menuScene') ;
+
+            setTimeout(sceneTransition, 2000, 'menuScene');
         }
     }
 }
 
-function sceneTransition(param){
+function sceneTransition(param) {
     scene.scene.start(param);
 }
 
 function getMaps() {
-    if(orden===0){
-        doSend("RONDA");   
-    }else{
+    if (orden === 0) {
+        doSend("RONDA");
+    } else {
         doSend("MAPA");
     }
 }
@@ -420,16 +420,16 @@ class GameScene extends Phaser.Scene {
             numMsgs = messages.length - 1;
         });
 
-       
+
         //La variable orbes guarda un grupo con todos los objetos de los items, nos servirá mas adelante para las colisiones
         orbes = this.physics.add.group();
 
         //Para hacer la generación aleatoria de items, hemos usado un timer que genera cada cierto
         //tiempo un item a través de la función generar
-        if (orden == 0){
+        if (orden == 0) {
             var timedEvent = this.time.addEvent({
                 delay: delaySpawn * 1000, // 1seg = 1000ms
-                callback: generar,                
+                callback: generar,
                 loop: true
             });
         }
@@ -463,7 +463,7 @@ class GameScene extends Phaser.Scene {
                     tipo: "Item",
                     x: randX,
                     y: randY,
-                    itemType: selected                    
+                    itemType: selected
                 }
                 doSend(JSON.stringify(datosEnv));
             }
@@ -611,7 +611,7 @@ class GameScene extends Phaser.Scene {
         fondo = this.add.image(0, 0, "fondo").setOrigin(0).setDepth(0);
         fondo.setVisible(false);
 
-         volver = this.add.text(this.game.renderer.width * .36, this.game.renderer.height * 0.60, 'Volver', {
+        volver = this.add.text(this.game.renderer.width * .36, this.game.renderer.height * 0.60, 'Volver', {
             fontSize: '60px',
             fill: '#000',
             align: "center",
@@ -625,14 +625,14 @@ class GameScene extends Phaser.Scene {
         });
 
         volver.on('pointerout', () => {
-            
+
             volver.setStyle({
                 fill: '#000'
             });
         });
-       // volver.disableInteractive();
+        // volver.disableInteractive();
 
-         salirMenu = this.add.text(this.game.renderer.width * .20, this.game.renderer.height * 0.30, 'Salir al menu', {
+        salirMenu = this.add.text(this.game.renderer.width * .20, this.game.renderer.height * 0.30, 'Salir al menu', {
             fontSize: '60px',
             fill: '#000',
             align: "center",
@@ -645,8 +645,8 @@ class GameScene extends Phaser.Scene {
             });
         });
 
-       salirMenu.on('pointerout', () => {
-           
+        salirMenu.on('pointerout', () => {
+
             salirMenu.setStyle({
                 fill: '#000'
             });
@@ -659,26 +659,26 @@ class GameScene extends Phaser.Scene {
 
         volver.on('pointerdown', () => {
             scene.sound.play("click");
-        fondo.setVisible(false);
-        salirMenu.disableInteractive();
-        salirMenu.setVisible(false);
-        volver.disableInteractive();
-        volver.setVisible(false);
+            fondo.setVisible(false);
+            salirMenu.disableInteractive();
+            salirMenu.setVisible(false);
+            volver.disableInteractive();
+            volver.setVisible(false);
 
 
         });
 
         salirMenu.on('pointerdown', () => {
-          
+
             scene.sound.play("click");
-          setTimeout( sceneTransition , 100 , 'menuScene') ; 
+            setTimeout(sceneTransition, 100, 'menuScene');
             websocket.close();
-            });
-            
+        });
+
         //salirMenu.disableInteractive();
         //salirMenu.setVisible(false);
 
-        
+
         //Después de definir los jugadores, pasamos a definir todas las animaciones de cada mago
         this.anims.create({
             key: "right_rojo",
@@ -771,7 +771,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(magoRojo.sprite, orbes, pickup, null, this);
 
         if (orden === 0) {
-            player.mago = magoRojo;            
+            player.mago = magoRojo;
             player.color = "rojo";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
@@ -779,17 +779,17 @@ class GameScene extends Phaser.Scene {
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
         } else {
-            player.mago = magoAzul;            
+            player.mago = magoAzul;
             player.color = "azul";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
             colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
             colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
-        }        
+        }
     }
 
-    update() { 
+    update() {
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -812,9 +812,9 @@ class GameScene extends Phaser.Scene {
         if (noChating) {
             if (cursors.ESC.isDown) {
                 //this.scene.pause();
-                
-                
-               // websocket.close();
+
+
+                // websocket.close();
                 fondo.setVisible(true);
                 salirMenu.setInteractive();
                 salirMenu.setVisible(true);
@@ -865,7 +865,7 @@ class GameScene extends Phaser.Scene {
                         color: player.color
                     }
                     scene.sound.play("fireball");
-                    doSend(JSON.stringify(datosEnv));                    
+                    doSend(JSON.stringify(datosEnv));
                 }
                 //Escudo
                 if (player.mago.escudo) {
@@ -891,7 +891,7 @@ class GameScene extends Phaser.Scene {
                 }
             }
             if (cambio) {
-                player.mago.moveSprite.setVelocity(velocity[0], velocity[1]);  
+                player.mago.moveSprite.setVelocity(velocity[0], velocity[1]);
                 datosEnv = {
                     tipo: "Mago",
                     x: player.mago.moveSprite.x,
@@ -922,28 +922,4 @@ class GameScene extends Phaser.Scene {
             cargaA.alpha = alpha;
         }
     }
-}
-
-//Carga de mensajes desde servidor
-function loadMessages(callback) {
-    $.ajax({
-        url: '/messages'
-    }).done(function (message) {
-        callback(message);
-    })
-}
-
-//Crear mensaje en el servidor
-function createMessage(message, callback) {
-    $.ajax({
-        method: "POST",
-        url: '/messages',
-        data: JSON.stringify(message),
-        processData: false,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (message) {
-        callback(message);
-    })
 }
