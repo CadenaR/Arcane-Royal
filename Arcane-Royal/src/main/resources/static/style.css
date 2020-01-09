@@ -8,14 +8,39 @@
 
 /*https://www.w3schools.com/howto/howto_js_popup_chat.asp*/
 /* The popup chat - hidden by default */
+* {
+    box-sizing: border-box;
+  }
+  body{
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
 .chat {
+    display: flex;
+    flex-wrap: wrap;
     display: block;
-    position: fixed;
+    position: relative;
     top: 1%;
     right: 30px;
     border: 3px solid #f1f1f1;
     z-index: 9;
     background-color: white;
+    align-content: stretch;
+    width: calc(100% - 960px);
 }
 
 .messages {
