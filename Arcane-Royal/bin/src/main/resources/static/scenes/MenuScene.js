@@ -114,6 +114,7 @@ class MenuScene extends Phaser.Scene {
     }
 
     update() {
+        
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -123,6 +124,7 @@ class MenuScene extends Phaser.Scene {
             });
 
         }
+        
     }
 }
 
@@ -188,7 +190,7 @@ function showOtherMessage(message) {
     } else {
         numMsgs++;
         $('#myMessages').append(
-            '<div class="message-other"><span>' + message.ip + ': <br>' + message.text +
+            '<div class="message-other"><span>' + message.text +
             '</span> </div>')
     }
 
@@ -216,7 +218,7 @@ function showDisconnectMessage(message) {
 }
 
 $(document).ready(function () {
-
+    var userInput =  $('#userInput');
     var input = $('#value-input')
 
     //Boton de enviar
@@ -224,9 +226,13 @@ $(document).ready(function () {
 
         var value = input.val();
         input.val('');
-
+        if (user===null){
+            user2 ='Anónimo';
+        }else{
+            user2 = user;
+        }
         var message = {
-            text: value,
+            text: user2 +':<br>'+value
         }
         showMyMessage(value);
         createMessage(message, function (messageWithId) {
@@ -235,7 +241,7 @@ $(document).ready(function () {
     })
 
     $("#user").click(function () {
-        user = input.val();       
+        user = userInput.val();       
     })
 })
 
@@ -247,7 +253,7 @@ $(window).on("beforeunload", function () {
         date: connectionDate
 
     }
-
+    
     updateConnection(updatedConnection);
 
     var disconnection = {
@@ -255,7 +261,7 @@ $(window).on("beforeunload", function () {
     }
 
     createMessage(disconnection, function (m) {
-
+        websocket.doSend("DISCONNECTION");
     });
 
     return null;

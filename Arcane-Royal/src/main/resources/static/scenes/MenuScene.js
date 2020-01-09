@@ -10,6 +10,7 @@ class MenuScene extends Phaser.Scene {
     preload() {
         this.load.image("logo", "../resources/Images/logoArcane.png");
         this.load.image("fondo", "../resources/Images/sky1.png");
+        this.load.audio("click", "../resources/Sounds/click_interface.wav");
     }
 
     create() {
@@ -61,6 +62,8 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         playBtn.on('pointerdown', () => {
+
+            scene.sound.play("click");
             this.scene.start("loginScene");
         });
 
@@ -85,6 +88,8 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         controlBtn.on('pointerdown', () => {
+
+            scene.sound.play("click");
             this.scene.start("controlScene");
         });
 
@@ -109,11 +114,16 @@ class MenuScene extends Phaser.Scene {
 
         var that = this;
         creditBtn.on('pointerdown', () => {
+
+            scene.sound.play("click");
             this.scene.start("creditScene");
         });
+        comenzar = false;
+        jugar = false;
     }
 
     update() {
+
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
@@ -123,100 +133,14 @@ class MenuScene extends Phaser.Scene {
             });
 
         }
+
     }
 }
 
-function createConnection(connection, callback) {
-    $.ajax({
-        url: "/connections",
-        method: "POST",
-        processData: false,
-        data: JSON.stringify(connection),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (response) {
-        callback(response);
-    });
 
-}
-
-function updateConnection(connection) {
-    $.ajax({
-        method: 'PUT',
-        url: '/connections/' + connection.id,
-        data: JSON.stringify(connection),
-        processData: false,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (connection) {
-        console.log("Updated item: " + JSON.stringify(connection))
-    })
-}
-
-//Carga de mensajes desde servidor
-function loadMessages(callback) {
-    $.ajax({
-        url: '/messages'
-    }).done(function (message) {
-        callback(message);
-    })
-}
-
-//Crear mensaje en el servidor
-function createMessage(message, callback) {
-    $.ajax({
-        method: "POST",
-        url: '/messages',
-        data: JSON.stringify(message),
-        processData: false,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).done(function (message) {
-        callback(message);
-    })
-}
-
-//Mostrar mensaje en el chat
-function showOtherMessage(message) {
-    if (message.text == "conectado") {
-        showConnectMessage(message)
-    } else if (message.text == "desconectado") {
-        showDisconnectMessage(message)
-    } else {
-        numMsgs++;
-        $('#myMessages').append(
-            '<div class="message-other"><span>' + message.text +
-            '</span> </div>')
-    }
-
-}
-
-function showMyMessage(message) {
-    numMsgs++;
-    $('#myMessages').append(
-        '<div class="message-mine"><span>' + message +
-        '</span> </div>')
-}
-
-function showConnectMessage(message) {
-    numMsgs++;
-    $('#myMessages').append(
-        '<div class="message-connection"><span>' + message.ip + ' ' + message.text +
-        '</span> </div>')
-}
-
-function showDisconnectMessage(message) {
-    numMsgs++;
-    $('#myMessages').append(
-        '<div class="message-disconnection"><span>' + message.ip + ' ' + message.text +
-        '</span> </div>')
-}
 
 $(document).ready(function () {
-    var userInput =  $('#userInput');
+    var userInput = $('#userInput');
     var input = $('#value-input')
 
     //Boton de enviar
@@ -224,13 +148,13 @@ $(document).ready(function () {
 
         var value = input.val();
         input.val('');
-        if (user===null){
-            user2 ='Anónimo';
-        }else{
+        if (user === null) {
+            user2 = 'Anónimo';
+        } else {
             user2 = user;
         }
         var message = {
-            text: user2 +':<br>'+value
+            text: user2 + ':<br>' + value
         }
         showMyMessage(value);
         createMessage(message, function (messageWithId) {
@@ -239,7 +163,7 @@ $(document).ready(function () {
     })
 
     $("#user").click(function () {
-        user = userInput.val();       
+        user = userInput.val();
     })
 })
 
@@ -257,10 +181,6 @@ $(window).on("beforeunload", function () {
     var disconnection = {
         text: 'desconectado',
     }
-
-    createMessage(disconnection, function (m) {
-
-    });
 
     return null;
 });

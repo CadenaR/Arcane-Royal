@@ -13,8 +13,9 @@ var config = {
         default: 'arcade',
         arcade: {
           gravity: false
-        }
-    },
+        },
+        //fps: 30
+    },    
     scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene,LoginScene]
 }
 
