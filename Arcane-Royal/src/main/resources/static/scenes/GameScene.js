@@ -676,8 +676,8 @@ class GameScene extends Phaser.Scene {
             disc = true;
             doSend("DISCONNECTED");
             scene.sound.play("click");
+            location.reload(true);
             setTimeout(sceneTransition, 100, 'menuScene');
-
         });
 
         //salirMenu.disableInteractive();
@@ -908,9 +908,6 @@ class GameScene extends Phaser.Scene {
                     anim: animation
                 }
                 doSend(JSON.stringify(datosEnv));
-                console.log("ENVÍO:");
-                console.log(magoRojo.sprite.x + " " + magoRojo.sprite.y);
-                console.log(magoAzul.sprite.x + " " + magoAzul.sprite.y);
             }
         }
 
