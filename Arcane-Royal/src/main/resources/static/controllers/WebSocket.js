@@ -73,9 +73,9 @@ function onMessage(evt) {
 
   else if (datosRecib.tipo === "PlayerDisconnected") {
     if (!disc){
-      alert("Se ha desconectado un jugador. Se te redirigirá al menú.");
-      setTimeout(sceneTransition, 3000, 'menuScene');
+      alert("Se ha desconectado un jugador. Se te redirigirá al menú.");      
     }
+    setTimeout(sceneTransition, 3000, 'menuScene');
     websockeet.close();
     //game.scene.start("loginScene");
     //game.scene.stop("gameScene");

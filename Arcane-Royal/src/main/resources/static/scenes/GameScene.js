@@ -676,7 +676,6 @@ class GameScene extends Phaser.Scene {
             disc = true;
             doSend("DISCONNECTED");
             scene.sound.play("click");
-            setTimeout(websockeet.close, 8000);
             setTimeout(sceneTransition, 100, 'menuScene');
 
         });
