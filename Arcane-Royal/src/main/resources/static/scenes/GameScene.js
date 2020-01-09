@@ -32,6 +32,7 @@ var disc;
 var scene;
 var globalScore = [0, 0];
 var gameWin = 3; // rondas de victoria
+var ganador;
 
 var salirMenu;
 var volver;
@@ -294,16 +295,18 @@ function makeDamage(mago, bullet) {
             globalScore[0] = 0;
             globalScore[1] = 0;
             console.log("Rojo gana");
-            var message = {
+           /* var message = {
                 text: "Ha ganado: Mago Rojo",
             }
             showMyMessage("Ha ganado: Mago Rojo");
             createMessage(message, function (messageWithId) {
 
             });
+            */
+           ganador  = "Ha ganado Jugador 1";
 
-            websocket.close();
-            setTimeout(sceneTransition, 2000, 'menuScene');
+            
+            setTimeout(sceneTransition, 2000, 'victoryScene');
 
         }
 
@@ -312,17 +315,19 @@ function makeDamage(mago, bullet) {
 
             globalScore[0] = 0;
             globalScore[1] = 0;
-            var message = {
+           /* var message = {
                 text: "Ha ganado: Mago Azul",
             }
             showMyMessage("Ha ganado: Mago Azul");
             createMessage(message, function (messageWithId) {
 
             });
+            */
+           ganador  = "Ha ganado Jugador 2";
+            
+            
 
-            websocket.close();
-
-            setTimeout(sceneTransition, 2000, 'menuScene');
+            setTimeout(sceneTransition, 2000, 'victoryScene');
         }
     }
 }
@@ -672,12 +677,12 @@ class GameScene extends Phaser.Scene {
 
         });
 
-        salirMenu.on('pointerdown', () => {            
+        salirMenu.on('pointerdown', () => {
+
             disc = true;
             doSend("DISCONNECTED");
             scene.sound.play("click");
             setTimeout(sceneTransition, 100, 'menuScene');
-
         });
 
         //salirMenu.disableInteractive();
