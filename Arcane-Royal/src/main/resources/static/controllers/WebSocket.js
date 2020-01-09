@@ -63,7 +63,11 @@ function onMessage(evt) {
   } else if (datosRecib.tipo === "Jugar") {
     game.scene.start("gameScene");
     game.scene.stop("loginScene");
+  } else if (datosRecib.tipo === "PlayerDisconnected") {
+    //game.scene.start("loginScene");
+    //game.scene.stop("gameScene");
   }
+
 }
 
 

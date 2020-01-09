@@ -66,6 +66,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	// Crea parejas de sesiones o complementa una pareja
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		//Creación de la primer sesión
 		if (sessions.size() == 0) {
 			sessions.add(new WebSocketSession[2]);
 			sessions.get(0)[0] = session;
@@ -77,16 +78,11 @@ public class WebsocketHandler extends TextWebSocketHandler {
 					if (sess[i] == null) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
-						if(i == 1 && sess[0] != null && sess[0].isOpen()) {
-							sess[0].sendMessage(new TextMessage("Comenzar"));
-							sess[1].sendMessage(new TextMessage("Comenzar"));
-						}
 						return;
 					}
 					else if(!sess[i].isOpen()) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
-						session.sendMessage(new TextMessage("Comenzar"));
 						return;
 					}
 				}
@@ -113,14 +109,19 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		int j = sInfo[1];
 		if (i != -1) {
 			sessions.get(i)[j] = null;
-			if (j == 0 && sessions.get(i)[j] != null) {
-				sessions.get(i)[1].sendMessage(new TextMessage("PlayerDisconnected"));
+			if (j == 0 && sessions.get(i)[1] != null) {
+				if(sessions.get(i)[1].isOpen())
+					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
-			} else if (j == 1 && sessions.get(i)[j] != null ) {
-				sessions.get(i)[0].sendMessage(new TextMessage("PlayerDisconnected"));
+			} else if (j == 1 && sessions.get(i)[0] != null) {
+				if(sessions.get(i)[0].isOpen())
+					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
+			}else {
+				sessions.remove(i);
 			}
-			sessions.remove(i);
+
+			
 			return;
 		}
 	}

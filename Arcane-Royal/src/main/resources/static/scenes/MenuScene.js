@@ -182,9 +182,5 @@ $(window).on("beforeunload", function () {
         text: 'desconectado',
     }
 
-    createMessage(disconnection, function (m) {
-        websocket.doSend("DISCONNECTION");
-    });
-
     return null;
 });

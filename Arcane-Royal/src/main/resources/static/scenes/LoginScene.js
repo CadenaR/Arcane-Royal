@@ -80,7 +80,7 @@ class LoginScene extends Phaser.Scene {
 
         var that = this;
         backBtn.on('pointerdown', () => {
-
+            websocket.close();
             scene.sound.play("click");
             this.scene.start("menuScene");
         });
