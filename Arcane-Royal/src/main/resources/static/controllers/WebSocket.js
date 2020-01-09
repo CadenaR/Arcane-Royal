@@ -75,10 +75,11 @@ function onMessage(evt) {
     if (!disc){
       alert("Se ha desconectado un jugador. Se te redirigirá al menú.");      
     }
-    websockeet.close();    
-    location.reload(true);    
-    setTimeout(sceneTransition, 3000, 'menuScene');    
     
+    
+    websockeet.close();     
+    setTimeout(sceneTransition, 3000, 'menuScene');
+   // location.reload(true);   
     //window.location.reload(true);
     //game.scene.start("loginScene");
     //game.scene.stop("gameScene");

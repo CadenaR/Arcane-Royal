@@ -682,8 +682,8 @@ class GameScene extends Phaser.Scene {
             disc = true;
             doSend("DISCONNECTED");
             scene.sound.play("click");
-            location.reload(true);
             setTimeout(sceneTransition, 100, 'menuScene');
+           // location.reload(true);
         });
 
         //salirMenu.disableInteractive();
