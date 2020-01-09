@@ -6,6 +6,10 @@ class LoginScene extends Phaser.Scene {
         this.load.image("loginfondo", "../resources/Images/loginfondo.png");
         this.load.html('nameform', 'resources/Text/loginform.html');
         this.load.audio("click", "../resources/Sounds/click_interface.wav");
+        this.load.image("Sel1", "../resources/Images/player1_selected.png");
+        this.load.image("Sel2", "../resources/Images/player2_selected.png");
+        this.load.image("NoSel1", "../resources/Images/player1_no_selected.png");
+        this.load.image("NoSel2", "../resources/Images/player2_no_selected.png");
     }
 
     create() {
@@ -14,6 +18,13 @@ class LoginScene extends Phaser.Scene {
         this.add.image(0, 0, "loginfondo").setOrigin(0).setDepth(0);
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
         element.setDepth(100);
+        if(orden===0){
+            this.add.image(0, 0, "Sel1").setOrigin(0).setDepth(0);
+            this.add.image(300, 0, "NoSel2").setOrigin(0).setDepth(0);
+        }else{
+            this.add.image(300, 0, "Sel2").setOrigin(0).setDepth(0);
+            this.add.image(0, 0, "NoSel1").setOrigin(0).setDepth(0);
+        }
         
         const startBtn = this.add.text(this.game.renderer.width * .31, this.game.renderer.height * 0.70, 'Comenzar', {
             fontSize: '60px',
