@@ -1,14 +1,16 @@
 function onOpen(evt) {
   console.log("CONNECTED");
   doSend("CONNECTION");
+  
 }
 
 function onClose(evt) {
   console.log("DISCONNECTED");
+  connected = false;
 }
 
 function onMessage(evt) {
-    datosRecib = JSON.parse(evt.data);
+  datosRecib = JSON.parse(evt.data);
   console.log(datosRecib);
   if (datosRecib.tipo === "Mago") {
     if (datosRecib.color === player.color) {
@@ -68,24 +70,17 @@ function onMessage(evt) {
   }
 
   else if (datosRecib.tipo === "Jugar") {
-    game.scene.start("gameScene");
-    game.scene.stop("loginScene");
+    this.scene.stop("loginScene");   
+    this.scene.start("gameScene");
   }
 
   else if (datosRecib.tipo === "PlayerDisconnected") {
     if (!disc){
-      alert("Se ha desconectado un jugador. Se te redirigirá al menú.");      
+        alert("Se ha desconectado un jugador. Se te redirigirá al menú.");
+        this.scene.stop("loginScene");   
+        this.scene.start("menuScene");
     }
-    
-    
-    websockeet.close();     
-    setTimeout(sceneTransition, 3000, 'menuScene');
-   // location.reload(true);   
-    //window.location.reload(true);
-    //game.scene.start("loginScene");
-    //game.scene.stop("gameScene");
   }
-
 }
 
 
@@ -96,8 +91,9 @@ function onMessageConnection(evt) {
   }
   websocket.onmessage = function (evt) {
     onMessage(evt)
-  };
+  };  
   getMaps();
+  console.log(orden);
 }
 
 function onError(evt) {
