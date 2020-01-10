@@ -189,13 +189,19 @@ Para correr el proyecto, volvemos a hacer click derecho en él, nos vamos a Run 
 
 En esta fase, hemos trabajado en implementar el envio de datos entre los jugadores mediante WebSocket.
 En la parte de implementación de API REST hemos mantenido el chat, cambiando ligeramente algunos aspectos. (No es obligatorio poner nombre de usuario ya que daba algun problema).
-Respecto a los WebSocket, hemos implementado el multijugador. Los jugadores ahora alojan salas o se unen en función de su momento de conexión. Si un jugador ha entrado primero, es el jugador 1 y "hostea" la sala, por otro lado si el jugador ha entrado segundo buscara la ultima sala creada y se unirá como jugador 2. Controlamos la creación de salas de forma que cada dos jugadores online se creará una sala nueva para el siguiente grupo de dos.
-En el gameplay, mandamos los datos de los jugadores al enemigo para que lo muestre en su paantalla, así como la posición de objetos en el mapa, su interacción, las estadísticas de los jugadores, etc.
-Hemos agregado una pantalla de pausa, para poder salir al menú, a lo que dará lugar que el otro jugador reciba que la conexión se haya detenido y tambien regrese al menú.
+
+Respecto a los WebSocket, hemos implementado el multijugador. Los jugadores ahora alojan salas o se unen en función de su momento de conexión. Si un jugador ha entrado primero, es el jugador 1 y "hostea" la sala, por otro lado si el jugador ha entrado segundo buscara la ultima sala creada y se unirá como jugador 2. Controlamos la creación de salas de forma que cada dos jugadores online se creará una sala nueva para el siguiente grupo de dos. Sólo el jugador 1 podrá iniciar la partida cuando el jugador 2 se haya unido.
+
+En el gameplay, mandamos los datos de los jugadores al enemigo para que lo muestre en su paantalla, así como la posición de objetos en el mapa, su interacción, etc.
+
+Hemos agregado una pantalla de pausa, para poder salir al menú, lo que dará lugar que el otro jugador reciba que la conexión se ha detenido y tambien regrese al menú (aunque esto a veces no funciona correctamente y vamos a arreglarlo en la fase 5).
+
 Hemos mejorado algunos gráficos.
 Hemos añadido efectos de sonido.
 
 #### Diagrama de clases de Java
+
+Así quedaría el diagrama de clases actualizado con las clases creadas en esta fase:
 
 </br><img src="Arcane-Royal/src/main/resources/static/resources/Images/DiagramaClases2.jpg" width="600">
 
