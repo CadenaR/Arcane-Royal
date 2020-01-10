@@ -8,6 +8,9 @@ class MenuScene extends Phaser.Scene {
         super("menuScene");
     }
     preload() {
+        if(connected){
+            websocket.close();
+        }
         this.load.image("logo", "../resources/Images/logoArcane.png");
         this.load.image("fondo", "../resources/Images/sky1.png");
         this.load.audio("click", "../resources/Sounds/click_interface.wav");
