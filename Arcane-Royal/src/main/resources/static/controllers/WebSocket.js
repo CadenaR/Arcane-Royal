@@ -1,12 +1,10 @@
 function onOpen(evt) {
   console.log("CONNECTED");
   doSend("CONNECTION");
-  
 }
 
 function onClose(evt) {
   console.log("DISCONNECTED");
-  connected = false;
 }
 
 function onMessage(evt) {
@@ -69,21 +67,22 @@ function onMessage(evt) {
   }
 
   else if (datosRecib.tipo === "Jugar") {
-    getMaps();
-    setTimeout(game.scene.start,500,"gameScene");
+    game.scene.start("gameScene");
     game.scene.stop("loginScene");
   }
 
   else if (datosRecib.tipo === "PlayerDisconnected") {
     if (!disc){
-        alert("Se ha desconectado un jugador. Se te redirigirá al menú.");
-        game.scene.start("menuScene");
-       
-        game.scene.stop("gameScene");
+      alert("Se ha desconectado un jugador. Se te redirigirá al menú.");      
     }
     
     
-    
+    websockeet.close();     
+    setTimeout(sceneTransition, 3000, 'menuScene');
+   // location.reload(true);   
+    //window.location.reload(true);
+    //game.scene.start("loginScene");
+    //game.scene.stop("gameScene");
   }
 
 }
@@ -97,7 +96,7 @@ function onMessageConnection(evt) {
   websocket.onmessage = function (evt) {
     onMessage(evt)
   };
-  
+  getMaps();
 }
 
 function onError(evt) {

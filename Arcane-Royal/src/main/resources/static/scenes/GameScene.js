@@ -11,7 +11,6 @@ var datosEnv;
 var datosRecib;
 var cambio;
 var response = false;
-var connected = false;
 
 //Variables de los jugadores
 var player = new Object();
@@ -340,6 +339,8 @@ function sceneTransition(param) {
 function getMaps() {
     if (orden === 0) {
         doSend("RONDA");
+    } else {
+        doSend("MAPA");
     }
 }
 
@@ -800,15 +801,6 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-
-        if(!connected){
-
-            openSocket();
-            connected = true;
-        }
-
-
-
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {
