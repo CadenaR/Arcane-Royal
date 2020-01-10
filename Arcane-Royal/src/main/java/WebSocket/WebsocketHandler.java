@@ -15,65 +15,69 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	ArrayList<WebSocketSession[]> sessions = new ArrayList<WebSocketSession[]>();
 
 	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		// System.out.println("Message received: " + message.getPayload());
-		// System.out.println(""+players);
-		if (message.getPayload().equals("RONDA")) {
-			mapas = "";
-			m = (int) (Math.random() * (5));
-			mapas += "" + m;
-			System.out.println("Mapa: " + m);
-			for (int i = 0; i < 4; i++) {
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+		int[] sInfo = searchSession(session);
+		int i = sInfo[0];
+		int j = sInfo[1];
+		try {
+			// System.out.println("Message received: " + message.getPayload());
+			// System.out.println(""+players);
+			if (message.getPayload().equals("RONDA")) {
+				mapas = "";
 				m = (int) (Math.random() * (5));
+				mapas += "" + m;
 				System.out.println("Mapa: " + m);
-				mapas += ", " + m;
-			}
-
-			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
-		} else if (message.getPayload().equals("MAPA")) {
-			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
-		} else if (message.getPayload().equals("DISCONNECTED")) {			
-			int[] sInfo = searchSession(session);
-			int j = sInfo[1];
-			int i = sInfo[0];
-			if (j == 0 && sessions.get(i)[1] != null) {
-				if(sessions.get(i)[1].isOpen())
-					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
-				return;
-			} else if (j == 1 && sessions.get(i)[0] != null) {
-				if(sessions.get(i)[0].isOpen())
-					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
-				return;
-			}
-		} else {
-			int[] sInfo = searchSession(session);
-			int i = sInfo[0];
-			int j = sInfo[1];
-			
-			if (message.getPayload().equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
-				if(j == 0) {
+				for (int k = 0; k < 4; k++) {
+					m = (int) (Math.random() * (5));
+					System.out.println("Mapa: " + m);
+					mapas += ", " + m;
+				}
+	
+				session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
+	            sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
+			} else if (message.getPayload().equals("MAPA")) {
+				session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
+			} else if (message.getPayload().equals("DISCONNECTED")) {			
+				if (j == 0 && sessions.get(i)[1] != null) {
+					if(sessions.get(i)[1].isOpen())
+						sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+					return;
+				} else if (j == 1 && sessions.get(i)[0] != null) {
+					if(sessions.get(i)[0].isOpen())
+						sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+					return;
+				}
+			} else {
+				
+				
+				if (message.getPayload().equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
+					if(j == 0) {
+						if (sessions.get(i)[1] != null) {
+							if(sessions.get(i)[1].isOpen()) {
+								sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+								sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+							}
+						}
+					}
+	
+				} else {
+					String msg = message.getPayload();
+					if (sessions.get(i)[0] != null) {
+						if(sessions.get(i)[0].isOpen()) {
+							sessions.get(i)[0].sendMessage(new TextMessage(msg));
+						}
+					}
 					if (sessions.get(i)[1] != null) {
 						if(sessions.get(i)[1].isOpen()) {
-							sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
-							sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+							sessions.get(i)[1].sendMessage(new TextMessage(msg));
 						}
 					}
 				}
-
-			} else {
-				String msg = message.getPayload();
-				if (sessions.get(i)[0] != null) {
-					if(sessions.get(i)[0].isOpen()) {
-						sessions.get(i)[0].sendMessage(new TextMessage(msg));
-					}
-				}
-				if (sessions.get(i)[1] != null) {
-					if(sessions.get(i)[1].isOpen()) {
-						sessions.get(i)[1].sendMessage(new TextMessage(msg));
-					}
-				}
-			}
-		}	
+			}	
+		}
+		catch (Exception e) {
+			
+		}
 	}
 
 	// Crea parejas de sesiones o complementa una pareja
