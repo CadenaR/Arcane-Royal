@@ -25,6 +25,7 @@ function onMessage(evt) {
         player.mago.enemy.sprite.anims.play(datosRecib.anim + '_' + datosRecib.color, true);
       }
 
+
       if (player.mago.enemy.escudo) {
         player.mago.enemy.spriteEscudo.x = player.mago.enemy.sprite.x;
         player.mago.enemy.spriteEscudo.y = player.mago.enemy.sprite.y;
