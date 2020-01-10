@@ -199,6 +199,8 @@ Hemos agregado una pantalla de pausa, para poder salir al menú, lo que dará lu
 Hemos mejorado algunos gráficos.
 Hemos añadido efectos de sonido.
 
+</br><img src="Arcane-Royal/src/main/resources/static/resources/Images/SaladeEspera.png" width="600">
+
 #### Diagrama de clases de Java
 
 Así quedaría el diagrama de clases actualizado con las clases creadas en esta fase:
