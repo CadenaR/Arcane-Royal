@@ -10,7 +10,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-    datosRecib = JSON.parse(evt.data);
+  datosRecib = JSON.parse(evt.data);
   console.log(datosRecib);
   if (datosRecib.tipo === "Mago") {
     if (datosRecib.color === player.color) {
@@ -69,23 +69,17 @@ function onMessage(evt) {
   }
 
   else if (datosRecib.tipo === "Jugar") {
-    getMaps();
-    setTimeout(game.scene.start,500,"gameScene");
-    game.scene.stop("loginScene");
+    this.scene.stop("loginScene");   
+    this.scene.start("gameScene");
   }
 
   else if (datosRecib.tipo === "PlayerDisconnected") {
     if (!disc){
         alert("Se ha desconectado un jugador. Se te redirigirá al menú.");
-        game.scene.start("menuScene");
-       
-        game.scene.stop("gameScene");
+        this.scene.stop("loginScene");   
+        this.scene.start("menuScene");
     }
-    
-    
-    
   }
-
 }
 
 
@@ -96,8 +90,9 @@ function onMessageConnection(evt) {
   }
   websocket.onmessage = function (evt) {
     onMessage(evt)
-  };
-  
+  };  
+  getMaps();
+  console.log(orden);
 }
 
 function onError(evt) {

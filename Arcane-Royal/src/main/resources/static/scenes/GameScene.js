@@ -2,8 +2,7 @@
 // Variables para API
 var numMsgs;
 var noChating = true;
-var user = 11;
-var user2;
+var user = "Anónimo";
 
 //Variables websocket
 var websocket;
@@ -22,8 +21,6 @@ var playerSprite;
 var velocity = [];
 var animation;
 var pastPos = [];
-var comenzar;
-var jugar;
 
 //Variables de conexión
 var newCon = false;
@@ -165,6 +162,7 @@ class Tile {
 function openSocket() {
     //WebSockets
     disc = false;
+    connected = true;
     websocket = new WebSocket("ws://" + location.host + "/echo");
     websocket.onmessage = function (evt) {
         onMessageConnection(evt)
@@ -340,6 +338,9 @@ function sceneTransition(param) {
 function getMaps() {
     if (orden === 0) {
         doSend("RONDA");
+    }
+    else {
+        doSend("MAPA");
     }
 }
 
@@ -802,9 +803,7 @@ class GameScene extends Phaser.Scene {
     update() {
 
         if(!connected){
-
             openSocket();
-            connected = true;
         }
 
 
@@ -830,9 +829,6 @@ class GameScene extends Phaser.Scene {
 
         if (noChating) {
             if (cursors.ESC.isDown) {
-                //this.scene.pause();
-
-
                 // websocket.close();
                 fondo.setVisible(true);
                 salirMenu.setInteractive();

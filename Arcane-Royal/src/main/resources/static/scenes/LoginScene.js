@@ -11,8 +11,7 @@ class LoginScene extends Phaser.Scene {
         this.load.image("Sel2", "../resources/Images/player2_selected.png");
         this.load.image("NoSel1", "../resources/Images/player1_no_selected.png");
         this.load.image("NoSel2", "../resources/Images/player2_no_selected.png");
-        openSocket();
-        connected = true;
+        openSocket();        
     }
 
     create() {
@@ -46,10 +45,8 @@ class LoginScene extends Phaser.Scene {
 
             var that = this;
             startBtn.on('pointerdown', () => {
-                if (user != null) {
-
+                if (user != null) {                    
                     scene.sound.play("click");
-                    
                     doSend("Jugar");
                 }
             });
