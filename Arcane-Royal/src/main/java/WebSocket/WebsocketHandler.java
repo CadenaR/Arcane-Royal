@@ -15,13 +15,8 @@ public class WebsocketHandler extends TextWebSocketHandler {
 	ArrayList<WebSocketSession[]> sessions = new ArrayList<WebSocketSession[]>();
 
 	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-		System.out.println(message.getPayload());
-		int[] sInfo = searchSession(session);
-			int k = sInfo[0];
-			int j = sInfo[1];
-		try{
-			// System.out.println("Message received: " + message.getPayload());
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		// System.out.println("Message received: " + message.getPayload());
 		// System.out.println(""+players);
 		if (message.getPayload().equals("RONDA")) {
 			mapas = "";
@@ -33,51 +28,52 @@ public class WebsocketHandler extends TextWebSocketHandler {
 				System.out.println("Mapa: " + m);
 				mapas += ", " + m;
 			}
+
 			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
-			sessions.get(k)[1].sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
 		} else if (message.getPayload().equals("MAPA")) {
 			session.sendMessage(new TextMessage("{\"tipo\": \"Map\", \"mapas\": [" + mapas + "]}"));
 		} else if (message.getPayload().equals("DISCONNECTED")) {			
-
-			if (j == 0 && sessions.get(k)[1] != null) {
-				if(sessions.get(k)[1].isOpen())
-					sessions.get(k)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+			int[] sInfo = searchSession(session);
+			int j = sInfo[1];
+			int i = sInfo[0];
+			if (j == 0 && sessions.get(i)[1] != null) {
+				if(sessions.get(i)[1].isOpen())
+					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
-			} else if (j == 1 && sessions.get(k)[0] != null) {
-				if(sessions.get(k)[0].isOpen())
-					sessions.get(k)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
+			} else if (j == 1 && sessions.get(i)[0] != null) {
+				if(sessions.get(i)[0].isOpen())
+					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
 			}
 		} else {
+			int[] sInfo = searchSession(session);
+			int i = sInfo[0];
+			int j = sInfo[1];
+			
 			if (message.getPayload().equals("Jugar")) { // si llega mensaje Jugar, se avisa al otro lado de la sesión que puede iniciar partida
 				if(j == 0) {
-					if (sessions.get(k)[1] != null) {
-						if(sessions.get(k)[1].isOpen()) {
-							sessions.get(k)[0].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
-							sessions.get(k)[1].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+					if (sessions.get(i)[1] != null) {
+						if(sessions.get(i)[1].isOpen()) {
+							sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
+							sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"Jugar\"}"));
 						}
 					}
 				}
 
 			} else {
 				String msg = message.getPayload();
-				if (sessions.get(k)[0] != null) {					
-					if(sessions.get(k)[0].isOpen()) {						
-						sessions.get(k)[0].sendMessage(new TextMessage("{\"tipo\": "+ msg +"}"));
+				if (sessions.get(i)[0] != null) {
+					if(sessions.get(i)[0].isOpen()) {
+						sessions.get(i)[0].sendMessage(new TextMessage(msg));
 					}
 				}
-				if (sessions.get(k)[1] != null) {					
-					if(sessions.get(k)[1].isOpen()) {						
-						sessions.get(k)[1].sendMessage(new TextMessage("{\"tipo\": "+ msg +"}"));
+				if (sessions.get(i)[1] != null) {
+					if(sessions.get(i)[1].isOpen()) {
+						sessions.get(i)[1].sendMessage(new TextMessage(msg));
 					}
 				}
 			}
-		}
-		}
-		catch(Exception e){
-			
-		}
-			
+		}	
 	}
 
 	// Crea parejas de sesiones o complementa una pareja
@@ -87,12 +83,11 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		if (sessions.size() == 0) {
 			sessions.add(new WebSocketSession[2]);
 			sessions.get(0)[0] = session;
-			session.sendMessage(new TextMessage("" + 1));			
+			session.sendMessage(new TextMessage("" + 1));
 		} else {
 			int sesNum = 1;
 			for (WebSocketSession[] sess : sessions) {
 				for (int i = 0; i < 2; i++) {
-					System.out.println ("C Sesión: "+sesNum + "  Usuario: "+i );
 					if (sess[i] == null) {
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
@@ -109,7 +104,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
 			sessions.add(new WebSocketSession[2]);
 			sessions.get(sesNum - 1)[0] = session;
-			session.sendMessage(new TextMessage("" + 1));			
+			session.sendMessage(new TextMessage("" + 1));
 		}
 	}
 
@@ -125,25 +120,20 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		int[] sInfo = searchSession(session);
 		int i = sInfo[0];
 		int j = sInfo[1];
-		System.out.println ("D Sesión: "+(i+1) + "  Usuario: "+j );
 		if (i != -1) {
 			sessions.get(i)[j] = null;
 			if (j == 0 && sessions.get(i)[1] != null) {
-				if(sessions.get(i)[1].isOpen()) {
+				if(sessions.get(i)[1].isOpen())
 					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
-					System.out.println("Jugador 0 desconectado.");
-				}
 				return;
 			} else if (j == 1 && sessions.get(i)[0] != null) {
-				if(sessions.get(i)[0].isOpen()) {
-					System.out.println("Jugador 1 desconectado.");
+				if(sessions.get(i)[0].isOpen())
 					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
-				}
-					
 				return;
 			}else {
 				sessions.remove(i);
 			}
+
 			
 			return;
 		}
