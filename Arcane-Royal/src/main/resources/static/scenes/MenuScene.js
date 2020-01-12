@@ -123,7 +123,7 @@ class MenuScene extends Phaser.Scene {
     }
 
     update() {
-
+        console.log("chat running");
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {

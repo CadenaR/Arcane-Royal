@@ -2,7 +2,7 @@
 // Variables para API
 var numMsgs;
 var noChating = true;
-var user = 11;
+var user = "Anónimo";
 var user2;
 
 //Variables websocket

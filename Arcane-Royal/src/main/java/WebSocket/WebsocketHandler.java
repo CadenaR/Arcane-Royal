@@ -62,6 +62,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
 				} else {
 					String msg = message.getPayload();
+					System.out.println(msg);
 					if (sessions.get(i)[0] != null) {
 						if (sessions.get(i)[0].isOpen()) {
 							sessions.get(i)[0].sendMessage(new TextMessage(msg));
