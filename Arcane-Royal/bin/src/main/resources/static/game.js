@@ -5,6 +5,9 @@ var config = {
     dom: {
         createContainer: true
     },
+    audio: {
+      disableWebAudio: true
+    },
    // scale : {
     //    mode : Phaser.Scale.RESIZE,
      //   autoCenter : Phaser.Scale.CENTER_BOTH
@@ -16,7 +19,6 @@ var config = {
         },
         //fps: 30
     },    
-    scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene,LoginScene]
+    scene: [LoadScene,GameScene,MenuScene,ControlScene,CreditScene,LoginScene,VictoryScene]
 }
-
 var game = new Phaser.Game(config);

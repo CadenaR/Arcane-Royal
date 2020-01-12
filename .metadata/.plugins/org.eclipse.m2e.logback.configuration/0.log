@@ -9526,3 +9526,75 @@ org.eclipse.core.runtime.CoreException: Launch configuration Tomcat.1 references
 2020-01-09 23:22:42,016 [Worker-75: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 101 resources
 2020-01-09 23:22:42,679 [Worker-75: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2020-01-09 23:22:42,680 [Worker-75: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-RoyalReturns3\Arcane-Royal\src\test\resources
+2020-01-12 23:00:35,519 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2020-01-12 23:01:37,849 [Worker-6: Update Maven projects configuration] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2020-01-12 23:01:39,812 [Worker-6: Update Maven projects configuration] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: K:Arcane-Royal:0.0.1-SNAPSHOT @ C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\pom.xml.
+2020-01-12 23:01:43,707 [Worker-6: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/main/java
+2020-01-12 23:01:43,708 [Worker-6: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-12 23:01:43,733 [Worker-6: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-12 23:01:43,764 [Worker-6: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/test/java
+2020-01-12 23:01:44,378 [Worker-6: Update Maven projects configuration] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 6 sec
+2020-01-12 23:01:46,135 [Worker-9: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-12 23:01:46,141 [Worker-9: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-12 23:01:46,182 [Worker-9: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-12 23:01:47,017 [Worker-9: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-12 23:01:47,017 [Worker-9: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-12 23:01:48,391 [Worker-2: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2020-01-12 23:01:49,669 [Worker-2: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: K:Arcane-Royal:0.0.1-SNAPSHOT @ C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\pom.xml.
+2020-01-12 23:01:51,571 [Worker-2: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/main/java
+2020-01-12 23:01:51,572 [Worker-2: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-12 23:01:51,573 [Worker-2: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-12 23:01:51,574 [Worker-2: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/test/java
+2020-01-12 23:01:51,899 [Worker-2: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 3 sec
+2020-01-12 23:01:53,250 [Worker-1: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-12 23:01:53,252 [Worker-1: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-12 23:01:53,280 [Worker-1: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-12 23:01:53,884 [Worker-1: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-12 23:01:53,885 [Worker-1: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-12 23:26:13,471 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2020-01-13 00:35:36,594 [Worker-19: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:35:36,599 [Worker-19: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-13 00:35:36,616 [Worker-19: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-13 00:35:36,672 [Worker-19: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:35:36,672 [Worker-19: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-13 00:39:52,989 [Worker-20: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:39:52,997 [Worker-20: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-01-13 00:39:52,998 [Worker-20: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-13 00:39:53,034 [Worker-20: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:39:53,034 [Worker-20: Launching Arcane-Royal_src_main_resources_static_scenes_GameScene.js] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-13 00:41:36,239 [Worker-24: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2020-01-13 00:41:37,103 [Worker-24: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: K:Arcane-Royal:0.0.1-SNAPSHOT @ C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\pom.xml.
+2020-01-13 00:41:37,923 [Worker-24: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/main/java
+2020-01-13 00:41:37,923 [Worker-24: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:41:37,924 [Worker-24: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:41:37,927 [Worker-24: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/test/java
+2020-01-13 00:41:38,233 [Worker-24: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2020-01-13 00:41:39,415 [Worker-20: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:41:39,415 [Worker-20: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-13 00:41:39,432 [Worker-20: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-13 00:41:39,815 [Worker-20: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:41:39,815 [Worker-20: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-13 00:43:59,704 [Worker-31: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2020-01-13 00:44:00,369 [Worker-31: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: K:Arcane-Royal:0.0.1-SNAPSHOT @ C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\pom.xml.
+2020-01-13 00:44:01,081 [Worker-31: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/main/java
+2020-01-13 00:44:01,081 [Worker-31: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:44:01,083 [Worker-31: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:44:01,085 [Worker-31: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/test/java
+2020-01-13 00:44:01,380 [Worker-31: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2020-01-13 00:44:02,441 [Worker-32: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:44:02,442 [Worker-32: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-13 00:44:02,454 [Worker-32: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-13 00:44:02,796 [Worker-32: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:44:02,797 [Worker-32: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources
+2020-01-13 00:45:38,645 [Worker-33: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2020-01-13 00:45:39,350 [Worker-33: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: K:Arcane-Royal:0.0.1-SNAPSHOT @ C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\pom.xml.
+2020-01-13 00:45:39,913 [Worker-33: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/main/java
+2020-01-13 00:45:39,914 [Worker-33: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:45:39,915 [Worker-33: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arcane-Royal/src/main/resources
+2020-01-13 00:45:39,917 [Worker-33: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arcane-Royal/src/test/java
+2020-01-13 00:45:40,291 [Worker-33: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2020-01-13 00:45:41,452 [Worker-33: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:45:41,453 [Worker-33: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2020-01-13 00:45:41,476 [Worker-33: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 104 resources
+2020-01-13 00:45:42,077 [Worker-33: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2020-01-13 00:45:42,077 [Worker-33: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Rodron\Documents\Arcane-Royal234\Arcane-Royal\src\test\resources

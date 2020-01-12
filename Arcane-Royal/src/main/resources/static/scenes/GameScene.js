@@ -383,7 +383,7 @@ uiPos[4] = [1280 / 2 - 48, 0];
 class GameScene extends Phaser.Scene {
     constructor() {
         super("gameScene");
-        scene = this;
+        scene = this;    
     }
     preload() {
         this.load.image("fondo", "../resources/Images/sky1.png");
@@ -438,6 +438,8 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        scene = this;
+
         this.physics.world.setFPS(30);
         loadMessages(function (messages) {
             numMsgs = messages.length - 1;
