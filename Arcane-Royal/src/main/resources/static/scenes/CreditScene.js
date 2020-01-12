@@ -38,4 +38,7 @@ class CreditScene extends Phaser.Scene {
             this.scene.start("menuScene");
         });
     }
+    update(){
+        chatRun()
+    }
 }

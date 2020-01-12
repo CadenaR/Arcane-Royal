@@ -11,11 +11,13 @@ class MenuScene extends Phaser.Scene {
         this.load.image("logo", "../resources/Images/logoArcane.png");
         this.load.image("fondo", "../resources/Images/sky1.png");
         this.load.audio("click", "../resources/Sounds/click_interface.wav");
+        
     }
 
     create() {
+        orden = 0;
         connectionDate = new Date();
-
+        
         var connection = {
             connected: true,
             date: connectionDate
@@ -60,11 +62,11 @@ class MenuScene extends Phaser.Scene {
             });
         });
 
-        var that = this;
         playBtn.on('pointerdown', () => {
 
             scene.sound.play("click");
-            this.scene.start("loginScene");
+            play = true;
+            openSocket();
         });
 
         const controlBtn = this.add.text(this.game.renderer.width * .31 - 75 - 55 + 11, this.game.renderer.height * 0.6, 'Controles', {
@@ -86,7 +88,6 @@ class MenuScene extends Phaser.Scene {
             });
         });
 
-        var that = this;
         controlBtn.on('pointerdown', () => {
 
             scene.sound.play("click");
@@ -112,7 +113,7 @@ class MenuScene extends Phaser.Scene {
             });
         });
 
-        var that = this;
+        
         creditBtn.on('pointerdown', () => {
 
             scene.sound.play("click");
@@ -124,16 +125,13 @@ class MenuScene extends Phaser.Scene {
 
     update() {
         console.log("chat running");
-        if (numMsgs >= 0) {
-            loadMessages(function (messages) {
-                for (var i = numMsgs + 1; i < messages.length; i++) {
-                    showOtherMessage(messages[i]);
-                }
+        if (play && asignado){
+            play = false;
+            asignado = false;
 
-            });
-
+            this.scene.start("loginScene");            
         }
-
+        chatRun();
     }
 }
 

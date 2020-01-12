@@ -88,6 +88,7 @@ function onMessageConnection(evt) {
   if (contador % 2 != "1") {
     orden = 1;
   }
+  asignado = true;
   websocket.onmessage = function (evt) {
     onMessage(evt)
   };

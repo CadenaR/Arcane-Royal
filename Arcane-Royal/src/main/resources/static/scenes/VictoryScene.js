@@ -50,4 +50,7 @@ class VictoryScene extends Phaser.Scene {
         });
         //this.scene.start("menuScene");
     }
+    update(){
+        chatRun()
+    }
 }

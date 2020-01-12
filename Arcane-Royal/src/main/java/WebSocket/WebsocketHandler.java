@@ -92,7 +92,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 			int sesNum = 1;
 			for (WebSocketSession[] sess : sessions) {
 				for (int i = 0; i < 2; i++) {
-					if (sess[i] == null) {
+					if (sess[i] == null) {System.out.println("Conses: "+(sesNum-1)+" User: "+i);
 						sess[i] = session;
 						session.sendMessage(new TextMessage("" + (i + 1)));
 						return;
@@ -102,6 +102,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 						return;
 					}
 				}
+				
 				sesNum++;
 			}
 
@@ -125,15 +126,17 @@ public class WebsocketHandler extends TextWebSocketHandler {
 		int j = sInfo[1];
 		if (i != -1) {
 			sessions.get(i)[j] = null;
-			if (j == 0 && sessions.get(i)[1] != null) {
-				if (sessions.get(i)[1].isOpen())
+			if (j == 0 && sessions.get(i)[1] != null) {System.out.println("if 1 - Discses: "+i+" User: "+j);
+				if (sessions.get(i)[1].isOpen()){
 					sessions.get(i)[1].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
+				}
 			} else if (j == 1 && sessions.get(i)[0] != null) {
-				if (sessions.get(i)[0].isOpen())
+				if (sessions.get(i)[0].isOpen()){System.out.println("if 2 - Discses: "+i+" User: "+j);
 					sessions.get(i)[0].sendMessage(new TextMessage("{\"tipo\": \"PlayerDisconnected\"}"));
 				return;
-			} else {
+				}
+			} else {System.out.println("else Discses: "+i+" User: "+j);
 				sessions.remove(i);
 			}
 

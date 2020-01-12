@@ -27,6 +27,8 @@ var jugar;
 //Variables de conexión
 var newCon = false;
 var disc;
+var asignado = false;
+var play = false;
 
 //Variables globales de la escena
 var scene;
@@ -161,6 +163,18 @@ class Tile {
 }
 
 //=====Funciones=====
+function chatRun(){
+    
+    if (numMsgs >= 0) {
+        loadMessages(function (messages) {
+            for (var i = numMsgs + 1; i < messages.length; i++) {
+                showOtherMessage(messages[i]);
+            }
+
+        });
+
+    }
+}
 function openSocket() {
     //WebSockets
     disc = false;
@@ -801,6 +815,8 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+            chatRun()
+        
         if (numMsgs >= 0) {
             loadMessages(function (messages) {
                 for (var i = numMsgs + 1; i < messages.length; i++) {

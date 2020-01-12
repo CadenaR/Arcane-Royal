@@ -10,11 +10,11 @@ class LoginScene extends Phaser.Scene {
         this.load.image("Sel2", "../resources/Images/player2_selected.png");
         this.load.image("NoSel1", "../resources/Images/player1_no_selected.png");
         this.load.image("NoSel2", "../resources/Images/player2_no_selected.png");
-        openSocket();
+        
     }
 
     create() {
-
+        console.log(orden);
         scene=this;
         this.add.image(0, 0, "loginfondo").setOrigin(0).setDepth(0);
         var element = this.add.dom(400, this.game.renderer.height * .45).createFromCache('nameform');
@@ -42,7 +42,7 @@ class LoginScene extends Phaser.Scene {
                 });
             });
 
-            var that = this;
+            
             startBtn.on('pointerdown', () => {
                 if (user != null) {
 
@@ -78,11 +78,14 @@ class LoginScene extends Phaser.Scene {
             });
         });
 
-        var that = this;
+        
         backBtn.on('pointerdown', () => {
             websocket.close();
             scene.sound.play("click");
             this.scene.start("menuScene");
         });
+    }
+    update(){
+        chatRun()
     }
 }
