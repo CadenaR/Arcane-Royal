@@ -215,9 +215,11 @@ https://drive.google.com/open?id=1ay13jkZ3QJstO60gBCVrRiNZx5Q68xVO
 
 #### Fase 5 - Beta testing y solución de errores
 
+#### Bugfixing
+
 Para esta última fase realizamos una búsqueda de errores y posibles mejoras para pulir el juego, que recogimos en la siguiente lista, explicando cada error y la solución que finalmente le dimos.
 
-- Error al volver a la pantalla. Un error de sintaxis provocaba que no se realizara correctamente la llamada para pasar a la pantalla del juego. Además la transición de escenas no se realizaba correctamente por lo que utilizamos la variable scene que referencia a la propia escena para asegurarnos que el metodo se ejecuta bien.
+- Error al volver a la pantalla del menú automaticamente. Un error de sintaxis provocaba que no se realizara correctamente la llamada para pasar a la pantalla del juego. Además la transición de escenas no se realizaba correctamente por lo que utilizamos la variable scene que referencia a la propia escena para asegurarnos que el metodo se ejecuta bien.
 
 - Problema con mensajes en formato JSON. Un mensaje que se enviaba al conectarse un jugador, se intentaba leer como si fuese un JSON. Para solucionarlo , inicialmente intentamos devolver el JSON desde el servidor pero esto causaba mas problemas al estar enviándose ambos mensajes a la vez. La solución finalmente fue dejarlo como estaba y pasar el mensaje "CONNECTION" como JSON desde el cliente.
 
@@ -231,6 +233,8 @@ Para esta última fase realizamos una búsqueda de errores y posibles mejoras pa
 
 - Desincronización de escudo. El descuento de tiempo que se realizaba para saber cuando debía ser desactivado el escudo estaba ligado erronaemente al movimiento del jugador lo que ocasionaba una desincronización en cuanto el mago se movía. Esto se ha solucionado haciendo que el descuento de tiempo se realice únicamente al recibir el mensaje del websocket.
 
+#### Publicación
+
 Como último requerimiento de la fase 5 hemos restaurado un modo local para poder subir nuestro juego a diferentes páginas web de juegos. Estas son :
 
 https://www.newgrounds.com/portal/view/746103
@@ -239,6 +243,12 @@ https://nesherben.itch.io/arcane-royal
 
 https://www.kongregate.com/games/nesherben/arcane-royal_preview
 
+https://www.indiexpo.net/es/games/arcane-royal
+
+https://gamejolt.com/games/arcane-royal/462575
+
+NOTA: En algunas páginas para jugar es necesario buscar el botón de play o jugar ya que el juego no sale directamente.
+NOTA2: La fuente de la interfaz del menú no se carga inicialmente, no hemos podido solucionarlo pero al pasar el ratón  por las letras por privera vez, las fuentes se cargan y todo se ve como debería.
 
 #### Integrantes:
 
