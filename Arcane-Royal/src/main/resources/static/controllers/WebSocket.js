@@ -4,7 +4,6 @@ function onOpen(evt) {
 }
 
 function onClose(evt) {
-
   console.log("DISCONNECTED");
 }
 
@@ -29,7 +28,6 @@ function onMessage(evt) {
       if (player.mago.enemy.escudo) {
         player.mago.enemy.spriteEscudo.x = player.mago.enemy.sprite.x;
         player.mago.enemy.spriteEscudo.y = player.mago.enemy.sprite.y;
-        player.mago.enemy.escudoTime--;
         if (player.mago.enemy.escudoTime <= 0) {
           player.mago.enemy.escudo = false;
           player.mago.enemy.spriteEscudo.setActive(false);

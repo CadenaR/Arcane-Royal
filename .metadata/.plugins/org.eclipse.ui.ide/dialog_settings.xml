@@ -51,6 +51,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\Rodron\Documents\Arcane-Royal12"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-Royal234"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-RoyalReturns"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-Royal"/>
@@ -58,5 +59,9 @@
 			<item value="C:\Users\Rodron\Documents\arcane"/>
 			<item value="C:\Users\Rodron\Documents\Projects\Arcane-Royal"/>
 		</list>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="657"/>
+		<item key="DIALOG_Y_ORIGIN" value="341"/>
 	</section>
 </section>

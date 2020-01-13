@@ -61,7 +61,7 @@ var full = false;
 
 //Variables que regulan la velocidad de los personajes
 var plVel = 300;
-var framer = 14;
+var framer = 8;
 
 //Variables empleadas al generar y procesar tiles
 var tiles = [];
@@ -81,7 +81,6 @@ var items = [];
 var itemLimit = 15;
 var orbes;
 var escudo;
-var escudoTime;
 var cursors;
 //=====Clases=====
 class Mage {
