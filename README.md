@@ -215,23 +215,29 @@ https://drive.google.com/open?id=1ay13jkZ3QJstO60gBCVrRiNZx5Q68xVO
 
 #### Fase 5 - Beta testing y solución de errores
 
-Para esta última fase realizamos una busqueda de errores y posibles mejoras en el proceso.
-Para ello realizamos una lista de los errores mas importantes para mas tarde solucionarlos.
-Los errores con sus respectivas soluciones para esta fase son los siguientes
+Para esta última fase realizamos una búsqueda de errores y posibles mejoras para pulir el juego, que recogimos en la siguiente lista, explicando cada error y la solución que finalmente le dimos.
 
-- Error al volver a la pantalla.
+- Error al volver a la pantalla. Un error de sintaxis provocaba que no se realizara correctamente la llamada para pasar a la pantalla del juego. Además la transición de escenas no se realizaba correctamente por lo que utilizamos la variable scene que referencia a la propia escena para asegurarnos que el metodo se ejecuta bien.
 
-- Problema con mensajes en formato JSON.
+- Problema con mensajes en formato JSON. Un mensaje que se enviaba al conectarse un jugador, se intentaba leer como si fuese un JSON. Para solucionarlo , inicialmente intentamos devolver el JSON desde el servidor pero esto causaba mas problemas al estar enviándose ambos mensajes a la vez. La solución finalmente fue dejarlo como estaba y pasar el mensaje "CONNECTION" como JSON desde el cliente.
 
-- Problema con la sala de espera.
+- Problema con la sala de espera. A veces surge un problema que provoca que ambos jugadores se representen como jugador 1 , es decir mago rojo. Después de mucho testear descubrimos que la asignación de la variable orden solo se realizaba si el jugador era el jugador uno , y no cuando era el jugador dos. Para arreglarlo hicimos que orden se reasigne siempre que se vuelve al menu da igual quien sea el jugador. Más tarde vimos que esto no fue suficiente debido a que después de la primera partida había un problema de sincronización y la asignación ya no se realizaba correctamente. Por ello forzamos a que se esperase la respuesta del servidor utilizando el metodo update para comprobar constantemente si la asignación se realiza correctamente.
 
-- Problema con el chat.
+- Problema con el chat. El chat en algunas ocasiones no funcionaba, lo cual se debía a que al salir de la escena del menú este dejaba de actualizarse. Para solucionarlo hemos aprovechado la función update para introducir un metodo de actualización del chat en todas las escenas.
 
-- Sincronización erronea en magos.
+- Sincronización erronea en magos. Las partidas no se cerraban correctamente lo que provocaba que uno de los jugadores si se sincronizase y otro no. También observamos que la partida seguía ejecutandose ya que en el servidor se mostraba como se seguían creando items. 
 
-- Problemas con la actualización de la interfaz.
+- Problemas con la actualización de la interfaz. Esto se debía a que la asignación de la variable scene para arreglar el primer error hacia que se derreferenciara en otra parte del codigo, por lo que volvimos a realizar la asignación en ambos sitios.
 
-- Desincronización de escudo.
+- Desincronización de escudo. El descuento de tiempo que se realizaba para saber cuando debía ser desactivado el escudo estaba ligado erronaemente al movimiento del jugador lo que ocasionaba una desincronización en cuanto el mago se movía. Esto se ha solucionado haciendo que el descuento de tiempo se realice únicamente al recibir el mensaje del websocket.
+
+Como último requerimiento de la fase 5 hemos restaurado un modo local para poder subir nuestro juego a diferentes páginas web de juegos. Estas son :
+
+https://www.newgrounds.com/portal/view/746103
+
+https://nesherben.itch.io/arcane-royal
+
+https://www.kongregate.com/games/nesherben/arcane-royal_preview
 
 
 #### Integrantes:
