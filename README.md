@@ -213,6 +213,26 @@ Así quedaría el diagrama de clases actualizado con las clases creadas en esta 
 
 https://drive.google.com/open?id=1ay13jkZ3QJstO60gBCVrRiNZx5Q68xVO
 
+#### Fase 5 - Beta testing y solución de errores
+
+Para esta última fase realizamos una busqueda de errores y posibles mejoras en el proceso.
+Para ello realizamos una lista de los errores mas importantes para mas tarde solucionarlos.
+Los errores con sus respectivas soluciones para esta fase son los siguientes
+
+- Error al volver a la pantalla.
+
+- Problema con mensajes en formato JSON.
+
+- Problema con la sala de espera.
+
+- Problema con el chat.
+
+- Sincronización erronea en magos.
+
+- Problemas con la actualización de la interfaz.
+
+- Desincronización de escudo.
+
 
 #### Integrantes:
 
