@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="uiupdate"/>
 			<item value="9090"/>
 			<item value="leerConfig"/>
 			<item value="build"/>

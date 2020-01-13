@@ -801,3 +801,15 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.wst.jsdt.js.node 4 0 2020-01-13 00:39:53.038
 !MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-01-13 01:25:24.400
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.yJxDiXib
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-01-13 01:25:24.407
+!MESSAGE unsubscribing from classpath changes: sts4.classpath.yJxDiXib
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-01-13 01:25:24.413
+!MESSAGE subsribers = {}
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-01-13 01:25:24.419
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.yJxDiXib => OK

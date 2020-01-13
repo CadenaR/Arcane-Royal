@@ -277,6 +277,15 @@ function pickup(mago, item) {
 
 }
 
+function sendDamage(mago, bullet) {
+    datosEnv = {
+        tipo: "Damage",        
+        color: mago.mago.color
+    }               
+    doSend (JSON.stringify (datosEnv));
+    return true;
+}
+
 //Se define lo que ocurre cuando un disparo impacta al mago
 function makeDamage(mago, bullet) {
     datosEnv = {
@@ -803,16 +812,16 @@ class GameScene extends Phaser.Scene {
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
-            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, null, this);
-            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, null, this);
+            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets1, makeDamage, sendDamage, this);
+            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets2, makeDamage, sendDamage, this);
         } else {
             player.mago = magoAzul;
             player.color = "azul";
 
             //Esto define las colisiones de los magos con las balas. La asignamos a variables para poder destruirlas
             //cuando muere un jugador
-            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, null, this);
-            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, null, this);
+            colision1 = this.physics.add.overlap(magoAzul.sprite, bullets2, makeDamage, sendDamage, this);
+            colision2 = this.physics.add.overlap(magoRojo.sprite, bullets1, makeDamage, sendDamage, this);
         }
     }
 

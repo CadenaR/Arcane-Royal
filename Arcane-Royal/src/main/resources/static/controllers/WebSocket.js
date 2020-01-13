@@ -66,13 +66,11 @@ function onMessage(evt) {
     game.scene.stop("loginScene");
   } else if (datosRecib.tipo === "PlayerDisconnected") {
     if (!disc) {
-      alert("Se ha desconectado un jugador. Has vuelto al menú.");
-
-    
-      setTimeout(sceneTransition, 100, 'menuScene');
-    
+      alert("Se ha desconectado un jugador. Has vuelto al menú.");    
+      setTimeout(sceneTransition, 100, 'menuScene');    
     }
-    console.log("cerrado");
+
+    console.log("WEBSOCKET CERRADO");
     websocket.close();
     //location.reload(true);   
     //window.location.reload(true);
