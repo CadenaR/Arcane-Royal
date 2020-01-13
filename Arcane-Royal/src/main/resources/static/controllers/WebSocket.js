@@ -8,8 +8,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-  datosRecib = JSON.parse(evt.data);
-  console.log(datosRecib);
+  datosRecib = JSON.parse(evt.data);  
   if (datosRecib.tipo === "Mago") {
     if (datosRecib.color === player.color) {
       pastPos = [datosRecib.x, datosRecib.y];
@@ -57,8 +56,7 @@ function onMessage(evt) {
   }
   //Este else recibe el mapa
   else if (datosRecib.tipo === "Map") {
-    mapselect = datosRecib.mapas;
-    console.log(mapselect);
+    mapselect = datosRecib.mapas;    
   } else if (datosRecib.tipo === "Jugar") {
     game.scene.start("gameScene");
     game.scene.stop("loginScene");

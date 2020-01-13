@@ -123,8 +123,7 @@ class MenuScene extends Phaser.Scene {
         jugar = false;
     }
 
-    update() {
-        console.log("chat running");
+    update() {        
         if (play && asignado){
             play = false;
             asignado = false;

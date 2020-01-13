@@ -51,6 +51,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\Rodron\Documents\Arcane-Royal4252"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-Royal12"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-Royal234"/>
 			<item value="C:\Users\Rodron\Documents\Arcane-RoyalReturns"/>
