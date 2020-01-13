@@ -3,13 +3,13 @@ class LoginScene extends Phaser.Scene {
         super("loginScene");
     }
     preload() {
-        this.load.image("loginfondo", "../resources/Images/loginfondo.png");
+        this.load.image("loginfondo", "resources/Images/loginfondo.png");
         this.load.html('nameform', 'resources/Text/loginform.html');
-        this.load.audio("click", "../resources/Sounds/click_interface.wav");
-        this.load.image("Sel1", "../resources/Images/player1_selected.png");
-        this.load.image("Sel2", "../resources/Images/player2_selected.png");
-        this.load.image("NoSel1", "../resources/Images/player1_no_selected.png");
-        this.load.image("NoSel2", "../resources/Images/player2_no_selected.png");
+        this.load.audio("click", "resources/Sounds/click_interface.wav");
+        this.load.image("Sel1", "resources/Images/player1_selected.png");
+        this.load.image("Sel2", "resources/Images/player2_selected.png");
+        this.load.image("NoSel1", "resources/Images/player1_no_selected.png");
+        this.load.image("NoSel2", "resources/Images/player2_no_selected.png");
         
     }
 

@@ -394,7 +394,7 @@ class GameScene extends Phaser.Scene {
         scene = this;    
     }
     preload() {
-        this.load.image("fondo", "../resources/Images/sky1.png");
+        this.load.image("fondo", "resources/Images/sky1.png");
         this.load.image('wall', "resources/Images/barril2.png");
         this.load.image('ground', "resources/Images/tile2.png");
         this.load.image('orbe1', "resources/Images/orbe1.png");
@@ -420,12 +420,12 @@ class GameScene extends Phaser.Scene {
         this.load.image('orbeUI2', "resources/Images/orbe-interfaz2.png");
         this.load.image('puntosUI', "resources/Images/puntos interfaz.png");
 
-        this.load.audio("click", "../resources/Sounds/click_interface.wav");
-        this.load.audio("fireball", "../resources/Sounds/fireball.wav");
-        this.load.audio("healing", "../resources/Sounds/healing.wav");
-        this.load.audio("shield", "../resources/Sounds/shield.wav");
-        this.load.audio("pickup", "../resources/Sounds/pickup.wav");
-        this.load.audio("hurt", "../resources/Sounds/hurt.wav");
+        this.load.audio("click", "resources/Sounds/click_interface.wav");
+        this.load.audio("fireball", "resources/Sounds/fireball.wav");
+        this.load.audio("healing", "resources/Sounds/healing.wav");
+        this.load.audio("shield", "resources/Sounds/shield.wav");
+        this.load.audio("pickup", "resources/Sounds/pickup.wav");
+        this.load.audio("hurt", "resources/Sounds/hurt.wav");
 
         this.load.spritesheet("azulLR", "resources/Images/mago-azul.png", {
             frameWidth: 60,

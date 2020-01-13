@@ -3,8 +3,8 @@ class ControlScene extends Phaser.Scene {
         super("controlScene");
     }
     preload() {
-        this.load.image("controles", "../resources/Images/controles.png");
-        this.load.audio("click", "../resources/Sounds/click_interface.wav");
+        this.load.image("controles", "resources/Images/controles.png");
+        this.load.audio("click", "resources/Sounds/click_interface.wav");
     }
 
     create() {

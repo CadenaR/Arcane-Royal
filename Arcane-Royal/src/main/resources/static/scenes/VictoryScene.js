@@ -4,8 +4,8 @@ class VictoryScene extends Phaser.Scene {
     }
     
     preload(){
-        this.load.image("loginfondo", "../resources/Images/loginfondo.png");
-        this.load.image("fondo", "../resources/Images/sky1.png");
+        this.load.image("loginfondo", "resources/Images/loginfondo.png");
+        this.load.image("fondo", "resources/Images/sky1.png");
         
     }
     
