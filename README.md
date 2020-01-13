@@ -235,7 +235,7 @@ Para esta última fase realizamos una búsqueda de errores y posibles mejoras pa
 
 #### Publicación
 
-Como último requerimiento de la fase 5 hemos restaurado un modo local para poder subir nuestro juego a diferentes páginas web de juegos. Estas son :
+Como último requerimiento de la fase 5 hemos restaurado un modo local para poder subir nuestro juego a diferentes páginas web de juegos (ya que no sabemos cómo implementar la versión online con el servidor). Estas son :
 
 https://www.newgrounds.com/portal/view/746103
 
@@ -249,6 +249,7 @@ https://gamejolt.com/games/arcane-royal/462575
 
 NOTA: En algunas páginas para jugar es necesario buscar el botón de play o jugar ya que el juego no sale directamente.
 NOTA2: La fuente de la interfaz del menú no se carga inicialmente, no hemos podido solucionarlo pero al pasar el ratón  por las letras por privera vez, las fuentes se cargan y todo se ve como debería.
+NOTA3: La versión local usada se puede bajar en la página de itch.io por ejemplo. Es el archivo version_Local.zip. También se puede descargar la versión online aunque esta no es la que está implementada en la web.
 
 #### Integrantes:
 
